@@ -1,0 +1,634 @@
+https://github.com/vitabaks/postgresql_cluster?ysclid=ln2u3d257768218513#if-variable-synchronous_mode-is-true-varsmainyml
+
+====================================================================
+======================== etc =======================================
+====================================================================
+
+>>>>>>>>>>>>>>> ssh alexblacknn@pgnode01 
+>>>>>>>>>>>>>>> cd /etc/etcd 
+>>>>>>>>>>>>>>> cat /etc/etcd/etcd.conf 
+ 
+ETCD_NAME="pgnode01"
+ETCD_LISTEN_CLIENT_URLS="http://10.128.0.10:2379,http://127.0.0.1:2379"
+ETCD_ADVERTISE_CLIENT_URLS="http://10.128.0.10:2379"
+ETCD_LISTEN_PEER_URLS="http://10.128.0.10:2380"
+ETCD_INITIAL_ADVERTISE_PEER_URLS="http://10.128.0.10:2380"
+ETCD_INITIAL_CLUSTER_TOKEN="etcd-postgres-cluster"
+ETCD_INITIAL_CLUSTER="pgnode01=http://10.128.0.10:2380,pgnode02=http://10.128.0.9:2380,pgnode03=http://10.128.0.24:2380"
+ETCD_INITIAL_CLUSTER_STATE="new"
+ETCD_DATA_DIR="/var/lib/etcd"
+ETCD_ELECTION_TIMEOUT="5000"
+ETCD_HEARTBEAT_INTERVAL="1000"
+ETCD_INITIAL_ELECTION_TICK_ADVANCE="false"
+
+>>>>>>>>>>>>>>> systemctl status etcd
+● etcd.service - Etcd Server
+     Loaded: loaded (/etc/systemd/system/etcd.service; enabled; vendor preset: enabled)
+     Active: active (running) since Fri 2023-09-29 08:18:55 UTC; 36min ago
+   Main PID: 1589 (etcd)
+      Tasks: 8 (limit: 2293)
+     Memory: 21.6M
+     CGroup: /system.slice/etcd.service
+             └─1589 /usr/local/bin/etcd
+
+
+>>>>>>>>>>>>>>> etcd cluster-health
+{"level":"info","ts":"2023-09-29T09:02:15.124094Z","caller":"etcdmain/etcd.go:73","msg":"Running: ","args":["etcd","cluster-health"]}
+{"level":"warn","ts":"2023-09-29T09:02:15.139878Z","caller":"etcdmain/etcd.go:75","msg":"failed to verify flags","error":"'cluster-health' is not a valid flag"}
+
+EXPECTED: cluster is healthy =/
+
+>>>>>>>>>>>>>>> etcdctl member list
+5551eee2728841d6, started, pgnode01, http://10.128.0.10:2380, http://10.128.0.10:2379, false
+ca5a77fd1d0724d1, started, pgnode03, http://10.128.0.24:2380, http://10.128.0.24:2379, false
+e602fd4bfc1834ae, started, pgnode02, http://10.128.0.9:2380, http://10.128.0.9:2379, false
+
+EXPECTED: true on one of node, must be a leader! =/
+
+
+====================================================================
+======================== postgresql ================================
+====================================================================
+>>>>>>>>>>>>>>> systemctl status postgresql
+● postgresql.service - PostgreSQL RDBMS
+     Loaded: loaded (/lib/systemd/system/postgresql.service; enabled; vendor preset: enabled)
+     Active: active (exited) since Fri 2023-09-29 08:20:51 UTC; 49min ago
+   Main PID: 9392 (code=exited, status=0/SUCCESS)
+      Tasks: 0 (limit: 2293)
+     Memory: 0B
+     CGroup: /system.slice/postgresql.service
+
+
+
+>>>>>>>>>>>>>>> pg_isready
+Error: Invalid data directory for cluster 15 main
+EXPECTED: принимает подключение
+
+>>>>>>>>>>>>>>> pg_lsclusters
+Use of uninitialized value $data_directory in concatenation (.) or string at /usr/share/perl5/PgCommon.pm line 286.
+Ver Cluster Port      Status Owner     Data directory Log file
+15  main    <unknown> down   <unknown> <unknown>      <unknown>
+
+
+====================================================================
+======================== patroni ===================================
+====================================================================
+
+
+>>>>>>>>>>>>>>>  psql -h 10.0.10.5 -p 5000 -U postgres -c "CREATE TABLE Persons ( \
+     PersonID int, \
+     LastName varchar(255), \
+     FirstName varchar(255), \
+     Address varchar(255), \
+     City varchar(255) \
+ );"
+
+Password for user postgres: 
+CREATE TABLE
+
+>>>>>>>>>>>>>>> psql -h 10.128.0.10 -p 5000 -U postgres -c "SELECT * FROM Persons"
+
+>>>>>>>>>>>>>>>  psql -h 10.0.10.5 -p 5001 -U postgres -c "CREATE TABLE PersonsNew ( \
+     PersonID int, \
+     LastName varchar(255), \
+     FirstName varchar(255), \
+     Address varchar(255), \
+     City varchar(255) \
+ );"
+
+
+ERROR:  cannot execute CREATE TABLE in a read-only transaction
+
+>>>>>>>>>>>>>>>>  systemctl cat patroni.service
+# /etc/systemd/system/patroni.service
+[Unit]
+Description=Runners to orchestrate a high-availability PostgreSQL - Patroni
+After=syslog.target network.target
+ 
+[Service]
+Type=simple
+ 
+User=postgres
+Group=postgres
+
+# Read in configuration file if it exists, otherwise proceed
+EnvironmentFile=-/etc/patroni_env.conf
+
+# The default is the user's home directory, and if you want to change it, you must provide an absolute path.
+# WorkingDirectory=~
+ 
+# Where to send early-startup messages from the server
+# This is normally controlled by the global default set by systemd
+# StandardOutput=syslog
+
+# Pre-commands to start watchdog device
+# Uncomment if watchdog is part of your patroni setup
+ExecStartPre=-/usr/bin/sudo /sbin/modprobe softdog
+ExecStartPre=-/usr/bin/sudo /bin/chown postgres /dev/watchdog 
+
+# Start the patroni process
+ExecStart=/usr/local/bin/patroni /etc/patroni/patroni.yml
+
+# Send HUP to reload from patroni.yml
+ExecReload=/bin/kill -s HUP $MAINPID
+ 
+# Only kill the patroni process, not it's children, so it will gracefully stop postgres
+KillMode=process
+ 
+# Give a reasonable amount of time for the server to start up/shut down
+TimeoutSec=60
+ 
+# Restart the service if it crashed
+Restart=on-failure
+ 
+[Install]
+WantedBy=multi-user.target
+
+>>>>>>>>>>>>>>>>  systemctl status patroni.service
+● patroni.service - Runners to orchestrate a high-availability PostgreSQL - Patroni
+     Loaded: loaded (/etc/systemd/system/patroni.service; enabled; vendor preset: enabled)
+     Active: active (running) since Fri 2023-09-29 08:24:40 UTC; 1h 2min ago
+   Main PID: 16235 (patroni)
+      Tasks: 19 (limit: 2293)
+     Memory: 292.5M
+     CGroup: /system.slice/patroni.service
+             ├─16235 /usr/bin/python3 /usr/local/bin/patroni /etc/patroni/patroni.yml
+             ├─16370 /usr/lib/postgresql/15/bin/postgres -D /var/lib/postgresql/15/main --config-file=/etc/>
+             ├─16375 postgres: postgres-cluster: logger
+             ├─16376 postgres: postgres-cluster: checkpointer
+             ├─16377 postgres: postgres-cluster: background writer
+             ├─16379 postgres: postgres-cluster: walwriter
+             ├─16380 postgres: postgres-cluster: autovacuum launcher
+             ├─16381 postgres: postgres-cluster: archiver last was 000000010000000000000006
+             ├─16382 postgres: postgres-cluster: logical replication launcher
+             ├─16384 postgres: postgres-cluster: postgres postgres [local] idle
+             ├─16587 postgres: postgres-cluster: walsender replicator 10.128.0.9(33436) streaming 0/7000110
+             ├─16592 postgres: postgres-cluster: walsender replicator 10.128.0.24(26880) streaming 0/7000110
+             ├─34961 postgres: postgres-cluster: pgbouncer postgres 127.0.0.1(50448) idle
+             └─35283 postgres: postgres-cluster: postgres postgres 127.0.0.1(57392) idle
+lines 1-21/21 (END)
+
+
+>>>>>>>>>>>>>>>> sudo cat /etc/patroni/patroni.yml
+---
+
+scope: postgres-cluster
+name: pgnode01
+namespace: /service
+
+
+restapi:
+  listen: 10.128.0.10:8008
+  connect_address: 10.128.0.10:8008
+#  certfile: /etc/ssl/certs/ssl-cert-snakeoil.pem
+#  keyfile: /etc/ssl/private/ssl-cert-snakeoil.key
+#  authentication:
+#    username: username
+#    password: password
+
+etcd3:
+  hosts: 10.128.0.10:2379,10.128.0.9:2379,10.128.0.24:2379
+
+bootstrap:
+  method: initdb
+  dcs:
+    ttl: 30
+    loop_wait: 10
+    retry_timeout: 10
+    maximum_lag_on_failover: 1048576
+    master_start_timeout: 300
+    synchronous_mode: false
+    synchronous_mode_strict: false
+    synchronous_node_count: 1
+    postgresql:
+      use_pg_rewind: true
+      use_slots: true
+      parameters:
+        max_connections: 500
+        superuser_reserved_connections: 5
+        password_encryption: scram-sha-256
+        max_locks_per_transaction: 512
+        max_prepared_transactions: 0
+        huge_pages: try
+        shared_buffers: 492MB
+        effective_cache_size: 1478MB
+        work_mem: 128MB
+        maintenance_work_mem: 256MB
+        checkpoint_timeout: 15min
+        checkpoint_completion_target: 0.9
+        min_wal_size: 2GB
+        max_wal_size: 8GB
+        wal_buffers: 32MB
+        default_statistics_target: 1000
+        seq_page_cost: 1
+        random_page_cost: 4
+        effective_io_concurrency: 2
+        synchronous_commit: on
+        autovacuum: on
+        autovacuum_max_workers: 5
+        autovacuum_vacuum_scale_factor: 0.01
+        autovacuum_analyze_scale_factor: 0.01
+        autovacuum_vacuum_cost_limit: 500
+        autovacuum_vacuum_cost_delay: 2
+        autovacuum_naptime: 1s
+        max_files_per_process: 4096
+        archive_mode: on
+        archive_timeout: 1800s
+        archive_command: cd .
+        wal_level: replica
+        wal_keep_size: 2GB
+        max_wal_senders: 10
+        max_replication_slots: 10
+        hot_standby: on
+        wal_log_hints: on
+        wal_compression: on
+        shared_preload_libraries: pg_stat_statements,auto_explain
+        pg_stat_statements.max: 10000
+        pg_stat_statements.track: all
+        pg_stat_statements.track_utility: false
+        pg_stat_statements.save: true
+        auto_explain.log_min_duration: 10s
+        auto_explain.log_analyze: true
+        auto_explain.log_buffers: true
+        auto_explain.log_timing: false
+        auto_explain.log_triggers: true
+        auto_explain.log_verbose: true
+        auto_explain.log_nested_statements: true
+        auto_explain.sample_rate: 0.01
+        track_io_timing: on
+        log_lock_waits: on
+        log_temp_files: 0
+        track_activities: on
+        track_activity_query_size: 4096
+        track_counts: on
+        track_functions: all
+        log_checkpoints: on
+        logging_collector: on
+        log_truncate_on_rotation: on
+        log_rotation_age: 1d
+        log_rotation_size: 0
+        log_line_prefix: '%t [%p-%l] %r %q%u@%d '
+        log_filename: postgresql-%a.log
+        log_directory: /var/log/postgresql
+        hot_standby_feedback: on
+        max_standby_streaming_delay: 30s
+        wal_receiver_status_interval: 10s
+        idle_in_transaction_session_timeout: 10min
+        jit: off
+        max_worker_processes: 24
+        max_parallel_workers: 8
+        max_parallel_workers_per_gather: 2
+        max_parallel_maintenance_workers: 2
+        tcp_keepalives_count: 10
+        tcp_keepalives_idle: 300
+        tcp_keepalives_interval: 30
+
+  initdb:  # List options to be passed on to initdb
+    - encoding: UTF8
+    - locale: en_US.UTF-8
+    - data-checksums
+
+  pg_hba:  # Add following lines to pg_hba.conf after running 'initdb'
+    - host replication replicator 127.0.0.1/32 scram-sha-256
+    - host all all 0.0.0.0/0 scram-sha-256
+
+
+postgresql:
+  listen: 10.128.0.10,127.0.0.1:5432
+  connect_address: 10.128.0.10:5432
+  use_unix_socket: true
+  data_dir: /var/lib/postgresql/15/main
+  bin_dir: /usr/lib/postgresql/15/bin
+  config_dir: /etc/postgresql/15/main
+  pgpass: /var/lib/postgresql/.pgpass_patroni
+  authentication:
+    replication:
+      username: replicator
+      password: replicator-pass
+    superuser:
+      username: postgres
+      password: postgres-pass
+#    rewind:  # Has no effect on postgres 10 and lower
+#      username: rewind_user
+#      password: rewind_password
+  parameters:
+    unix_socket_directories: /var/run/postgresql
+
+
+  remove_data_directory_on_rewind_failure: false
+  remove_data_directory_on_diverged_timelines: false
+
+
+  create_replica_methods:
+    - basebackup
+  basebackup:
+    max-rate: '100M'
+    checkpoint: 'fast'
+
+
+watchdog:
+  mode: automatic  # Allowed values: off, automatic, required
+  device: /dev/watchdog  # Path to the watchdog device
+  safety_margin: 5
+
+tags:
+  nofailover: false
+  noloadbalance: false
+  clonefrom: false
+  nosync: false
+
+  # specify a node to replicate from (cascading replication)
+#  replicatefrom: (node name)
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  sudo patronictl -c /etc/patroni/patroni.yml list
+2023-09-29 09:33:28,796 - WARNING - postgresql parameter max_prepared_transactions=0 failed validation, defaulting to 0
++ Cluster: postgres-cluster -------+-----------+----+-----------+
+| Member   | Host        | Role    | State     | TL | Lag in MB |
++----------+-------------+---------+-----------+----+-----------+
+| pgnode01 | 10.128.0.10 | Leader  | running   |  1 |           |
+| pgnode02 | 10.128.0.9  | Replica | streaming |  1 |         0 |
+| pgnode03 | 10.128.0.24 | Replica | streaming |  1 |         0 |
++----------+-------------+---------+-----------+----+-----------+
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>> sudo systemctl stop patroni             // alexblacknn@10.128.0.10 at master 
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  ssh alexblacknn@10.128.0.9
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>> sudo patronictl -c /etc/patroni/patroni.yml list
+2023-09-29 09:37:03,767 - WARNING - postgresql parameter max_prepared_transactions=0 failed validation, defaulting to 0
++ Cluster: postgres-cluster -------+-----------+----+-----------+
+| Member   | Host        | Role    | State     | TL | Lag in MB |
++----------+-------------+---------+-----------+----+-----------+
+| pgnode02 | 10.128.0.9  | Leader  | running   |  2 |           |
+| pgnode03 | 10.128.0.24 | Replica | streaming |  2 |         0 |
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>> sudo systemctl start patroni		// alexblacknn@10.128.0.10 at master 
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>sudo patronictl -c /etc/patroni/patroni.yml list
+2023-09-29 09:39:52,452 - WARNING - postgresql parameter max_prepared_transactions=0 failed validation, defaulting to 0
++ Cluster: postgres-cluster -------+-----------+----+-----------+
+| Member   | Host        | Role    | State     | TL | Lag in MB |
++----------+-------------+---------+-----------+----+-----------+
+| pgnode01 | 10.128.0.10 | Replica | streaming |  2 |         0 |
+| pgnode02 | 10.128.0.9  | Leader  | running   |  2 |           |
+| pgnode03 | 10.128.0.24 | Replica | streaming |  2 |         0 |
++----------+-------------+---------+-----------+----+-----------+
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> sudo patronictl -c /etc/patroni/patroni.yml switchover
+2023-09-29 09:47:01,305 - WARNING - postgresql parameter max_prepared_transactions=0 failed validation, defaulting to 0
+Current cluster topology
++ Cluster: postgres-cluster -------+-----------+----+-----------+
+| Member   | Host        | Role    | State     | TL | Lag in MB |
++----------+-------------+---------+-----------+----+-----------+
+| pgnode01 | 10.128.0.10 | Replica | streaming |  2 |         0 |
+| pgnode02 | 10.128.0.9  | Leader  | running   |  2 |           |
+| pgnode03 | 10.128.0.24 | Replica | streaming |  2 |         0 |
++----------+-------------+---------+-----------+----+-----------+
+Primary [pgnode02]: pgnode02
+Candidate ['pgnode01', 'pgnode03'] []: pgnode01
+When should the switchover take place (e.g. 2023-09-29T10:47 )  [now]: now
+Are you sure you want to switchover cluster postgres-cluster, demoting current leader pgnode02? [y/N]: y
+2023-09-29 09:49:23.17530 Successfully switched over to "pgnode01"
++ Cluster: postgres-cluster -------+---------+----+-----------+
+| Member   | Host        | Role    | State   | TL | Lag in MB |
++----------+-------------+---------+---------+----+-----------+
+| pgnode01 | 10.128.0.10 | Leader  | running |  2 |           |
+| pgnode02 | 10.128.0.9  | Replica | stopped |    |   unknown |
+| pgnode03 | 10.128.0.24 | Replica | running |  2 |         0 |
++----------+-------------+---------+---------+----+-----------+
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> sudo patronictl -c /etc/patroni/patroni.yml list
+2023-09-29 09:50:30,605 - WARNING - postgresql parameter max_prepared_transactions=0 failed validation, defaulting to 0
++ Cluster: postgres-cluster -------+-----------+----+-----------+
+| Member   | Host        | Role    | State     | TL | Lag in MB |
++----------+-------------+---------+-----------+----+-----------+
+| pgnode01 | 10.128.0.10 | Leader  | running   |  3 |           |
+| pgnode02 | 10.128.0.9  | Replica | streaming |  3 |         0 |
+| pgnode03 | 10.128.0.24 | Replica | streaming |  3 |         0 |
++----------+-------------+---------+-----------+----+-----------+
+
+
+====================================================================
+======================== pgbouncer==================================
+====================================================================
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> sudo systemctl status pgbouncer
+● pgbouncer.service - pgBouncer connection pooling for PostgreSQL
+     Loaded: loaded (/etc/systemd/system/pgbouncer.service; enabled; vendor preset: enabled)
+     Active: active (running) since Fri 2023-09-29 08:23:51 UTC; 1h 29min ago
+   Main PID: 15946 (pgbouncer)
+      Tasks: 2 (limit: 2293)
+     Memory: 2.1M
+     CGroup: /system.slice/pgbouncer.service
+             └─15946 /usr/sbin/pgbouncer -d /etc/pgbouncer/pgbouncer.ini
+
+Sep 29 08:23:51 pgnode01 systemd[1]: Starting pgBouncer connection pooling for PostgreSQL...
+Sep 29 08:23:51 pgnode01 systemd[1]: pgbouncer.service: Can't open PID file /run/pgbouncer/pgbouncer.pid (y>
+Sep 29 08:23:51 pgnode01 systemd[1]: Started pgBouncer connection pooling for PostgreSQL.
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  sudo cat pgbouncer/pgbouncer.ini
+	[databases]
+	postgres = host=127.0.0.1 port=5432 dbname=postgres 
+
+	* = host=127.0.0.1 port=5432
+
+	[pgbouncer]
+	logfile = /var/log/pgbouncer/pgbouncer.log
+	pidfile = /run/pgbouncer/pgbouncer.pid
+	listen_addr = 0.0.0.0
+	listen_port = 6432
+	unix_socket_dir = /var/run/postgresql
+	auth_type = scram-sha-256
+	auth_user = pgbouncer
+	auth_dbname = postgres
+	auth_query = SELECT usename, passwd FROM user_search($1)
+	admin_users = postgres
+	stats_users = postgres
+	ignore_startup_parameters = extra_float_digits,geqo,search_path
+
+	pool_mode = session
+	server_reset_query = DISCARD ALL
+	max_client_conn = 10000
+	default_pool_size = 20
+	query_wait_timeout = 120
+	reserve_pool_size = 1
+	reserve_pool_timeout = 1
+	max_db_connections = 1000
+	pkt_buf = 8192
+	listen_backlog = 4096
+
+	log_connections = 0
+	log_disconnections = 0
+
+	# Documentation https://pgbouncer.github.io/config.html
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>sudo systemctl status pgbouncer
+● pgbouncer.service - pgBouncer connection pooling for PostgreSQL
+     Loaded: loaded (/etc/systemd/system/pgbouncer.service; enabled; vendor preset: enabled)
+     Active: active (running) since Fri 2023-09-29 08:23:51 UTC; 4h 22min ago
+   Main PID: 15946 (pgbouncer)
+      Tasks: 2 (limit: 2293)
+     Memory: 2.1M
+     CGroup: /system.slice/pgbouncer.service
+             └─15946 /usr/sbin/pgbouncer -d /etc/pgbouncer/pgbouncer.ini
+
+Sep 29 08:23:51 pgnode01 systemd[1]: Starting pgBouncer connection pooling for PostgreSQL...
+Sep 29 08:23:51 pgnode01 systemd[1]: pgbouncer.service: Can't open PID file /run/pgbouncer/pgbouncer.pid (y>
+Sep 29 08:23:51 pgnode01 systemd[1]: Started pgBouncer connection pooling for PostgreSQL.
+
+
+FROM LEADER PC (alexblacknn@pgnode01 sudo patronictl -c /etc/patroni/patroni.yml list)
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> sudo -u postgres psql -h localhost
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> create database test;
+	CREATE DATABASE
+
+FROM REPLICA PC (alexblacknn@pgnode02)
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> sudo -u postgres psql -h localhost
+	psql (15.4 (Ubuntu 15.4-2.pgdg20.04+1))
+	SSL connection (protocol: TLSv1.3, cipher: TLS_AES_256_GCM_SHA384, compression: off)
+	Type "help" for help.
+
+	postgres=# create database db;
+	ERROR:  cannot execute CREATE DATABASE in a read-only transaction
+
+====================================================================
+======================== API =======================================
+====================================================================
+
+if we query master, see below... if it were replica it would be vice versa...
+
+/master uri we expected 200 status and "role": "master"
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> curl -v 10.128.0.10:8008/master
+	*   Trying 10.128.0.10:8008...
+	* TCP_NODELAY set
+	* Connected to 10.128.0.10 (10.128.0.10) port 8008 (#0)
+	> GET /master HTTP/1.1
+	> Host: 10.128.0.10:8008
+	> User-Agent: curl/7.68.0
+	> Accept: */*
+	> 
+	* Mark bundle as not supporting multiuse
+	* HTTP 1.0, assume close after body
+	< HTTP/1.0 200 OK
+	< Server: BaseHTTP/0.6 Python/3.8.10
+	< Date: Fri, 29 Sep 2023 13:34:30 GMT
+	< Content-Type: application/json
+	< 
+	* Closing connection 0
+	{"state": "running", "postmaster_start_time": "2023-09-29 09:39:09.905672+00:00", "role": "master", "server_version": 150004, "xlog": {"location": 201326592}, "timeline": 3, "replication": [{"usename": "replicator", "application_name": "pgnode03", "client_addr": "10.128.0.24", "state": "streaming", "sync_state": "async", "sync_priority": 0}, {"usename": "replicator", "application_name": "pgnode02", "client_addr": "10.128.0.9", "state": "streaming", "sync_state": "async", "sync_priority": 0}], "dcs_last_seen": 1695994463, "database_system_identifier": "7284160949613391758", "patroni": {"version": "3.1.0", "scope": "postgres-cluster"}}
+
+/slave uri we expected 503 status and "role": "master"
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> curl -v 10.128.0.10:8008/replica
+	*   Trying 10.128.0.10:8008...
+	* TCP_NODELAY set
+	* Connected to 10.128.0.10 (10.128.0.10) port 8008 (#0)
+	> GET /slave HTTP/1.1
+	> Host: 10.128.0.10:8008
+	> User-Agent: curl/7.68.0
+	> Accept: */*
+	> 
+	* Mark bundle as not supporting multiuse
+	* HTTP 1.0, assume close after body
+	< HTTP/1.0 503 Service Unavailable
+	< Server: BaseHTTP/0.6 Python/3.8.10
+	< Date: Fri, 29 Sep 2023 13:34:15 GMT
+	< Content-Type: application/json
+	< 
+	* Closing connection 0
+	{"state": "running", "postmaster_start_time": "2023-09-29 09:39:09.905672+00:00", "role": "master", "server_version": 150004, "xlog": {"location": 201326592}, "timeline": 3, "replication": [{"usename": "replicator", "application_name": "pgnode03", "client_addr": "10.128.0.24", "state": "streaming", "sync_state": "async", "sync_priority": 0}, {"usename": "replicator", "application_name": "pgnode02", "client_addr": "10.128.0.9", "state": "streaming", "sync_state": "async", "sync_priority": 0}], "dcs_last_seen": 1695994453, "database_system_identifier": "7284160949613391758", "patroni": {"version": "3.1.0", "scope": "postgres-cluster"}}
+
+
+
+====================================================================
+======================== HAPROXY ===================================
+====================================================================
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> cat /etc/haproxy/haproxy.cfg 
+	global
+	    maxconn 100000
+	    log /dev/log    local0
+	    log /dev/log    local1 notice
+	    chroot /var/lib/haproxy
+	    stats socket /run/haproxy/admin.sock mode 660 level admin expose-fd listeners
+	    stats timeout 30s
+	    user haproxy
+	    group haproxy
+	    daemon
+
+	defaults
+	    mode               tcp
+	    log                global
+	    retries            2
+	    timeout queue      5s
+	    timeout connect    5s
+	    timeout client     60m
+	    timeout server     60m
+	    timeout check      15s
+
+	listen stats
+	    mode http
+	    bind 10.128.0.10:7000
+	    stats enable
+	    stats uri /
+
+	listen master
+	    bind 10.128.0.10:5000
+	    maxconn 10000
+	    option tcplog
+	    option httpchk OPTIONS /primary
+	    http-check expect status 200
+	    default-server inter 3s fastinter 1s fall 3 rise 4 on-marked-down shutdown-sessions
+	 server pgnode01 10.128.0.10:6432 check port 8008
+	 server pgnode02 10.128.0.9:6432 check port 8008
+	 server pgnode03 10.128.0.24:6432 check port 8008
+
+
+	listen replicas
+	    bind 10.128.0.10:5001
+	    maxconn 10000
+	    option tcplog
+	    option httpchk OPTIONS /replica
+	    balance roundrobin
+	    http-check expect status 200
+	    default-server inter 3s fastinter 1s fall 3 rise 2 on-marked-down shutdown-sessions
+	 server pgnode01 10.128.0.10:6432 check port 8008
+	 server pgnode02 10.128.0.9:6432 check port 8008
+	 server pgnode03 10.128.0.24:6432 check port 8008
+
+
+	listen replicas_sync
+	    bind 10.128.0.10:5002
+	    maxconn 10000
+	    option tcplog
+	    option httpchk OPTIONS /sync
+	    balance roundrobin
+	    http-check expect status 200
+	    default-server inter 3s fastinter 1s fall 3 rise 2 on-marked-down shutdown-sessions
+	 server pgnode01 10.128.0.10:6432 check port 8008
+	 server pgnode02 10.128.0.9:6432 check port 8008
+	 server pgnode03 10.128.0.24:6432 check port 8008
+
+
+	listen replicas_async
+	    bind 10.128.0.10:5003
+	    maxconn 10000
+	    option tcplog
+	    option httpchk OPTIONS /async
+	    balance roundrobin
+	    http-check expect status 200
+	    default-server inter 3s fastinter 1s fall 3 rise 2 on-marked-down shutdown-sessions
+	 server pgnode01 10.128.0.10:6432 check port 8008
+	 server pgnode02 10.128.0.9:6432 check port 8008
+	 server pgnode03 10.128.0.24:6432 check port 8008
+
+
+
+

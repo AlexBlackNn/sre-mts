@@ -1,0 +1,33 @@
+image:
+  repository: ghcr.io/ldest/sre-course/api
+  tag: "0e6cd26"
+imagePullPolicy: IfNotPresent
+replicas: 1
+service:
+  port: 80
+  servicePort: 80
+revisionHistoryLimit: 15
+strategy:
+  type:  RollingUpdate
+rollingUpdate:
+  maxUnavailable: 1
+  maxSurge: 20%
+livenessProbe:
+  initialDelaySeconds: 15
+  periodSeconds: 30
+  timeoutSeconds: 1
+  failureThreshold: 6
+containerPolicies:
+  - containerName: "*"
+    minAllowed:
+      cpu: 0.4m
+      memory: 200Mi
+    maxAllowed:
+      cpu: 1
+      memory: 500Mi
+    controlledResources: ["cpu", "memory"]
+    controlledValues: RequestsAndLimits
+
+podAnnotations:
+  prometheus.io/scrape: "true"
+  prometheus.io/port: "http-metrics"

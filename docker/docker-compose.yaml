@@ -1,0 +1,17 @@
+version: "3.7"
+services:
+  db:
+    image: postgres:14.0-alpine
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./postgres/:/var/lib/postgresql/data/
+    env_file:
+      - ./.env
+
+  app:
+    image: ghcr.io/ldest/sre-course/api:0e6cd26
+    environment:
+      - DOTNET_ENVIRONMENT="Development"
+    ports:
+      - "8001:80"

@@ -1,0 +1,10 @@
+# версия api чарта
+apiVersion: v1
+# версия приложения внутри чарта
+appVersion: "1.0" 
+# Описание приложения в одном предложении
+description: ingress
+# имя чарта 
+name: ingress
+# версия чарта, должна быть по SemVer2 
+version: 0.0.1 

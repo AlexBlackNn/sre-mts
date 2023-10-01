@@ -1,0 +1,43 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Chart.Name }}
+  labels:
+    app: {{ .Chart.Name }}
+spec:
+  replicas: {{.Values.replicas}}
+  # Хранение информации о заданном кол-ве различных версиях Deployment
+  revisionHistoryLimit: {{.Values.revisionHistoryLimit}}
+  # Стратегия развёртывания. Recreate — удалит сначала все старые Pod'ы 
+  # RollingUpdate, которая будет обновлять Pod'ы порциями
+  strategy:
+    type: {{ .Values.strategy.type }}
+    rollingUpdate:
+      maxUnavailable: {{ .Values.rollingUpdate.maxUnavailable }}
+      maxSurge: {{ .Values.rollingUpdate.maxSurge }}
+  selector:
+    matchLabels:
+      app:  {{ .Chart.Name }}
+  template:
+    metadata:
+      labels:
+        app:  {{ .Chart.Name }}
+    spec:
+      containers:
+        - name:  {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{.Values.image.tag }}"
+          imagePullPolicy: {{ .Values.imagePullPolicy }}
+          ports:
+            - name: {{ .Chart.Name }}
+              containerPort: {{ .Values.service.port }}
+          env:
+            - name: "DOTNET_ENVIRONMENT"
+              value: "Development"
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "100m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
