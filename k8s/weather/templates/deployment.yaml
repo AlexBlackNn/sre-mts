@@ -34,6 +34,8 @@ spec:
           env:
             - name: "DOTNET_ENVIRONMENT"
               value: "Development"
+            - name: "ConnectionStrings__PgConnection"
+              value: Server=91.185.84.153;Port=5000;Database=postgres;User Id=postgres;Password=postgres-pass;
           resources:
             requests:
               memory: "64Mi"

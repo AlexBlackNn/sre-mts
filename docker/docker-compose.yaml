@@ -13,5 +13,6 @@ services:
     image: ghcr.io/ldest/sre-course/api:0e6cd26
     environment:
       - DOTNET_ENVIRONMENT="Development"
+      - ConnectionStrings__PgConnection=Server=db;Database=postgres;User Id=postgres;Password=postgres;
     ports:
       - "8001:80"
