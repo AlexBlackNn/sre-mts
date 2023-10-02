@@ -16,17 +16,17 @@ livenessProbe:
   initialDelaySeconds: 15
   periodSeconds: 30
   timeoutSeconds: 1
+  successThreshold: 1
   failureThreshold: 6
-containerPolicies:
-  - containerName: "*"
-    minAllowed:
-      cpu: 0.4m
-      memory: 200Mi
-    maxAllowed:
-      cpu: 1
-      memory: 500Mi
-    controlledResources: ["cpu", "memory"]
-    controlledValues: RequestsAndLimits
+  tcp_port: 80
+resources:
+  requests:
+    memory: "64Mi"
+    cpu: "100m"
+  limits:
+    memory: "512Mi"
+    cpu: "500m"
+
 
 podAnnotations:
   prometheus.io/scrape: "true"

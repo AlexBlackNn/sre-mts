@@ -40,29 +40,18 @@ spec:
                   key: PgConnection
           resources:
             requests:
-              memory: "64Mi"
-              cpu: "100m"
+              memory: {{ .Values.resources.requests.memory }}
+              cpu: {{ .Values.resources.requests.cpu }}
             limits:
-              memory: "512Mi"
-              cpu: "500m"
+              memory: {{ .Values.resources.limits.memory }}
+              cpu: {{ .Values.resources.limits.cpu }}
           livenessProbe:
             tcpSocket:
-              port: 80
-            initialDelaySeconds: 2
-            periodSeconds: 2
-            timeoutSeconds: 1
-            successThreshold: 1
-            failureThreshold: 3
-          readinessProbe:
-            httpGet:
-              path: /Forecast
-              port: 80
-              # перед исполнением первой проверки подождать 15 секунд, пока стартанёт бэкенд
-            initialDelaySeconds: 5
-            # период выполнения проверки
-            periodSeconds: 30
-            # максимальное время выполнения проверки (по умолчанию 1 раз)
-            timeoutSeconds: 2
-            # сколько раз пробовать попытку, если она провалилась (по умолчанию 1 раз)
-            failureThreshold: 6
+              port: {{ .Values.livenessProbe.tcp_port }}
+            initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
+            timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds }}
+            successThreshold: {{ .Values.livenessProbe.successThreshold }}
+            failureThreshold: {{ .Values.livenessProbe.failureThreshold }}
+
 
