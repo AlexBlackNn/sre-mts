@@ -7,9 +7,8 @@ metadata:
     app: {{ .Chart.Name }}
 spec:
   replicas: {{.Values.replicas}}
-  # Хранение информации о заданном кол-ве различных версиях Deployment
   revisionHistoryLimit: {{.Values.revisionHistoryLimit}}
-  # Стратегия развёртывания. Recreate — удалит сначала все старые Pod'ы 
+  # Стратегия развёртывания.
   # RollingUpdate, которая будет обновлять Pod'ы порциями
   strategy:
     type: {{ .Values.strategy.type }}
@@ -35,7 +34,10 @@ spec:
             - name: "DOTNET_ENVIRONMENT"
               value: "Development"
             - name: "ConnectionStrings__PgConnection"
-              value: Server=91.185.84.153;Port=5000;Database=postgres;User Id=postgres;Password=postgres-pass;
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Chart.Name }}
+                  key: PgConnection
           resources:
             requests:
               memory: "64Mi"
