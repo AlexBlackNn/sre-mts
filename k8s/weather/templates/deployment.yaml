@@ -48,8 +48,21 @@ spec:
           livenessProbe:
             tcpSocket:
               port: 80
-            initialDelaySeconds: 2 #Default 0
-            periodSeconds: 2 #Default 10
-            timeoutSeconds: 1 #Default 1
-            successThreshold: 1 #Default 1
-            failureThreshold: 3 #Default 3
+            initialDelaySeconds: 2
+            periodSeconds: 2
+            timeoutSeconds: 1
+            successThreshold: 1
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /Forecast
+              port: 80
+              # перед исполнением первой проверки подождать 15 секунд, пока стартанёт бэкенд
+            initialDelaySeconds: 5
+            # период выполнения проверки
+            periodSeconds: 30
+            # максимальное время выполнения проверки (по умолчанию 1 раз)
+            timeoutSeconds: 2
+            # сколько раз пробовать попытку, если она провалилась (по умолчанию 1 раз)
+            failureThreshold: 6
+
