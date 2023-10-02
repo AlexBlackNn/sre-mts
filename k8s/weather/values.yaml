@@ -26,8 +26,3 @@ resources:
   limits:
     memory: "512Mi"
     cpu: "500m"
-
-
-podAnnotations:
-  prometheus.io/scrape: "true"
-  prometheus.io/port: "http-metrics"
