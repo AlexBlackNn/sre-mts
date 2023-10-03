@@ -13,7 +13,6 @@ services:
       - ./postgres/:/var/lib/postgresql/data/
     env_file:
       - ./.env
-
   app:
     image: ghcr.io/ldest/sre-course/api:0e6cd26
     environment:
