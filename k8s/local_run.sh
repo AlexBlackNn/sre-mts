@@ -1,5 +1,6 @@
 #!/bin/bash
 
+#Важно! Кластер Postgres должен быть запущен в облаке. Для его запуска смотри Readme в my_postgres_cluster.
 minikube start --container-runtime=containerd --cpus 4 --memory 9000
 
 ingress_enable=$(minikube addons list  | grep ingress | grep enable | wc -l)

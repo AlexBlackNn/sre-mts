@@ -1,3 +1,8 @@
+# Только для тестового запуска. Внимание: порт в БД открыт.
+# переменная DOTNET_ENVIRONMENT = Development - режим разрботки
+# swagger в таком режиме будет включен и доступен по
+# http://127.0.0.1:8001/swagger/index.html
+
 version: "3.7"
 services:
   db:
