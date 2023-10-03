@@ -26,3 +26,9 @@ resources:
   limits:
     memory: "512Mi"
     cpu: "500m"
+hpa:
+  metrics:
+    CpuAverageUtilization: 80
+  minReplicas: 1
+  maxReplicas: 2
+
