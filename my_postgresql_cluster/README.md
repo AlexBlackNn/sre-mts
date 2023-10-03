@@ -1,14 +1,27 @@
 Данный playbook является копией https://github.com/vitabaks/postgresql_cluster с настроенными vars/main.yml и inventory 
 
-# 1. Перед началом работы, необходимо создать 5 ВМ в облаке. 
-![vm.png](..%2Fdocs%2Fvm.png)
 
-в vars/main.yml изменено: 
+
+# 1. Перед началом работы,
+Устанавливаем ansible локально (на управляющий ПК). При старых версиях, будут ошибки! 
+ansible==8.4.0
+ansible-core==2.15.4
+```
+pip install -r requirements.txt
+```
+
+Необходимо создать 5 ВМ в облаке c ОS Ubuntu 20.04
+![vm.png](..%2Fdocs%2Fvm.png)
+принимая в расчет требования к железу:
+    1. https://etcd.io/docs/v3.3/op-guide/hardware/ 
+    2. https://www.haproxy.com/documentation/hapee/latest/getting-started/hardware/
+
+В vars/main.yml изменено: 
 ```
 with_haproxy_load_balancing: true
 ```
 
-в inventory пример прописывания хостов: 
+В inventory пример прописывания хостов: 
 ```
 10.0.10.2 ansible_host=91.185.84.150
 10.0.10.3 ansible_host=91.185.84.151
