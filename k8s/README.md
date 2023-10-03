@@ -10,7 +10,31 @@ https://weather-forecast.ddns.net/swagger/index.html
 ## telegram:
 https://t.me/Alexblacknn
 
-
+## Структура 
+```
+k8s
+├── ingress
+│   ├── Chart.yaml
+│   ├── templates
+│   │   └── ingress.yaml
+│   └── values.yaml
+├── local_run.sh
+├── mts-ingress
+│   ├── Chart.yaml
+│   ├── templates
+│   │   └── ingress.yaml
+│   └── values.yaml
+├── mts_run.sh
+├── README.md
+└── weather
+    ├── Chart.yaml
+    ├── templates
+    │   ├── deployment.yaml
+    │   ├── hpa.yaml
+    │   ├── secrets.yaml
+    │   └── service.yaml
+    └── values.yaml
+```
 ## Локальный запуск приложения в minikube (для тестового запуска)
 1. Убеждаемся, что контекст - minikube
 ```bash
