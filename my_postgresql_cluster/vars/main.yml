@@ -18,10 +18,21 @@ patroni_cluster_name: "postgres-cluster"  # the cluster name (must be unique for
 patroni_install_version: "3.1.0"  # or 'latest'
 
 patroni_superuser_username: "postgres"
-patroni_superuser_password: "postgres-pass"  # please change password
+patroni_superuser_password: !vault |
+          $ANSIBLE_VAULT;1.1;AES256
+          62383233643463623539646639643762613365623739353438393464643665633861326366323534
+          3866376663393432643639366530343866633364343661360a636566333231343266376431363265
+          32653634326362333764373963363434663736363737343661396231363238326331656333306564
+          3436643834656532650a626161626333373962383838363231396234383065613036383766613462
+          3335
 patroni_replication_username: "replicator"
-patroni_replication_password: "replicator-pass"  # please change password
-
+patroni_replication_password: !vault |
+          $ANSIBLE_VAULT;1.1;AES256
+          64326566663065323638356331316230663365396633663831633537646165336331316432386331
+          3238326365353632316238653739636566633566303664390a393533373265353031316639373834
+          35336362633065313362373964376234633437353137393761643433343338346135653234393638
+          3936663132316239620a306262373838346132346236326338303665396566663365326365663265
+          6535
 synchronous_mode: false  # or 'true' for enable synchronous database replication
 synchronous_mode_strict: false  # if 'true' then block all client writes to the master, when a synchronous replica is not available
 synchronous_node_count: 1  # number of synchronous standby databases
@@ -311,7 +322,13 @@ pgbouncer_ignore_startup_parameters: "extra_float_digits,geqo,search_path"
 pgbouncer_auth_type: "{{ postgresql_password_encryption_algorithm }}"
 pgbouncer_auth_user: true # or 'false' if you want to manage the list of users for authentication in the database via userlist.txt
 pgbouncer_auth_username: pgbouncer # user who can query the database via the user_search function
-pgbouncer_auth_password: "pgbouncer-pass" # please change password
+pgbouncer_auth_password: !vault |
+          $ANSIBLE_VAULT;1.1;AES256
+          62616434326131653438653436316331316266653864363662396262373534623763353035313665
+          6361636139313932633836346434333230366364326337340a383633316138323363366561323061
+          39303038313530313539646533393136633733623866656533626666393162363031383430336531
+          3536336633643834330a306235313566366234623462366531373838396332613063313037616564
+          3363
 pgbouncer_auth_dbname: "postgres"
 
 pgbouncer_pools:

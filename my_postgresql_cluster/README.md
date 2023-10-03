@@ -1,6 +1,7 @@
 Данный playbook является копией https://github.com/vitabaks/postgresql_cluster с настроенными vars/main.yml и inventory 
 
-
+# Важно: Пароли зашифрованы ansible-vault
+Пароль: 1 
 
 # 1. Перед началом работы,
 Устанавливаем ansible локально (на управляющий ПК). При старых версиях, будут ошибки! 
@@ -31,7 +32,7 @@ with_haproxy_load_balancing: true
 
 # 2. Запуск 
 ```bash
-ansible-playbook deploy_pgcluster.yml
+ansible-playbook deploy_pgcluster.yml --ask-vault-pass
 ```
 
 # 3. Применяем миграцию
