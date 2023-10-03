@@ -1,5 +1,8 @@
 # Сервис прогноза погоды 
 
+https://weather-forecast.ddns.net/swagger/index.html
+
+
 ![img.png](docs/img.png)
 
 Задачи
