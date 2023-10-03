@@ -17,3 +17,4 @@
 2. Настраиваем Postgres кластер. Переходим в my_postgresql_cluster. Читаем README.md
 3. Запускам приложение в k8s. Переходим в k8s. Читаем README.md
 
+В postgresql_cluster.txt полезные команды для работы с postgresql в patroni сетапе
