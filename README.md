@@ -4,7 +4,7 @@
 
 Задачи
 
-- [X] Написать ansible playbook для развертывания postgresql в patroni сетапе. Пример, который можно взять за основу.
+- [X] Написать ansible playbook для развертывания postgresql в patroni сетапе.
     Разворачиваем etcd, patroni, postgres и единственный инстанс Haproxy.
 - [X] Написать helm chart для разворачивания api в выделенном неймспейсе. Docker image лежит в публичном registry, разворачивать стоит актуальную версию ghcr.io/ldest/sre-course/api
 
