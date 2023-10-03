@@ -12,5 +12,5 @@ else
 fi
 
 
-helm install weather-forecast weather-forecast
+helm install weather weather
 helm install ingress ingress
