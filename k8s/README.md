@@ -56,8 +56,14 @@ kubectl config current-context
 ./local_run.sh
 ```
 
-# Инициализация БД 
-в init.sql лежит файл начальной миграции
+## Запуск приложения в облаке
+1. Убеждаемся, что контекст - облачный
+
 ```bash
-psql "host=localhost port=5432 dbname=postgres user=postgres password=postgres" -f init.sql
+kubectl config current-context
+```
+Вывод в терминал: student107@grand-lion-d99896
+
+```bash
+./mts_run.sh
 ```
