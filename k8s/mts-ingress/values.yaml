@@ -1,0 +1,4 @@
+host: "weather-forecast.ddns.net"
+path: "/"
+port_number: 80
+service: weather
