@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ .Release.Name }}-http-check1"
+  annotations:
+    "helm.sh/hook": test
+spec:
+  containers:
+    - name: http-check1
+      image: busybox    
+      command: ["/bin/sh", "-c"]
+      args:
+       - wget --spider --timeout=5 http://{{ .Release.Name }}.{{ .Release.Namespace }}.svc.cluster.local/Forecast;
+         wget --spider --timeout=5 http://{{ .Release.Name }}.{{ .Release.Namespace }}.svc.cluster.local/Forecast;
+     
+  restartPolicy: Never
