@@ -3,6 +3,7 @@
   become: yes
   roles:
   - prometheus
+  - alertmanager
   vars:
     prometheus_targets:
       node:
@@ -11,3 +12,17 @@
         - node.demo.do.prometheus.io
         labels:
           env: demosite
+
+    alertmanager_version: latest
+    alertmanager_slack_api_url: "http://example.com"
+    alertmanager_receivers:
+      - name: slack
+        slack_configs:
+          - send_resolved: true
+            channel: '#alerts'
+    alertmanager_route:
+      group_by: [ 'alertname', 'cluster', 'service' ]
+      group_wait: 30s
+      group_interval: 5m
+      repeat_interval: 3h
+      receiver: slack
