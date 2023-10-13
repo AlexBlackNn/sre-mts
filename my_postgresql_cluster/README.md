@@ -36,11 +36,11 @@ ansible-playbook deploy_pgcluster.yml
 
 # 3. Применяем миграцию
 ```bash
-psql "host=91.185.84.153 port=5000 dbname=postgres user=postgres password=postgres-pass" -f init.sql
+psql "host=91.185.85.228 port=5000 dbname=postgres user=postgres password=postgres-pass" -f init.sql
 ```
 
 Проверка, что таблицы, были созданы
 ```bash
-psql "host=91.185.84.153 port=5000 dbname=postgres user=postgres password=postgres-pass" -c "SELECT * FROM cities"
-psql "host=91.185.84.153 port=5000 dbname=postgres user=postgres password=postgres-pass" -c "SELECT * FROM forecast"
+psql "host=91.185.85.228 port=5000 dbname=postgres user=postgres password=postgres-pass" -c "SELECT * FROM cities"
+psql "host=91.185.85.228 port=5000 dbname=postgres user=postgres password=postgres-pass" -c "SELECT * FROM forecast"
 ```
