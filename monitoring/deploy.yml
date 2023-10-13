@@ -10,6 +10,9 @@
       - targets:
         - localhost:9100
         - node.demo.do.prometheus.io
+        - 10.0.10.4:2379
+        - 10.0.10.3:2379
+        - 10.0.10.2:2379
         labels:
           env: demosite
 
