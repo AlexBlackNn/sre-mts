@@ -1,0 +1,13 @@
+---
+- hosts: all
+  become: yes
+  roles:
+  - prometheus
+  vars:
+    prometheus_targets:
+      node:
+      - targets:
+        - localhost:9100
+        - node.demo.do.prometheus.io
+        labels:
+          env: demosite
