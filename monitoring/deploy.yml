@@ -8,11 +8,13 @@
     prometheus_targets:
       node:
       - targets:
-        - localhost:9100
         - node.demo.do.prometheus.io
         - 10.0.10.4:2379
         - 10.0.10.3:2379
         - 10.0.10.2:2379
+        - 10.0.10.4:9100
+        - 10.0.10.3:9100
+        - 10.0.10.2:9100
         labels:
           env: demosite
 
@@ -29,3 +31,18 @@
       group_interval: 5m
       repeat_interval: 3h
       receiver: slack
+
+- hosts: node_exporter1
+  become: yes
+  roles:
+    - node_exporter
+
+- hosts: node_exporter2
+  become: yes
+  roles:
+    - node_exporter
+
+- hosts: node_exporter3
+  become: yes
+  roles:
+    - node_exporter
