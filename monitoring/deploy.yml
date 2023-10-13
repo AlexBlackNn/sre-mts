@@ -1,5 +1,5 @@
 ---
-- hosts: all
+- hosts: monitoring
   become: yes
   roles:
   - prometheus
@@ -12,9 +12,11 @@
         - 10.0.10.4:2379
         - 10.0.10.3:2379
         - 10.0.10.2:2379
-        - 10.0.10.4:9100
-        - 10.0.10.3:9100
         - 10.0.10.2:9100
+        - 10.0.10.3:9100
+        - 10.0.10.4:9100
+        - 10.0.10.5:9100
+        - 10.0.10.6:9100
         labels:
           env: demosite
 
@@ -38,6 +40,16 @@
     - node_exporter
 
 - hosts: node_exporter2
+  become: yes
+  roles:
+    - node_exporter
+
+- hosts: node_exporter3
+  become: yes
+  roles:
+    - node_exporter
+
+- hosts: node_exporter3
   become: yes
   roles:
     - node_exporter
