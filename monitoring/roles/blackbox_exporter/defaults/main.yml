@@ -19,7 +19,7 @@ blackbox_exporter_cli_flags: {}
 blackbox_exporter_configuration_modules:
   http_2xx:
     prober: http
-    timeout: 5s
+    timeout: 10s
     http:
       method: GET
       valid_status_codes: []

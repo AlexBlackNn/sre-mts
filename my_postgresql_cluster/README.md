@@ -41,6 +41,6 @@ psql "host=91.185.84.153 port=5000 dbname=postgres user=postgres password=postgr
 
 Проверка, что таблицы, были созданы
 ```bash
-psql "host=91.185.84.153 port=5000 dbname=postgres user=postgres password=postgres-pass" -c "SELECT * FROM cities"
-psql "host=91.185.84.153 port=5000 dbname=postgres user=postgres password=postgres-pass" -c "SELECT * FROM forecast"
+psql "host=77.105.185.143 port=5000 dbname=postgres user=postgres password=postgres-pass" -c "SELECT * FROM cities"
+psql "host=77.105.185.143 port=5000 dbname=postgres user=postgres password=postgres-pass" -c "SELECT * FROM forecast"
 ```
