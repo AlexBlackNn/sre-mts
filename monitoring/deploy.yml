@@ -60,3 +60,13 @@
   become: yes
   roles:
     - node_exporter
+
+- hosts: node_exporter4
+  become: yes
+  roles:
+    - docker
+
+- hosts: node_exporter5
+  become: yes
+  roles:
+    - docker
