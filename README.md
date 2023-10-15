@@ -27,6 +27,11 @@
 - [X] Настроить в Prometheus алерты на 4 золотых сигнала мониторинга
 - [ ] Рефакторинг
 - [ ] Документация
+- [ ] Сбор логов (??? Postgresql log CSV -> Python Beaver -> Logstash -> Elastic -> Kibana ???)
+
+- **Бэкапы** 
+- [ ] ??? BarMan ???
+ 
 
 # Порядок развертывания. 
 1. FAQ лежит в папке docs
@@ -34,3 +39,8 @@
 3. Запускам приложение в k8s. Переходим в k8s. Читаем README.md
 
 В postgresql_cluster.txt полезные команды для работы с postgresql в patroni сетапе
+
+
+# Полезные ссылки
+[Готовим PostgreSQL в эпоху DevOps. Опыт 2ГИС. Павел Молявин](https://habr.com/ru/articles/509926/) 
+
