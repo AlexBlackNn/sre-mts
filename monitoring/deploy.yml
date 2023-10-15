@@ -74,3 +74,13 @@
     - docker
 
 
+- hosts: node_exporter4
+  become: yes
+  roles:
+    - patroni_exporter
+
+- hosts: node_exporter5
+  become: yes
+  roles:
+    - patroni_exporter
+

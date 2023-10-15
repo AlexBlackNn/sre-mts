@@ -10,4 +10,11 @@
 
 - name: "Execute multiple commands"
   shell: |
-    sudo docker run -d -ti -p 9101:9101 alexblacknn/patroni_exporter:0.0.1 --port 9101 --patroni-url http://"{{ ansible_default_ipv4.address }}":8008/patroni --timeout 5 --debug
+    CONTAINER=patroni_exporter
+    RUNNING=$(docker ps --filter name=$CONTAINER | wc -l)
+    if [ $RUNNING -gt 1 ]; then
+      sudo docker rm --force $CONTAINER
+    else
+      echo "'$CONTAINER' does not exist."
+    fi
+    sudo docker run -d -ti --name $CONTAINER -p 9101:9101 alexblacknn/patroni_exporter:0.0.1 --port 9101 --patroni-url http://"{{ ansible_default_ipv4.address }}":8008/patroni --timeout 5 --debug
