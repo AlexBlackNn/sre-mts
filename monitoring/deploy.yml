@@ -19,6 +19,8 @@
         - 10.0.10.5:9100
         - 10.0.10.6:9100
         - localhost:9115
+        - 10.0.10.6:9101
+        - 10.0.10.5:9101
         labels:
           env: demosite
 
@@ -70,3 +72,5 @@
   become: yes
   roles:
     - docker
+
+

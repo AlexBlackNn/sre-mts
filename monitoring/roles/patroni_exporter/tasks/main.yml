@@ -1,0 +1,13 @@
+---
+- name: "Show host's ip"
+  debug:
+    msg: "{{ ansible_ssh_host }}"
+
+- name: "Show inner ip"
+  debug:
+    msg: "{{ ansible_default_ipv4.address }}"
+
+
+- name: "Execute multiple commands"
+  shell: |
+    sudo docker run -d -ti -p 9101:9101 alexblacknn/patroni_exporter:0.0.1 --port 9101 --patroni-url http://"{{ ansible_default_ipv4.address }}":8008/patroni --timeout 5 --debug
