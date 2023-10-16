@@ -2,11 +2,11 @@
 - hosts: node_exporter4
   become: yes
   roles:
-    - patroni_exporter
+    - postgres_exporter
 
 - hosts: node_exporter5
   become: yes
   roles:
-    - patroni_exporter
+    - postgres_exporter
 
 

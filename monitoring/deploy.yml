@@ -19,8 +19,11 @@
         - 10.0.10.5:9100
         - 10.0.10.6:9100
         - localhost:9115
-        - 10.0.10.6:9101
         - 10.0.10.5:9101
+        - 10.0.10.6:9101
+        - 10.0.10.5:9187
+        - 10.0.10.6:9187
+
         labels:
           env: demosite
 
@@ -83,4 +86,15 @@
   become: yes
   roles:
     - patroni_exporter
+
+
+- hosts: node_exporter4
+  become: yes
+  roles:
+    - postgres_exporter
+
+- hosts: node_exporter5
+  become: yes
+  roles:
+    - postgres_exporter
 

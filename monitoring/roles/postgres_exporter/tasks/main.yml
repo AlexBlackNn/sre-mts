@@ -1,0 +1,20 @@
+---
+- name: "Show host's ip"
+  debug:
+    msg: "{{ ansible_ssh_host }}"
+
+- name: "Show inner ip"
+  debug:
+    msg: "{{ ansible_default_ipv4.address }}"
+
+
+- name: "Execute multiple commands"
+  shell: |
+    CONTAINER=postgres_exporter
+    RUNNING=$(docker ps --filter name=$CONTAINER | wc -l)
+    if [ $RUNNING -gt 1 ]; then
+      sudo docker rm --force $CONTAINER
+    else
+      echo "'$CONTAINER' does not exist."
+    fi
+    sudo docker run -d --name $CONTAINER --net=host   -e DATA_SOURCE_NAME="postgresql://postgres:postgres-pass@localhost:5432/postgres?sslmode=disable"   quay.io/prometheuscommunity/postgres-exporter
