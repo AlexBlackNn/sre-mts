@@ -10,22 +10,42 @@
       node:
       - targets:
         - node.demo.do.prometheus.io
-        - 10.0.10.2:2379
-        - 10.0.10.3:2379
-        - 10.0.10.4:2379
-        - 10.0.10.2:9100
-        - 10.0.10.3:9100
-        - 10.0.10.4:9100
-        - 10.0.10.5:9100
-        - 10.0.10.6:9100
-        - localhost:9115
-        - 10.0.10.5:9101
-        - 10.0.10.6:9101
-        - 10.0.10.5:9187
-        - 10.0.10.6:9187
-
         labels:
-          env: demosite
+          name: node.proprometheus
+      etcd:
+        - targets:
+            - 10.0.10.2:2379
+            - 10.0.10.3:2379
+            - 10.0.10.4:2379
+          labels:
+            name: etcd
+      node_exporter:
+        - targets:
+            - 10.0.10.2:9100
+            - 10.0.10.3:9100
+            - 10.0.10.4:9100
+            - 10.0.10.5:9100
+            - 10.0.10.6:9100
+          labels:
+            name: node_exporter
+      black_box:
+        - targets:
+            - localhost:9115
+          labels:
+            name: black_box
+      patroni_exporter:
+        - targets:
+            - 10.0.10.5:9101
+            - 10.0.10.6:9101
+          labels:
+            name: patroni_exporter
+      postgres_exporter:
+        - targets:
+            - 10.0.10.5:9187
+            - 10.0.10.6:9187
+          labels:
+            name: postgres_exporter
+
 
     alertmanager_version: latest
     alertmanager_slack_api_url: "http://example.com"
@@ -41,60 +61,14 @@
       repeat_interval: 3h
       receiver: slack
 
-- hosts: node_exporter1
+- hosts: pc_with_node_exporters
   become: yes
   roles:
     - node_exporter
 
-- hosts: node_exporter2
-  become: yes
-  roles:
-    - node_exporter
-
-- hosts: node_exporter3
-  become: yes
-  roles:
-    - node_exporter
-
-- hosts: node_exporter4
-  become: yes
-  roles:
-    - node_exporter
-
-- hosts: node_exporter5
-  become: yes
-  roles:
-    - node_exporter
-
-- hosts: node_exporter4
+- hosts: pc_with_docker_patroni_exporter_postgres_exporter
   become: yes
   roles:
     - docker
-
-- hosts: node_exporter5
-  become: yes
-  roles:
-    - docker
-
-
-- hosts: node_exporter4
-  become: yes
-  roles:
     - patroni_exporter
-
-- hosts: node_exporter5
-  become: yes
-  roles:
-    - patroni_exporter
-
-
-- hosts: node_exporter4
-  become: yes
-  roles:
     - postgres_exporter
-
-- hosts: node_exporter5
-  become: yes
-  roles:
-    - postgres_exporter
-

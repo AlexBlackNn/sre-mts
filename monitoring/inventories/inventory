@@ -1,0 +1,25 @@
+[monitoring]
+77.105.185.194
+
+[pc_with_node_exporters]
+91.185.85.111
+91.185.85.136
+91.185.85.221
+91.185.85.228
+77.105.185.143
+
+[pc_with_docker_patroni_exporter_postgres_exporter]
+91.185.85.228
+77.105.185.143
+
+[monitoring:vars]
+ansible_ssh_user=alexblacknn
+ansible_ssh_private_key_file= ~/.ssh/id_rsa
+
+[pc_with_docker_patroni_exporter_postgres_exporter:vars]
+ansible_ssh_user=alexblacknn
+ansible_ssh_private_key_file= ~/.ssh/id_rsa
+
+[pc_with_node_exporters:vars]
+ansible_ssh_user=alexblacknn
+ansible_ssh_private_key_file= ~/.ssh/id_rsa
