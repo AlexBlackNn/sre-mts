@@ -35,8 +35,8 @@
             name: black_box
       patroni_exporter:
         - targets:
-            - 10.0.10.5:9101
-            - 10.0.10.6:9101
+            - 10.0.10.5:8008
+            - 10.0.10.6:8008
           labels:
             name: patroni_exporter
       postgres_exporter:
