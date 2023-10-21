@@ -48,3 +48,13 @@
 # Полезные ссылки
 [Готовим PostgreSQL в эпоху DevOps. Опыт 2ГИС. Павел Молявин](https://habr.com/ru/articles/509926/) 
 
+https://lindevs.com/install-vegeta-on-ubuntu for load tesing 
+
+
+echo "GET http://weather-forecast.ddns.net/Cities" | vegeta attack -duration=10m -rate=10/s 
+echo "GET https://weather-forecast.ddns.net/Cities/1" | vegeta attack -duration=10m -rate=2/s 
+echo "GET https://weather-forecast.ddns.net/Cities/122" | vegeta attack -duration=10m -rate=2/s 
+
+
+Checking Kubernetes pod CPU and memory utilization
+https://stackoverflow.com/a/71874558/22644912

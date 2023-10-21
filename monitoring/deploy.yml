@@ -45,21 +45,28 @@
             - 10.0.10.6:9187
           labels:
             name: postgres_exporter
-
-
-    alertmanager_version: latest
-    alertmanager_slack_api_url: "http://example.com"
-    alertmanager_receivers:
-      - name: slack
-        slack_configs:
-          - send_resolved: true
-            channel: '#alerts'
     alertmanager_route:
-      group_by: [ 'alertname', 'cluster', 'service' ]
-      group_wait: 30s
-      group_interval: 5m
-      repeat_interval: 3h
-      receiver: slack
+      group_wait: 10s
+      group_interval: 30s
+      repeat_interval: 30m
+      receiver: "telegram"
+      routes:
+        - receiver: "telegram"
+          group_wait: 10s
+          match_re:
+            severity: critical|warning
+          continue: true
+    alertmanager_receivers:
+      - name: "telegram"
+        telegram_configs:
+          - send_resolved: true
+            bot_token: '5056038009:AAGNEedPBCkLKvOEqPOetULVrFda5S81JVc'
+            chat_id: -1002134578711
+
+
+
+
+
 
 - hosts: pc_with_node_exporters
   become: yes
