@@ -63,11 +63,6 @@
             bot_token: '5056038009:AAGNEedPBCkLKvOEqPOetULVrFda5S81JVc'
             chat_id: -1002134578711
 
-
-
-
-
-
 - hosts: pc_with_node_exporters
   become: yes
   roles:
