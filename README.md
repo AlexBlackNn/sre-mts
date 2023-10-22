@@ -27,8 +27,8 @@
 - [X] Создать в своем каталоге типовой дашборд для etcd
 - [X] Создать в своем каталоге типовой дашборд для blackbox 
 - [X] Создать в своем каталоге типовой дашборд для node exporter (Требует дороботки!!!!!!!!!!!!!!!!!!!!!)
-- [ ] Создать в своем каталоге дашборд с 4 золотыми сигналами для API демоприложения по данным метрик ingressk8s
-- [ ] Настроить в Prometheus алерты на 4 золотых сигнала мониторинга
+- [X] Создать в своем каталоге дашборд с 4 золотыми сигналами для API демоприложения по данным метрик ingressk8s
+- [Х] Настроить алерты на несколько метрик каждого компонента системы (Node exporter, Patroni, etcd, Postgres)
 - [ ] Рефакторинг
 - [ ] Документация
 - [ ] Сбор логов (??? Postgresql log CSV -> Python Beaver -> Logstash -> Elastic -> Kibana ???)
@@ -58,3 +58,7 @@ echo "GET https://weather-forecast.ddns.net/Cities/122" | vegeta attack -duratio
 
 Checking Kubernetes pod CPU and memory utilization
 https://stackoverflow.com/a/71874558/22644912
+
+
+https://samber.github.io/awesome-prometheus-alerts/
+https://gist.github.com/krisek/62a98e2645af5dce169a7b506e999cd8

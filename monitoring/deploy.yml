@@ -51,6 +51,9 @@
       repeat_interval: 30m
       receiver: "telegram"
       routes:
+        - receiver: "empty"
+          match:
+            alertname: Watchdog
         - receiver: "telegram"
           group_wait: 10s
           match_re:
@@ -62,6 +65,8 @@
           - send_resolved: true
             bot_token: '5056038009:AAGNEedPBCkLKvOEqPOetULVrFda5S81JVc'
             chat_id: -1002134578711
+            message: '{% raw %}{{ range .Alerts }}{{ .Annotations.description }}\n{{ end }}{% endraw %}'
+      - name: "empty"
 
 - hosts: pc_with_node_exporters
   become: yes
