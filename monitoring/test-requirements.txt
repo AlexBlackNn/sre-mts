@@ -1,5 +1,0 @@
-molecule
-docker
-pytest-testinfra
-selinux
-passlib
