@@ -1,6 +1,9 @@
+import os
+
 from influxdb_client import InfluxDBClient
 from influxdb_client.client.write_api import WriteOptions
 import logging
+from dotenv import load_dotenv
 
 
 class Config:
@@ -22,14 +25,26 @@ class Config:
         )
     )
 
+
 class LogConfig():
     logger = logging.getLogger('demo_logger')
     logger.setLevel('DEBUG')
     file = logging.FileHandler(filename='test_logs.log')
-    file.setFormatter(logging.Formatter('%(asctime)s %(levelname)s: %(message)s'))
+    file.setFormatter(
+        logging.Formatter('%(asctime)s %(levelname)s: %(message)s'))
     logger.addHandler(file)
     logger.propagate = False
 
+
+load_dotenv()
+DSN = {
+    'dbname': os.getenv('DB_NAME'),
+    'user': os.getenv('DB_USER'),
+    'password': os.getenv('DB_PASSWORD'),
+    'host': os.getenv('DB_HOST'),
+    'port': os.getenv('DB_PORT'),
+    'options': '-c search_path=content',
+}
 
 logger = LogConfig().logger
 cfg = Config()
