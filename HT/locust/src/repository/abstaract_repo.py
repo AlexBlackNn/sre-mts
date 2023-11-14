@@ -3,7 +3,5 @@ from abc import ABC, abstractmethod
 
 class AbstractDatabase(ABC):
     @abstractmethod
-    def write(self, data: list[str], schema: str) -> tuple[
-        list[tuple[int,]], list[tuple[int,]]
-    ]:
+    def write(self, data: list[str], schema: str) -> list[tuple[int,]]:
         pass
