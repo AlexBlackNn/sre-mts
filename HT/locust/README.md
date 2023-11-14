@@ -28,3 +28,8 @@
 
       - в терминале №1 выполнить: locust -f locustfile.py --master
       - в терминале №2,3 и т.д.: locust -f locustfile.py --worker --master-host=localhost
+
+
+
+Запуск
+locust -f HT/locust/src/tests/app_weather_forecast_max_perf.py 
