@@ -37,30 +37,19 @@ if __name__ == '__main__':
         ('TestCity8',)
     ]
 
-    forecast_data = [
-        (1, 0, 30, "Sunny day"),
-        (2, 0, 25, "Wet day"),
-        (3, 0, 30, "Sunny day"),
-        (4, 0, 25, "Wet day"),
-    ]
 
-    def write_test_data(city_data, forecast_data):
+    def write_test_data(city_data: list[tuple]) -> type[list, list]:
         postgres_repo = PostgresRepo(config.DSN)
 
         schema = 'cities (name)'
-        ids = postgres_repo.write(city_data, schema)
-        print(ids)
+        city_ids = postgres_repo.write(city_data, schema)
+
+        forecast_data = [
+            (city_id[0], 0, 30, "Sunny day") for city_id in city_ids
+        ]
 
         schema = 'forecast ("cityId","dateTime",temperature,summary)'
-        ids = postgres_repo.write(forecast_data, schema)
-        print(ids)
-        with PostgresConnectoion(config.DSN) as postgresql_connection:
-            cursor = postgresql_connection.cursor()
-            sql = '''SELECT * FROM cities'''
-            cursor.execute(sql)
-            postgresql_connection.commit()
-            publisher_records = cursor.fetchall()
-            print(publisher_records)
+        forecast_ids = postgres_repo.write(forecast_data, schema)
+        return city_ids, forecast_ids
 
-
-    write_test_data(city_data, forecast_data)
+    print(write_test_data(city_data))
