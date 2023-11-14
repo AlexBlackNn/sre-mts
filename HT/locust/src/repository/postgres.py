@@ -7,24 +7,19 @@ class PostgresRepo:
         self.dsn = dsn
 
     @staticmethod
-    def create_param_template(number):
+    def __create_param_template(number):
         return '(' + ('%s,' * number)[:-1] + ")"
 
-    def get_one_item(self, id):
-        pass
-
-    def write_one_item(self, id):
-        pass
-
-    def write_several_items(self, data, schema):
+    def write(self, data, schema):
         with PostgresConnectoion(
                 self.dsn
         ) as postgresql_connection, postgresql_connection.cursor() as cursor:
-            number_params = self.create_param_template(len(data[0]))
+            number_params = self.__create_param_template(len(data[0]))
             args = ','.join(
                 cursor.mogrify(number_params, item).decode() for item in data
             )
-            cursor.execute(f"""INSERT INTO {schema} VALUES {args}; """)
+            cursor.execute(f"""INSERT INTO {schema} VALUES {args} RETURNING id; """)
+            return cursor.fetchall()
 
 
 if __name__ == '__main__':
@@ -32,17 +27,26 @@ if __name__ == '__main__':
 
     data = [
         ('TestCity1',),
-        ('TestCity2',)
+        ('TestCity2',),
+        ('TestCity3', ),
+        ('TestCity4', ),
+        ('TestCity5', ),
+        ('TestCity6', ),
+        ('TestCity7', ),
+        ('TestCity8', )
     ]
     schema = 'cities (name)'
-    postgres_repo.write_several_items(data, schema)
+    ids = postgres_repo.write(data, schema)
+    print(ids)
     data = [
         (1, 0, 30, "Sunny day"),
         (2, 0, 25, "Wet day"),
+        (3, 0, 30, "Sunny day"),
+        (4, 0, 25, "Wet day"),
     ]
     schema = 'forecast ("cityId","dateTime",temperature,summary)'
-    postgres_repo.write_several_items(data, schema)
-
+    ids = postgres_repo.write(data, schema)
+    print(ids)
     with PostgresConnectoion(config.DSN) as postgresql_connection:
         cursor = postgresql_connection.cursor()
         sql = '''SELECT * FROM cities'''
