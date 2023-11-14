@@ -1,14 +1,31 @@
-create table if not exists public.cities
-(
-    id   bigserial,
-    name varchar(255)
+CREATE SEQUENCE cities_id_seq
+    AS bigint
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+CREATE SEQUENCE forecast_id_seq
+    AS bigint
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+create table public.cities (
+    id bigint primary key not NULL DEFAULT nextval('cities_id_seq'),
+    name character varying(255)
 );
 
-create table if not exists public.forecast
-(
-    id          bigserial,
-    "cityId"    bigint,
-    "dateTime"  bigint,
+create table public.forecast (
+    id bigint primary key not null default nextval('forecast_id_seq'::regclass),
+    "cityId" bigint,
+    "dateTime" bigint,
     temperature integer,
-    summary     text
+    summary text,
+    foreign key ("cityId") references public.cities (id)
+     match simple on update no action on delete cascade
 );
