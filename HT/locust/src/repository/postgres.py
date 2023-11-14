@@ -24,12 +24,7 @@ class PostgresRepo:
             args = ','.join(
                 cursor.mogrify(number_params, item).decode() for item in data
             )
-            cursor.execute(
-                f"""
-                INSERT INTO {schema}
-                VALUES {args};
-                """
-            )
+            cursor.execute(f"""INSERT INTO {schema} VALUES {args}; """)
 
 
 if __name__ == '__main__':
