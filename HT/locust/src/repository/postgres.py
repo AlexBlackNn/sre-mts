@@ -29,13 +29,13 @@ class PostgresRepo(AbstractDatabase):
         with PostgresConnectoion(
                 self.dsn
         ) as postgresql_connection, postgresql_connection.cursor() as cursor:
-            data = io.StringIO()
-            data.write('1111, Михаил Михайлови1ч')
-            data.seek(0)
-            cursor.copy_expert(
-                """COPY public.cities FROM STDIN (FORMAT 'csv', HEADER false)""",
-                data
-            )
+            copy_sql = """
+                       COPY public.cities (name) FROM stdin WITH CSV HEADER
+                       DELIMITER as ','
+                       """
+            with open('cities.csv', 'r') as f:
+                cursor.copy_expert(sql=copy_sql, file=f)
+
 
 
 if __name__ == '__main__':
