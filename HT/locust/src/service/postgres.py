@@ -3,7 +3,7 @@ from HT.locust.src.repository.abstaract_repo import AbstractDatabase
 from HT.locust.src.repository.postgres import PostgresRepo
 
 
-class PostgresService:
+class DatabaseService:
     def __init__(self, db_repo: AbstractDatabase):
         self.db_repo = db_repo
 
@@ -35,5 +35,5 @@ if __name__ == '__main__':
     ]
 
     postgres_repo = PostgresRepo(config.DSN)
-    postgres_service = PostgresService(postgres_repo)
+    postgres_service = DatabaseService(postgres_repo)
     print(postgres_service.write_test_data(city_data))
