@@ -2,8 +2,6 @@ from HT.locust.src.core import config
 from HT.locust.src.database.db import PostgresConnectoion
 from HT.locust.src.repository.abstaract_repo import AbstractDatabase
 
-import io
-
 
 class PostgresRepo(AbstractDatabase):
     def __init__(self, dsn):
@@ -74,9 +72,9 @@ class PostgresRepo(AbstractDatabase):
             cursor.execute(create_temp_table_sql)
 
             copy_sql = """
-                       COPY temp_cities (name) FROM stdin WITH CSV HEADER
-                       DELIMITER as ','
-                       """
+               COPY temp_cities (name) FROM stdin WITH CSV HEADER
+               DELIMITER as ','
+            """
             with open('cities.csv', 'r') as f:
                 cursor.copy_expert(sql=copy_sql, file=f)
 
