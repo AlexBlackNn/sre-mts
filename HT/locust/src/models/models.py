@@ -46,10 +46,10 @@ class Forecast(Table):
     postgres_name_table: str = field(default='forecast')
 
     def create_schema(self) -> str:
-        schema = self.postgres_name_table + ' ' + self.create_template()
-        schema = schema.replace("date_time", "\"dateTime\"")
-        schema = schema.replace("city_id", "\"cityId\"")
-        return schema
+        schema = super().create_schema()
+        return schema.replace(
+            "date_time", "\"dateTime\""
+        ).replace("city_id", "\"cityId\"")
 
 
 if __name__ == '__main__':
