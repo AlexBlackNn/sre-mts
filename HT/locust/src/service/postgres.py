@@ -8,18 +8,22 @@ from HT.locust.src.repository.postgres import PostgresRepo
 class DatabaseService:
     def __init__(self, db_repo: AbstractDatabase):
         self.db_repo = db_repo
-
+        self.city_ids = ""
+        self.forecast_ids = ""
     def write_test_data(self, city_data: list[tuple]) -> type[list, list]:
         schema = 'cities (name)'
-        city_ids = self.db_repo.write(city_data, schema)
+        ids = self.db_repo.write(city_data, schema)
+        ids = [str(city_id[0]) for city_id in ids]
+        self.city_ids += ',' + ','.join(ids)
 
         forecast_data = [
-            (city_id[0], 0, 30, "Sunny day") for city_id in city_ids
+            (id, 0, 30, "Sunny day") for id in ids
         ]
 
         schema = 'forecast ("cityId","dateTime",temperature,summary)'
-        forecast_ids = self.db_repo.write(forecast_data, schema)
-        return city_ids, forecast_ids
+        ids = self.db_repo.write(forecast_data, schema)
+        ids = [str(forecast_id[0]) for forecast_id in ids]
+        self.forecast_ids += ',' + ','.join(ids)
 
     def init_from_file(self):
 
@@ -41,13 +45,17 @@ class DatabaseService:
                       RETURNING id;
                   """
 
-        cities_id = self.db_repo.init_from_file(
+        ids = self.db_repo.init_from_file(
             create_temp_table_sql, copy_sql, move_data_sql, file
         )
+
+        ids = [str(city_id[0]) for city_id in ids]
+        self.city_ids += ',' + ','.join(ids)
+
         with open('forecasts.csv', 'w', encoding='UTF8') as f:
-            for city_id in cities_id:
+            for id in ids:
                 writer = csv.writer(f)
-                data = (city_id[0], 0, 30, 'sunny day')
+                data = (id, 0, 30, 'sunny day')
                 writer.writerow(data)
         file = 'forecasts.csv'
         create_temp_table_sql = """
@@ -72,11 +80,16 @@ class DatabaseService:
                         RETURNING id;
                     """
 
-        forecast_id = self.db_repo.init_from_file(
+        ids = self.db_repo.init_from_file(
             create_temp_table_sql, copy_sql, move_data_sql, file
         )
-        return cities_id, forecast_id
+        ids = [str(forecast_id[0]) for forecast_id in ids]
+        self.forecast_ids += ',' + ','.join(ids)
 
+    def delete_test_data(self):
+        self.db_repo.delete(
+            self.city_ids[1:], 'public.cities'
+        )
 
 if __name__ == '__main__':
     city_data = [
@@ -92,5 +105,10 @@ if __name__ == '__main__':
 
     postgres_repo = PostgresRepo(config.DSN)
     postgres_service = DatabaseService(postgres_repo)
-    print(postgres_service.write_test_data(city_data))
-    print(postgres_service.init_from_file())
+    postgres_service.write_test_data(city_data)
+    print(postgres_service.city_ids)
+    print(postgres_service.forecast_ids)
+    postgres_service.init_from_file()
+    print(postgres_service.city_ids)
+    print(postgres_service.forecast_ids)
+    postgres_service.delete_test_data()

@@ -18,14 +18,18 @@ requests.packages.urllib3.disable_warnings()
 class GlobalUser(HttpUser):
     wait_time = constant_pacing(cfg.pacing_sec)
     host = cfg.api_host
+    postgres_repo = PostgresRepo(config.DSN)
+    postgres_service = DatabaseService(postgres_repo)
 
     def on_start(self):
         # create fake data in database
-        postgres_repo = PostgresRepo(config.DSN)
-        postgres_service = DatabaseService(postgres_repo)
-        print(postgres_service.init_from_file())
+        self.postgres_service.init_from_file()
         # disable ssl check
         self.client.verify = False
+
+    def on_stop(self):
+        # delete fake data in database
+        self.postgres_service.delete_test_data()
 
     @events.test_start.add_listener
     def on_test_start(environment, **kwargs):
@@ -37,7 +41,7 @@ class GlobalUser(HttpUser):
         os.remove("test_logs.log")
         logger.info("TEST STARTED")
 
-    @task(9)
+    @task
     @proceed_request
     def get_weather_forecast(self) -> None:
         transaction = self.get_weather_forecast.__name__
@@ -54,26 +58,26 @@ class GlobalUser(HttpUser):
             assertion.check_http_response(transaction, request)
         return request
 
-    @task(1)
-    def add_city(self) -> None:
-        transaction = self.add_city.__name__
-        headers = {
-            "accept": "text/html",
-            "accept-encoding": "gzip, deflate, br",
-            "accept-language": "ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7",
-        }
-        faker = Faker()
-        body = {
-            "name": faker.city()
-        }
-        with self.client.post(
-                "/Cities",
-                headers=headers,
-                json=body,
-                catch_response=True,
-                name=transaction
-        ) as request:
-            assertion.check_http_response_post(transaction, request)
+    # @task(1)
+    # def add_city(self) -> None:
+    #     transaction = self.add_city.__name__
+    #     headers = {
+    #         "accept": "text/html",
+    #         "accept-encoding": "gzip, deflate, br",
+    #         "accept-language": "ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7",
+    #     }
+    #     faker = Faker()
+    #     body = {
+    #         "name": faker.city()
+    #     }
+    #     with self.client.post(
+    #             "/Cities",
+    #             headers=headers,
+    #             json=body,
+    #             catch_response=True,
+    #             name=transaction
+    #     ) as request:
+    #         assertion.check_http_response_post(transaction, request)
 
 
 class StagesShape(LoadTestShape):
@@ -81,18 +85,11 @@ class StagesShape(LoadTestShape):
         {"duration": 20, "users": 1, "spawn_rate": 1},
         {"duration": 40, "users": 2, "spawn_rate": 1},
         {"duration": 60, "users": 3, "spawn_rate": 1},
-        {"duration": 80, "users": 4, "spawn_rate": 1},
-        {"duration": 100, "users": 5, "spawn_rate": 1},
-        {"duration": 120, "users": 6, "spawn_rate": 1},
-        {"duration": 140, "users": 7, "spawn_rate": 1},
-        {"duration": 160, "users": 8, "spawn_rate": 1},
-        {"duration": 180, "users": 9, "spawn_rate": 1},
     ]
 
     def tick(self):
         run_time = self.get_run_time()
         for stage in self.stages:
             if run_time < stage["duration"]:
-                tick_data = (stage["users"], stage["spawn_rate"])
-                return tick_data
+                return stage["users"], stage["spawn_rate"]
         return None

@@ -74,9 +74,13 @@ class PostgresRepo(AbstractDatabase):
             cursor.execute(move_data_sql)
             return cursor.fetchall()
 
+    def delete(self, data, schema):
+        with PostgresConnectoion(
+                self.dsn
+        ) as postgresql_connection, postgresql_connection.cursor() as cursor:
+            cursor.execute(f"""DELETE FROM {schema} WHERE id IN ({data});""")
 
 if __name__ == '__main__':
-
     def init_from_file():
         postgres_repo = PostgresRepo(config.DSN)
         file = '../../../../cities.csv'
@@ -134,4 +138,10 @@ if __name__ == '__main__':
         return cities_id, forecast_id
 
 
-    print(init_from_file())
+    postgres_repo = PostgresRepo(config.DSN)
+    cities_id, forecast_id = init_from_file()
+    ids = [str(city_id[0]) for city_id in cities_id]
+    ids = ','.join(ids)
+    print(ids)
+    schema = 'public.cities'
+    postgres_repo.delete(ids, schema)
