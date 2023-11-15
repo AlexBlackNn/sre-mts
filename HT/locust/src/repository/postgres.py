@@ -1,3 +1,5 @@
+import csv
+
 from HT.locust.src.core import config
 from HT.locust.src.database.db import PostgresConnectoion
 from HT.locust.src.repository.abstaract_repo import AbstractDatabase
@@ -24,7 +26,8 @@ class PostgresRepo(AbstractDatabase):
             )
             return cursor.fetchall()
 
-    def init_from_file_cities(self):
+    def init_from_file(self, create_temp_table_sql, copy_sql, move_data_sql,
+                       file):
         """
         Copying data from a temporary table to the target table in PostgreSQL
         is generally a fast operation, especially when dealing with large
@@ -63,31 +66,72 @@ class PostgresRepo(AbstractDatabase):
         with PostgresConnectoion(
                 self.dsn
         ) as postgresql_connection, postgresql_connection.cursor() as cursor:
-            create_temp_table_sql = """
-                CREATE TEMPORARY TABLE temp_cities ( 
-                    id SERIAL,
-                    name character varying(255)
-                )
-            """
             cursor.execute(create_temp_table_sql)
 
-            copy_sql = """
-               COPY temp_cities (name) FROM stdin WITH CSV HEADER
-               DELIMITER as ','
-            """
-            with open('cities.csv', 'r') as f:
+            with open(file, 'r') as f:
                 cursor.copy_expert(sql=copy_sql, file=f)
 
-            move_data_sql = """
-                INSERT INTO public.cities (name)
-                SELECT name
-                FROM temp_cities
-                RETURNING id, name;
-            """
             cursor.execute(move_data_sql)
             return cursor.fetchall()
 
 
 if __name__ == '__main__':
-    postgres_repo = PostgresRepo(config.DSN)
-    print(postgres_repo.init_from_file_cities())
+
+    def init_from_file():
+        postgres_repo = PostgresRepo(config.DSN)
+        file = '../../../../cities.csv'
+        create_temp_table_sql = """
+                      CREATE TEMPORARY TABLE temp_cities ( 
+                          id SERIAL,
+                          name character varying(255)
+                      )
+                  """
+        copy_sql = """
+                     COPY temp_cities (name) FROM stdin WITH CSV HEADER
+                     DELIMITER as ','
+                  """
+        move_data_sql = """
+                      INSERT INTO public.cities (name)
+                      SELECT name
+                      FROM temp_cities
+                      RETURNING id;
+                  """
+
+        cities_id = postgres_repo.init_from_file(
+            create_temp_table_sql, copy_sql, move_data_sql, file
+        )
+        with open('forecasts.csv', 'w', encoding='UTF8') as f:
+            for city_id in cities_id:
+                writer = csv.writer(f)
+                data = (city_id[0], 0, 30, 'sunny day')
+                writer.writerow(data)
+        file = 'forecasts.csv'
+        create_temp_table_sql = """
+                      CREATE TEMPORARY TABLE temp_forecast ( 
+                          id SERIAL,
+                          "cityId" bigint,
+                          "dateTime" bigint,
+                          temperature integer,
+                          summary text
+                      )
+                  """
+
+        copy_sql = """
+                     COPY temp_forecast ("cityId","dateTime",temperature,summary) FROM stdin WITH CSV HEADER
+                     DELIMITER as ','
+                  """
+
+        move_data_sql = """
+                        INSERT INTO public.forecast ("cityId","dateTime",temperature,summary)
+                        SELECT "cityId","dateTime",temperature,summary
+                        FROM temp_forecast
+                        RETURNING id;
+                    """
+
+        forecast_id = postgres_repo.init_from_file(
+            create_temp_table_sql, copy_sql, move_data_sql, file
+        )
+        return cities_id, forecast_id
+
+
+    print(init_from_file())

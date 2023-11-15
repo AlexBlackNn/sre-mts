@@ -1,42 +1,18 @@
 from locust import events, HttpUser, constant_pacing, task, LoadTestShape
-import time
-from functools import wraps
 
 import os
 import requests
 from faker import Faker
 
+from HT.locust.src.core import config
 from HT.locust.src.core.config import cfg, logger
+from HT.locust.src.repository.postgres import PostgresRepo
+from HT.locust.src.service.postgres import DatabaseService
 from HT.locust.src.utils import assertion
+from HT.locust.src.utils.proceed_request import proceed_request
 
 requests.packages.urllib3.disable_warnings()
 
-
-def proceed_request(func):
-    @wraps(func)
-    def wrapper(*args, **kwargs):
-        request_start_time = time.time()
-        transaction = func(*args, **kwargs)
-        processing_time = int((time.time() - request_start_time) * 1000)
-
-        cfg.influxdb.write(
-            cfg.influx_bucket,
-            cfg.influx_org,
-            [{
-                "measurement": f"{cfg.conf_name}_db",
-                "tags": {"transaction_name": func.__name__},
-                "time": time.time_ns(),
-                "fields": {"response_time": processing_time},
-            }],
-        )
-
-        logger.debug(
-            f"""{func.__name__} status: {transaction.status_code
-            if func.__name__ != 'send_payment'
-            else 'message delivered'}"""
-        )
-
-    return wrapper
 
 
 class GlobalUser(HttpUser):
@@ -44,8 +20,11 @@ class GlobalUser(HttpUser):
     host = cfg.api_host
 
     def on_start(self):
+        # create fake data in database
+        postgres_repo = PostgresRepo(config.DSN)
+        postgres_service = DatabaseService(postgres_repo)
+        print(postgres_service.init_from_file())
         # disable ssl check
-
         self.client.verify = False
 
     @events.test_start.add_listener
