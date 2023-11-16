@@ -14,7 +14,6 @@ from locust import HttpUser, LoadTestShape, constant_pacing, events, task
 requests.packages.urllib3.disable_warnings()
 
 
-
 class GlobalUser(HttpUser):
     wait_time = constant_pacing(cfg.pacing_sec)
     host = cfg.api_host

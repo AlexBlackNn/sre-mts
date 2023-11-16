@@ -57,11 +57,11 @@ class City(Table):
     @staticmethod
     def create_temp_table_sql() -> str:
         return """
-              CREATE TEMPORARY TABLE temp_cities ( 
-              id SERIAL,
-              name character varying(255)
-              )
-          """
+                CREATE TEMPORARY TABLE temp_cities ( 
+                id SERIAL,
+                name character varying(255)
+                )
+                """
 
     @staticmethod
     def create_copy_sql() -> str:
@@ -78,7 +78,6 @@ class City(Table):
                FROM temp_cities
                RETURNING id;
                """
-
 
 @dataclass()
 class Forecast(Table):
@@ -109,14 +108,17 @@ class Forecast(Table):
     @staticmethod
     def create_copy_sql() -> str:
         return """
-               COPY temp_forecast ("cityId","dateTime",temperature,summary) FROM stdin WITH CSV HEADER
+               COPY temp_forecast ("cityId","dateTime",temperature,summary)
+               FROM stdin WITH CSV HEADER
                DELIMITER as ','
                """
 
     @staticmethod
     def create_move_data_sql() -> str:
         return """
-            INSERT INTO public.forecast ("cityId","dateTime",temperature,summary)
+            INSERT INTO public.forecast (
+            "cityId","dateTime",temperature,summary
+            )
             SELECT "cityId","dateTime",temperature,summary
             FROM temp_forecast
             RETURNING id;
