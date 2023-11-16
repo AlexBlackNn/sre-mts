@@ -9,12 +9,12 @@ from HT.locust.src.repository.postgres import PostgresRepo
 class DatabaseService:
     def __init__(self, db_repo: AbstractDatabase):
         self.db_repo = db_repo
-        self.city_ids = ""
-        self.forecast_ids = ""
+        self.city_ids = []
+        self.forecast_ids = []
 
     def write_test_data(self, cities: list[City]):
         ids = self.db_repo.write(cities)
-        self.city_ids += ',' + ','.join(ids)
+        self.city_ids+=ids
         forecasts = [
             Forecast(
                 city_id=id,
@@ -23,12 +23,12 @@ class DatabaseService:
                 summary="Sunny day"
             ) for id in ids
         ]
-        self.forecast_ids += ',' + ','.join(self.db_repo.write(forecasts))
+        self.forecast_ids += self.db_repo.write(forecasts)
 
     def init_from_file(self):
         city = City(init_file = 'cities.csv')
         ids = self.db_repo.init_from_file(city)
-        self.city_ids += ',' + ','.join(ids)
+        self.city_ids += ids
 
         with open('forecasts.csv', 'w', encoding='UTF8') as f:
             writer = csv.writer(f)
@@ -38,11 +38,11 @@ class DatabaseService:
 
         forecast = Forecast(init_file='forecasts.csv')
         ids = self.db_repo.init_from_file(forecast)
-        self.forecast_ids += ',' + ','.join(ids)
+        self.forecast_ids += ids
 
     def delete_test_data(self):
         self.db_repo.delete(
-            self.city_ids[1:], 'public.cities'
+            self.city_ids, 'public.cities'
         )
         # self.city_ids = ""
         # self.forecast_ids = ""

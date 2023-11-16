@@ -79,4 +79,5 @@ class PostgresRepo(AbstractDatabase):
         with PostgresConnectoion(
                 self.dsn
         ) as postgresql_connection, postgresql_connection.cursor() as cursor:
+            data = ",".join(data)
             cursor.execute(f"""DELETE FROM {schema} WHERE id IN ({data});""")
