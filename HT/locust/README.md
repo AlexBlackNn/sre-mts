@@ -32,4 +32,5 @@
 
 
 Запуск
-locust -f HT/locust/src/tests/app_weather_forecast_max_perf.py 
+ locust -f HT/locust/src/tests/app_weather_forecast_max_perf.py,HT/locust/src/tests/load_shape/increase_steps.py 
+
