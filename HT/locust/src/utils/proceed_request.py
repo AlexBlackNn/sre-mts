@@ -2,6 +2,7 @@ import time
 from functools import wraps
 
 from HT.locust.src.core.config import cfg, logger
+from HT.locust.src.database.influxdb import influxdb
 
 
 def proceed_request(func):
@@ -11,7 +12,7 @@ def proceed_request(func):
         transaction = func(*args, **kwargs)
         processing_time = int((time.time() - request_start_time) * 1000)
 
-        cfg.influxdb.write(
+        influxdb.write(
             cfg.influx_bucket,
             cfg.influx_org,
             [{

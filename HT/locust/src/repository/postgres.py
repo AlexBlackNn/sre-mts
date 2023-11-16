@@ -1,4 +1,4 @@
-from HT.locust.src.database.db import PostgresConnectoion
+from HT.locust.src.database.postgres import PostgresConnectoion
 from HT.locust.src.models.models import Table
 from HT.locust.src.repository.abstaract_repo import AbstractDatabase
 

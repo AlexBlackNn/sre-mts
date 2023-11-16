@@ -2,8 +2,6 @@ import logging
 import os
 
 from dotenv import load_dotenv
-from influxdb_client import InfluxDBClient
-from influxdb_client.client.write_api import WriteOptions
 
 
 class Config:
@@ -13,17 +11,7 @@ class Config:
 
     influx_bucket = 'demo_bucket'
     influx_org = 'demo_org'
-    influx_client = InfluxDBClient(url="http://localhost:8086",
-                                   token='demo_token',
-                                   org=influx_org, )
-    influxdb = influx_client.write_api(
-        write_options=WriteOptions(
-            batch_size=10,
-            flush_interval=10_000,
-            jitter_interval=2_000,
-            retry_interval=5_000
-        )
-    )
+
 
 
 class LogConfig():
