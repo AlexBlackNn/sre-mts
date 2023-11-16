@@ -19,17 +19,17 @@ class GlobalUser(HttpUser):
     wait_time = constant_pacing(cfg.pacing_sec)
     host = cfg.api_host
     postgres_repo = PostgresRepo(config.DSN)
-    postgres_service = DatabaseService(postgres_repo)
+    database_service = DatabaseService(postgres_repo)
 
     def on_start(self):
         # create fake data in database
-        self.postgres_service.init_from_file()
+        self.database_service.init_from_file()
         # disable ssl check
         self.client.verify = False
 
     def on_stop(self):
         # delete fake data in database
-        self.postgres_service.delete_test_data()
+        self.database_service.delete_test_data()
 
     @events.test_start.add_listener
     def on_test_start(environment, **kwargs):

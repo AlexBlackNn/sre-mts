@@ -12,76 +12,32 @@ class DatabaseService:
         self.city_ids = ""
         self.forecast_ids = ""
 
-    def write_test_data(self, cities: list[City]) -> type[
-        list, list]:
+    def write_test_data(self, cities: list[City]):
         ids = self.db_repo.write(cities)
         self.city_ids += ',' + ','.join(ids)
         forecasts = [
             Forecast(
-                city_id=id, date_time=0, temperature=30, summary="Sunny day"
+                city_id=id,
+                date_time=0,
+                temperature=30,
+                summary="Sunny day"
             ) for id in ids
         ]
-        ids = self.db_repo.write(forecasts)
-        self.forecast_ids += ',' + ','.join(ids)
+        self.forecast_ids += ',' + ','.join(self.db_repo.write(forecasts))
 
     def init_from_file(self):
-        file = 'cities.csv'
-        create_temp_table_sql = """
-                      CREATE TEMPORARY TABLE temp_cities ( 
-                          id SERIAL,
-                          name character varying(255)
-                      )
-                  """
-        copy_sql = """
-                     COPY temp_cities (name) FROM stdin WITH CSV HEADER
-                     DELIMITER as ','
-                  """
-        move_data_sql = """
-                      INSERT INTO public.cities (name)
-                      SELECT name
-                      FROM temp_cities
-                      RETURNING id;
-                  """
-
-        ids = self.db_repo.init_from_file(
-            create_temp_table_sql, copy_sql, move_data_sql, file
-        )
-
-        ids = [str(city_id[0]) for city_id in ids]
+        city = City(init_file = 'cities.csv')
+        ids = self.db_repo.init_from_file(city)
         self.city_ids += ',' + ','.join(ids)
 
         with open('forecasts.csv', 'w', encoding='UTF8') as f:
+            writer = csv.writer(f)
             for id in ids:
-                writer = csv.writer(f)
                 data = (id, 0, 30, 'sunny day')
                 writer.writerow(data)
-        file = 'forecasts.csv'
-        create_temp_table_sql = """
-                      CREATE TEMPORARY TABLE temp_forecast ( 
-                          id SERIAL,
-                          "cityId" bigint,
-                          "dateTime" bigint,
-                          temperature integer,
-                          summary text
-                      )
-                  """
 
-        copy_sql = """
-                     COPY temp_forecast ("cityId","dateTime",temperature,summary) FROM stdin WITH CSV HEADER
-                     DELIMITER as ','
-                  """
-
-        move_data_sql = """
-                        INSERT INTO public.forecast ("cityId","dateTime",temperature,summary)
-                        SELECT "cityId","dateTime",temperature,summary
-                        FROM temp_forecast
-                        RETURNING id;
-                    """
-
-        ids = self.db_repo.init_from_file(
-            create_temp_table_sql, copy_sql, move_data_sql, file
-        )
-        ids = [str(forecast_id[0]) for forecast_id in ids]
+        forecast = Forecast(init_file='forecasts.csv')
+        ids = self.db_repo.init_from_file(forecast)
         self.forecast_ids += ',' + ','.join(ids)
 
     def delete_test_data(self):
