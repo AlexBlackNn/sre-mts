@@ -1,6 +1,5 @@
-from locust import events, HttpUser, constant_pacing, task, LoadTestShape
-
 import os
+
 import requests
 from faker import Faker
 
@@ -10,6 +9,7 @@ from HT.locust.src.repository.postgres import PostgresRepo
 from HT.locust.src.service.postgres import DatabaseService
 from HT.locust.src.utils import assertion
 from HT.locust.src.utils.proceed_request import proceed_request
+from locust import HttpUser, LoadTestShape, constant_pacing, events, task
 
 requests.packages.urllib3.disable_warnings()
 

@@ -1,9 +1,9 @@
+import logging
 import os
 
+from dotenv import load_dotenv
 from influxdb_client import InfluxDBClient
 from influxdb_client.client.write_api import WriteOptions
-import logging
-from dotenv import load_dotenv
 
 
 class Config:

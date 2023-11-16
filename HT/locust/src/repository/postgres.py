@@ -1,6 +1,3 @@
-import csv
-
-from HT.locust.src.core import config
 from HT.locust.src.database.db import PostgresConnectoion
 from HT.locust.src.models.models import Table
 from HT.locust.src.repository.abstaract_repo import AbstractDatabase
@@ -14,19 +11,20 @@ class PostgresRepo(AbstractDatabase):
     def __create_param_template(number):
         return '(' + ('%s,' * number)[:-1] + ")"
 
-
     def write(self, models: list) -> list[str]:
         with PostgresConnectoion(
                 self.dsn
         ) as postgresql_connection, postgresql_connection.cursor() as cursor:
-
             data = [model.create_tuple() for model in models]
             number_params = self.__create_param_template(len(data[0]))
             args = ','.join(
                 cursor.mogrify(number_params, item).decode() for item in data
             )
             cursor.execute(
-                f"""INSERT INTO {models[0].create_schema()} VALUES {args} RETURNING id; """
+                f"""
+                INSERT INTO {models[0].create_schema()} VALUES
+                {args} RETURNING id; 
+                 """
             )
             return [str(city_id[0]) for city_id in cursor.fetchall()]
 
@@ -59,7 +57,7 @@ class PostgresRepo(AbstractDatabase):
         data, it might be worthwhile to use the COPY FROM operation followed
         by the INSERT INTO ... SELECT statement to return auto-generated IDs.
         This approach minimizes the overhead of individual insertions and can
-         generally provide better performance than inserting records one by one.
+        generally provide better performance than inserting records one by one.
 
         However, it's always recommended to test and benchmark different
         approaches with your specific dataset and workload to determine the
