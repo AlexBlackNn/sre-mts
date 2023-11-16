@@ -13,18 +13,35 @@ class PostgresRepo(AbstractDatabase):
     def __create_param_template(number):
         return '(' + ('%s,' * number)[:-1] + ")"
 
-    def write(self, data, schema):
+    # def write(self, data, schema):
+    #     with PostgresConnectoion(
+    #             self.dsn
+    #     ) as postgresql_connection, postgresql_connection.cursor() as cursor:
+    #         number_params = self.__create_param_template(len(data[0]))
+    #         args = ','.join(
+    #             cursor.mogrify(number_params, item).decode() for item in data
+    #         )
+    #         cursor.execute(
+    #             f"""INSERT INTO {schema} VALUES {args} RETURNING id; """
+    #         )
+    #         return cursor.fetchall()
+    #
+    def write(self, models: list):
         with PostgresConnectoion(
                 self.dsn
         ) as postgresql_connection, postgresql_connection.cursor() as cursor:
+
+            data = [model.create_tuple() for model in models]
             number_params = self.__create_param_template(len(data[0]))
             args = ','.join(
                 cursor.mogrify(number_params, item).decode() for item in data
             )
             cursor.execute(
-                f"""INSERT INTO {schema} VALUES {args} RETURNING id; """
+                f"""INSERT INTO {models[0].create_schema()} VALUES {args} RETURNING id; """
             )
-            return cursor.fetchall()
+            ids = cursor.fetchall()
+            ids = [str(city_id[0]) for city_id in ids]
+            return ids
 
     def init_from_file(self, create_temp_table_sql, copy_sql, move_data_sql,
                        file):

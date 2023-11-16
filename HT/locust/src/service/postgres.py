@@ -12,19 +12,16 @@ class DatabaseService:
         self.city_ids = ""
         self.forecast_ids = ""
 
-    def write_test_data(self, cities: list[City], forecast: Forecast) -> type[
+    def write_test_data(self, cities: list[City]) -> type[
         list, list]:
-        city_data = [city.create_tuple() for city in cities]
-        ids = self.db_repo.write(city_data, cities[0].create_schema())
-        ids = [str(city_id[0]) for city_id in ids]
+        ids = self.db_repo.write(cities)
         self.city_ids += ',' + ','.join(ids)
-
-        forecast_data = [
-            (id, 0, 30, "Sunny day") for id in ids
+        forecasts = [
+            Forecast(
+                city_id=id, date_time=0, temperature=30, summary="Sunny day"
+            ) for id in ids
         ]
-
-        ids = self.db_repo.write(forecast_data, forecast.create_schema())
-        ids = [str(forecast_id[0]) for forecast_id in ids]
+        ids = self.db_repo.write(forecasts)
         self.forecast_ids += ',' + ','.join(ids)
 
     def init_from_file(self):
@@ -107,7 +104,7 @@ if __name__ == '__main__':
 
     postgres_repo = PostgresRepo(config.DSN)
     postgres_service = DatabaseService(postgres_repo)
-    postgres_service.write_test_data(city_data, Forecast())
+    postgres_service.write_test_data(city_data)
     print(postgres_service.city_ids)
     print(postgres_service.forecast_ids)
     postgres_service.init_from_file()
