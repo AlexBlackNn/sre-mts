@@ -1,6 +1,6 @@
 import csv
 
-from HT.locust.src.core import config
+from HT.locust.src.core import config_new
 from HT.locust.src.models.models import City, Forecast
 from HT.locust.src.repository.abstaract_repo import AbstractDatabase
 from HT.locust.src.repository.postgres import PostgresRepo
@@ -58,7 +58,7 @@ if __name__ == '__main__':
         City(name='TestCity6'),
     ]
 
-    postgres_repo = PostgresRepo(config.DSN)
+    postgres_repo = PostgresRepo(config_new.DSN)
     postgres_service = DatabaseService(postgres_repo)
     postgres_service.write_test_data(city_data)
     print(postgres_service.city_ids)

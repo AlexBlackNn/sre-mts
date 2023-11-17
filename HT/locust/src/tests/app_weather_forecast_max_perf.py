@@ -1,25 +1,41 @@
-import os
+import http
 
 import requests
 from faker import Faker
 
 from HT.locust.src.core import config
-from HT.locust.src.core.config import cfg, logger
+from HT.locust.src.core.config_new import cfg
 from HT.locust.src.repository.influxdb import InfluxDbRepo
 from HT.locust.src.repository.postgres import PostgresRepo
 from HT.locust.src.service.influxdb import TSDBDService
 from HT.locust.src.service.postgres import DatabaseService
-from HT.locust.src.utils import assertion
-from locust import HttpUser, constant_pacing, events, task
+from locust import HttpUser, constant_pacing, task
+
+from HT.locust.src.utils.checker import (
+    CheckerPipline,
+    CheckResponseStatus,
+    CheckResponseValue,
+    CheckResponseElapsedTotalSeconds
+)
 
 requests.packages.urllib3.disable_warnings()
 
 influxdb = InfluxDbRepo()
 tsdb_client = TSDBDService(influxdb)
 
+
+def create_checker():
+    checker_pipline = CheckerPipline()
+    checker_pipline.add(CheckResponseStatus(http.HTTPStatus.OK))
+    checker_pipline.add(CheckResponseValue('TestCity1'))
+    checker_pipline.add(CheckResponseElapsedTotalSeconds(0.5))
+    return checker_pipline
+
+
+
 class GlobalUser(HttpUser):
-    wait_time = constant_pacing(cfg.pacing_sec)
-    host = cfg.api_host
+    wait_time = constant_pacing(cfg.test_pacing_sec)
+    host = cfg.test_api_host
     postgres_repo = PostgresRepo(config.DSN)
     database_service = DatabaseService(postgres_repo)
 
@@ -32,16 +48,6 @@ class GlobalUser(HttpUser):
     def on_stop(self):
         # delete fake data in database
         self.database_service.delete_test_data()
-
-    @events.test_start.add_listener
-    def on_test_start(environment, **kwargs):
-        os.remove("test_logs.log")
-        logger.info("TEST STARTED")
-
-    @events.test_stop.add_listener
-    def on_test_stop(environment, **kwargs):
-        os.remove("test_logs.log")
-        logger.info("TEST STARTED")
 
     @task
     @tsdb_client.proceed_request
@@ -57,7 +63,8 @@ class GlobalUser(HttpUser):
                 catch_response=True,
                 name=transaction
         ) as request:
-            assertion.check_http_response(transaction, request)
+            checker_pipline = create_checker()
+            checker_pipline.execute(request)
         return request
 
     # @task(1)
@@ -80,4 +87,3 @@ class GlobalUser(HttpUser):
     #             name=transaction
     #     ) as request:
     #         assertion.check_http_response_post(transaction, request)
-

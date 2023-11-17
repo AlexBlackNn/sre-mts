@@ -10,18 +10,32 @@ path_env = os.path.join(directory, '.env')
 
 
 class AppSettings(BaseSettings):
-    influxdb_host: str = "http://localhost:8086",
-    influxdb_token: str = 'demo_token',
-    influxdb_org: str = 'demo_org',
+    influxdb_host: str = "http://localhost:8086"
+    influxdb_token: str = 'demo_token'
+    influxdb_org: str = 'demo_org'
     influxdb_bucket: str = 'demo_bucket'
     influxdb_conf_name: str = 'Heisenbug'
     influxdb_batch_size: int = 10
     influxdb_flush_interval: int = 10_000
     influxdb_jitter_interval: int = 2000
     influxdb_retry_interval: int = 5000
+    db_name: str = 'postgres'
+    db_user: str = 'postgres'
+    db_password: str = 'postgres-pass'
+    db_host: str = '77.105.185.143'
+    port: int = 5000
+    test_pacing_sec: int = 1
+    test_api_host: str = 'https://weather-forecast.ddns.net'
 
     class Config:
         env_file = '.env'
 
 
 cfg = AppSettings()
+DSN = {
+    'dbname': cfg.db_name,
+    'user': cfg.db_user,
+    'password': cfg.db_password,
+    'host': cfg.db_host,
+    'port': cfg.port
+}
