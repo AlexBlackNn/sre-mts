@@ -32,7 +32,6 @@ def create_checker():
     return checker_pipline
 
 
-
 class GlobalUser(HttpUser):
     wait_time = constant_pacing(cfg.test_pacing_sec)
     host = cfg.test_api_host
