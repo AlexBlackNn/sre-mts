@@ -12,9 +12,12 @@ class DatabaseService:
         self.city_ids = []
         self.forecast_ids = []
 
+    def add_city_id(self, _id: str):
+        self.city_ids.append(_id)
+
     def write_test_data(self, cities: list[City]):
         ids = self.db_repo.write(cities)
-        self.city_ids+=ids
+        self.city_ids += ids
         forecasts = [
             Forecast(
                 city_id=id,
@@ -26,7 +29,7 @@ class DatabaseService:
         self.forecast_ids += self.db_repo.write(forecasts)
 
     def init_from_file(self):
-        city = City(init_file = 'cities.csv')
+        city = City(init_file='cities.csv')
         ids = self.db_repo.init_from_file(city)
         self.city_ids += ids
 

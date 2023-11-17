@@ -32,6 +32,12 @@ def create_checker():
     return checker_pipline
 
 
+def create_checker_cities_post():
+    checker_pipline = CheckerPipline()
+    checker_pipline.add(CheckResponseStatus(http.HTTPStatus.OK))
+    checker_pipline.add(CheckResponseElapsedTotalSeconds(0.5))
+    return checker_pipline
+
 class GlobalUser(HttpUser):
     wait_time = constant_pacing(cfg.test_pacing_sec)
     host = cfg.test_api_host
@@ -66,23 +72,25 @@ class GlobalUser(HttpUser):
             checker_pipline.execute(request)
         return request
 
-    # @task(1)
-    # def add_city(self) -> None:
-    #     transaction = self.add_city.__name__
-    #     headers = {
-    #         "accept": "text/html",
-    #         "accept-encoding": "gzip, deflate, br",
-    #         "accept-language": "ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7",
-    #     }
-    #     faker = Faker()
-    #     body = {
-    #         "name": faker.city()
-    #     }
-    #     with self.client.post(
-    #             "/Cities",
-    #             headers=headers,
-    #             json=body,
-    #             catch_response=True,
-    #             name=transaction
-    #     ) as request:
-    #         assertion.check_http_response_post(transaction, request)
+    @task(1)
+    def add_city(self) -> None:
+        transaction = self.add_city.__name__
+        headers = {
+            "accept": "text/html",
+            "accept-encoding": "gzip, deflate, br",
+            "accept-language": "ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7",
+        }
+        faker = Faker()
+        body = {
+            "name": faker.city()
+        }
+        with self.client.post(
+                "/Cities",
+                headers=headers,
+                json=body,
+                catch_response=True,
+                name=transaction
+        ) as request:
+            self.database_service.add_city_id(str(request.json()['id']))
+            checker_pipline = create_checker_cities_post()
+            checker_pipline.execute(request)
