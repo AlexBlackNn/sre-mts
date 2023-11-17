@@ -56,7 +56,7 @@ class GlobalUser(HttpUser):
         # delete fake data in database
         self.database_service.delete_test_data()
 
-    @task(7)
+    @task(10)
     @tsdb_client.proceed_request
     def get_weather_forecast(self) -> None:
         headers = {
@@ -121,7 +121,7 @@ class GlobalUser(HttpUser):
 
     @task(1)
     @tsdb_client.proceed_request
-    def get_city(self) -> None:
+    def get_one_city(self) -> None:
         headers = {
             "accept-encoding": "gzip, deflate, br",
             "accept-language": "ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7",
@@ -131,7 +131,24 @@ class GlobalUser(HttpUser):
                 f"/Cities/{_id}",
                 headers=headers,
                 catch_response=True,
-                name=self.get_city.__name__
+                name=self.get_one_city.__name__
+        ) as request:
+            checker_pipline = create_checker_cities()
+            checker_pipline.execute(request)
+
+    @task(1)
+    @tsdb_client.proceed_request
+    def get_cities(self) -> None:
+        headers = {
+            "accept-encoding": "gzip, deflate, br",
+            "accept-language": "ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7",
+        }
+        _id = random.choice(self.database_service.city_ids)
+        with self.client.get(
+                f"/Cities",
+                headers=headers,
+                catch_response=True,
+                name=self.get_cities.__name__
         ) as request:
             checker_pipline = create_checker_cities()
             checker_pipline.execute(request)
