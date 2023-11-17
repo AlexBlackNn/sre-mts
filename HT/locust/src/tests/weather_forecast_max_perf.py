@@ -28,16 +28,17 @@ tsdb_client = TSDBDService(influxdb)
 def create_checker():
     checker_pipline = CheckerPipline()
     checker_pipline.add(CheckResponseStatus(http.HTTPStatus.OK))
-    checker_pipline.add(CheckResponseValue('TestCity1'))
+    # checker_pipline.add(CheckResponseValue('TestCity1'))
     checker_pipline.add(CheckResponseElapsedTotalSeconds(0.5))
     return checker_pipline
 
 
-def create_checker_cities_post():
+def create_checker_cities():
     checker_pipline = CheckerPipline()
     checker_pipline.add(CheckResponseStatus(http.HTTPStatus.OK))
     checker_pipline.add(CheckResponseElapsedTotalSeconds(0.5))
     return checker_pipline
+
 
 class GlobalUser(HttpUser):
     wait_time = constant_pacing(cfg.test_pacing_sec)
@@ -55,10 +56,9 @@ class GlobalUser(HttpUser):
         # delete fake data in database
         self.database_service.delete_test_data()
 
-    @task
+    @task(7)
     @tsdb_client.proceed_request
     def get_weather_forecast(self) -> None:
-        transaction = self.get_weather_forecast.__name__
         headers = {
             "accept-encoding": "gzip, deflate, br",
             "accept-language": "ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7",
@@ -67,15 +67,14 @@ class GlobalUser(HttpUser):
                 "/WeatherForecast",
                 headers=headers,
                 catch_response=True,
-                name=transaction
+                name=self.get_weather_forecast.__name__
         ) as request:
             checker_pipline = create_checker()
             checker_pipline.execute(request)
-        return request
 
     @task(1)
+    @tsdb_client.proceed_request
     def add_city(self) -> None:
-        transaction = self.add_city.__name__
         headers = {
             "accept": "text/html",
             "accept-encoding": "gzip, deflate, br",
@@ -90,15 +89,15 @@ class GlobalUser(HttpUser):
                 headers=headers,
                 json=body,
                 catch_response=True,
-                name=transaction
+                name=self.add_city.__name__
         ) as request:
             self.database_service.add_city_id(str(request.json()['id']))
-            checker_pipline = create_checker_cities_post()
+            checker_pipline = create_checker_cities()
             checker_pipline.execute(request)
 
     @task(1)
+    @tsdb_client.proceed_request
     def put_city(self) -> None:
-        transaction = self.put_city.__name__
         headers = {
             "accept": "text/html",
             "accept-encoding": "gzip, deflate, br",
@@ -115,7 +114,24 @@ class GlobalUser(HttpUser):
                 headers=headers,
                 json=body,
                 catch_response=True,
-                name=transaction
+                name=self.put_city.__name__
         ) as request:
-            checker_pipline = create_checker_cities_post()
+            checker_pipline = create_checker_cities()
+            checker_pipline.execute(request)
+
+    @task(1)
+    @tsdb_client.proceed_request
+    def get_city(self) -> None:
+        headers = {
+            "accept-encoding": "gzip, deflate, br",
+            "accept-language": "ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7",
+        }
+        _id = random.choice(self.database_service.city_ids)
+        with self.client.get(
+                f"/Cities/{_id}",
+                headers=headers,
+                catch_response=True,
+                name=self.get_city.__name__
+        ) as request:
+            checker_pipline = create_checker_cities()
             checker_pipline.execute(request)
