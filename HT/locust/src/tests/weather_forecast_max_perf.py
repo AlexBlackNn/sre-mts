@@ -1,4 +1,5 @@
 import http
+import random
 
 import requests
 from faker import Faker
@@ -92,5 +93,29 @@ class GlobalUser(HttpUser):
                 name=transaction
         ) as request:
             self.database_service.add_city_id(str(request.json()['id']))
+            checker_pipline = create_checker_cities_post()
+            checker_pipline.execute(request)
+
+    @task(1)
+    def put_city(self) -> None:
+        transaction = self.put_city.__name__
+        headers = {
+            "accept": "text/html",
+            "accept-encoding": "gzip, deflate, br",
+            "accept-language": "ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7",
+        }
+        faker = Faker()
+        body = {
+            "name": "NewCityName"
+        }
+
+        _id = random.choice(self.database_service.city_ids)
+        with self.client.put(
+                f"/Cities/{_id}",
+                headers=headers,
+                json=body,
+                catch_response=True,
+                name=transaction
+        ) as request:
             checker_pipline = create_checker_cities_post()
             checker_pipline.execute(request)
