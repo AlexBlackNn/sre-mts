@@ -13,7 +13,7 @@ class TSDBDService:
         @wraps(func)
         def wrapper(*args, **kwargs):
             request_start_time = time.time()
-            transaction = func(*args, **kwargs)
+            func(*args, **kwargs)
             processing_time = int((time.time() - request_start_time) * 1000)
             self.tsdb_client.write(
                 [{
@@ -23,11 +23,4 @@ class TSDBDService:
                     "fields": {"response_time": processing_time},
                 }],
             )
-
-            logger.debug(
-                f"""{func.__name__} status: {transaction.status_code
-                if func.__name__ != 'send_payment'
-                else 'message delivered'}"""
-            )
-
         return wrapper
