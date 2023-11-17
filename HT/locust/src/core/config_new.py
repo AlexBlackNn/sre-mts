@@ -13,6 +13,8 @@ class AppSettings(BaseSettings):
     influxdb_host: str = "http://localhost:8086",
     influxdb_token: str = 'demo_token',
     influxdb_org: str = 'demo_org',
+    influxdb_bucket: str = 'demo_bucket'
+    influxdb_conf_name: str = 'Heisenbug'
     influxdb_batch_size: int = 10
     influxdb_flush_interval: int = 10_000
     influxdb_jitter_interval: int = 2000

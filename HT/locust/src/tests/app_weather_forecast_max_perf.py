@@ -5,14 +5,17 @@ from faker import Faker
 
 from HT.locust.src.core import config
 from HT.locust.src.core.config import cfg, logger
+from HT.locust.src.repository.influxdb import InfluxDbRepo
 from HT.locust.src.repository.postgres import PostgresRepo
+from HT.locust.src.service.influxdb import TSDBDService
 from HT.locust.src.service.postgres import DatabaseService
 from HT.locust.src.utils import assertion
-from HT.locust.src.utils.proceed_request import proceed_request
 from locust import HttpUser, constant_pacing, events, task
 
 requests.packages.urllib3.disable_warnings()
 
+influxdb = InfluxDbRepo()
+tsdb_client = TSDBDService(influxdb)
 
 class GlobalUser(HttpUser):
     wait_time = constant_pacing(cfg.pacing_sec)
@@ -41,7 +44,7 @@ class GlobalUser(HttpUser):
         logger.info("TEST STARTED")
 
     @task
-    @proceed_request
+    @tsdb_client.proceed_request
     def get_weather_forecast(self) -> None:
         transaction = self.get_weather_forecast.__name__
         headers = {
