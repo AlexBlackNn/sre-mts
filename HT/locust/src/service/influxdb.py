@@ -2,7 +2,6 @@ import time
 from functools import wraps
 
 from HT.locust.src.core.config_new import cfg
-from HT.locust.src.core.config import logger
 
 
 class TSDBDService:
