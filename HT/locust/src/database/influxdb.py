@@ -1,19 +1,19 @@
 from influxdb_client import InfluxDBClient
 from influxdb_client.client.write_api import WriteOptions
 
-from HT.locust.src.core.config import cfg
+from HT.locust.src.core.config_new import cfg
 
 influx_client = InfluxDBClient(
-    url="http://localhost:8086",
-    token='demo_token',
-    org=cfg.influx_org,
+    url=cfg.influxdb_host,
+    token=cfg.influxdb_token,
+    org=cfg.influxdb_org,
 )
 
 influxdb = influx_client.write_api(
     write_options=WriteOptions(
-        batch_size=10,
-        flush_interval=10_000,
-        jitter_interval=2_000,
-        retry_interval=5_000,
+        batch_size=cfg.influxdb_batch_size,
+        flush_interval=cfg.influxdb_flush_interval,
+        jitter_interval=cfg.influxdb_jitter_interval,
+        retry_interval=cfg.influxdb_retry_interval,
     )
 )

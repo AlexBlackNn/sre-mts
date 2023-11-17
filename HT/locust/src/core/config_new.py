@@ -10,12 +10,16 @@ path_env = os.path.join(directory, '.env')
 
 
 class AppSettings(BaseSettings):
-    influxdb_host = "http://localhost:8086",
-    influxdb_token = 'demo_token',
-    influxdb_org = 'demo_org',
+    influxdb_host: str = "http://localhost:8086",
+    influxdb_token: str = 'demo_token',
+    influxdb_org: str = 'demo_org',
+    influxdb_batch_size: int = 10
+    influxdb_flush_interval: int = 10_000
+    influxdb_jitter_interval: int = 2000
+    influxdb_retry_interval: int = 5000
 
     class Config:
         env_file = '.env'
 
 
-app_settings = AppSettings()
+cfg = AppSettings()
