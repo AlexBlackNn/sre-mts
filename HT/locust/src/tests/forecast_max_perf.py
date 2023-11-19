@@ -80,29 +80,35 @@ class ForecastUser(HttpUser):
             checker_pipline = create_checker_cities()
             checker_pipline.execute(request)
 
-    # @task(1)
-    # @tsdb_client.proceed_request
-    # def put_city(self) -> None:
-    #     headers = {
-    #         "accept": "text/html",
-    #         "accept-encoding": "gzip, deflate, br",
-    #         "accept-language": "ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7",
-    #     }
-    #     faker = Faker()
-    #     body = {
-    #         "name": "NewCityName"
-    #     }
-    #
-    #     _id = random.choice(self.database_service.city_ids)
-    #     with self.client.put(
-    #             f"/Cities/{_id}",
-    #             headers=headers,
-    #             json=body,
-    #             catch_response=True,
-    #             name=self.put_city.__name__
-    #     ) as request:
-    #         checker_pipline = create_checker_cities()
-    #         checker_pipline.execute(request)
+    @task(1)
+    @tsdb_client.proceed_request
+    def put_forecast(self) -> None:
+        headers = {
+            "accept": "text/html",
+            "accept-encoding": "gzip, deflate, br",
+            "accept-language": "ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7",
+        }
+
+        forecast_id = self.database_service.forecast_ids[0]
+        city_id = self.database_service.city_ids[0]
+        body = {
+          "id": forecast_id,
+          "cityId": city_id,
+          "dateTime": 0,
+          "temperature": 0,
+          "summary": "NewSummaryString"
+        }
+
+
+        with self.client.put(
+                f"/Forecast/{forecast_id}",
+                headers=headers,
+                json=body,
+                catch_response=True,
+                name=self.put_forecast.__name__
+        ) as request:
+            checker_pipline = create_checker_cities()
+            checker_pipline.execute(request)
     #
     # @task(1)
     # @tsdb_client.proceed_request
