@@ -126,20 +126,20 @@ class ForecastUser(HttpUser):
     #     ) as request:
     #         checker_pipline = create_checker_cities()
     #         checker_pipline.execute(request)
-    #
-    # @task(1)
-    # @tsdb_client.proceed_request
-    # def get_cities(self) -> None:
-    #     headers = {
-    #         "accept-encoding": "gzip, deflate, br",
-    #         "accept-language": "ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7",
-    #     }
-    #     _id = random.choice(self.database_service.city_ids)
-    #     with self.client.get(
-    #             f"/Cities",
-    #             headers=headers,
-    #             catch_response=True,
-    #             name=self.get_cities.__name__
-    #     ) as request:
-    #         checker_pipline = create_checker_cities()
-    #         checker_pipline.execute(request)
+
+    @task(1)
+    @tsdb_client.proceed_request
+    def get_forecast(self) -> None:
+        headers = {
+            "accept-encoding": "gzip, deflate, br",
+            "accept-language": "ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7",
+        }
+        _id = random.choice(self.database_service.city_ids)
+        with self.client.get(
+                f"/Forecast",
+                headers=headers,
+                catch_response=True,
+                name=self.get_forecast.__name__
+        ) as request:
+            checker_pipline = create_checker_cities()
+            checker_pipline.execute(request)
