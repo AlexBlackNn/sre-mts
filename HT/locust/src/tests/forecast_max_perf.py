@@ -25,7 +25,7 @@ influxdb = InfluxDbRepo()
 tsdb_client = TSDBDService(influxdb)
 
 
-def create_checker_cities():
+def create_checker_forecast():
     checker_pipline = CheckerPipline()
     checker_pipline.add(CheckResponseStatus(http.HTTPStatus.OK))
     checker_pipline.add(CheckResponseElapsedTotalSeconds(0.5))
@@ -77,7 +77,7 @@ class ForecastUser(HttpUser):
         ) as request:
 
             self.database_service.add_forecast_id(city_id)
-            checker_pipline = create_checker_cities()
+            checker_pipline = create_checker_forecast()
             checker_pipline.execute(request)
 
     @task(1)
@@ -107,7 +107,7 @@ class ForecastUser(HttpUser):
                 catch_response=True,
                 name=self.put_forecast.__name__
         ) as request:
-            checker_pipline = create_checker_cities()
+            checker_pipline = create_checker_forecast()
             checker_pipline.execute(request)
     #
     # @task(1)
@@ -141,5 +141,5 @@ class ForecastUser(HttpUser):
                 catch_response=True,
                 name=self.get_forecast.__name__
         ) as request:
-            checker_pipline = create_checker_cities()
+            checker_pipline = create_checker_forecast()
             checker_pipline.execute(request)
