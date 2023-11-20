@@ -1,4 +1,5 @@
-from locust import  LoadTestShape
+from locust import LoadTestShape
+
 
 class StagesShape(LoadTestShape):
     stages = [
@@ -12,4 +13,3 @@ class StagesShape(LoadTestShape):
         for stage in self.stages:
             if run_time < stage["duration"]:
                 return stage["users"], stage["spawn_rate"]
-        return None
