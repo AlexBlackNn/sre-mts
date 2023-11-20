@@ -21,11 +21,11 @@ class AppSettings(BaseSettings):
     influxdb_retry_interval: int = 5000
     db_name: str = 'postgres'
     db_user: str = 'postgres'
-    db_password: str = 'postgres-pass'
-    db_host: str = '77.105.185.143'
-    port: int = 5000
+    db_password: str = 'postgres'
+    db_host: str = 'localhost'
+    port: int = 5432
     test_pacing_sec: float = 0.1
-    test_api_host: str = 'https://weather-forecast.ddns.net'
+    test_api_host: str = 'http://localhost:8001/'
 
     class Config:
         env_file = '.env'
