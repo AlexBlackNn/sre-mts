@@ -76,7 +76,7 @@ class ForecastUser(HttpUser):
                 name=self.add_forecast.__name__
         ) as request:
 
-            self.database_service.add_forecast_id(city_id)
+            self.database_service.add_forecast_id(request.json()['id'])
             checker_pipline = create_checker_forecast()
             checker_pipline.execute(request)
 
@@ -89,8 +89,8 @@ class ForecastUser(HttpUser):
             "accept-language": "ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7",
         }
 
-        forecast_id = self.database_service.forecast_ids[0]
-        city_id = self.database_service.city_ids[0]
+        forecast_id = random.choice(self.database_service.forecast_ids)
+        city_id = random.choice(self.database_service.city_ids)
         body = {
           "id": forecast_id,
           "cityId": city_id,
@@ -124,6 +124,8 @@ class ForecastUser(HttpUser):
                 catch_response=True,
                 name=self.get_one_forecast.__name__
         ) as request:
+            if request.status_code != 200:
+                raise ValueError((request.status_code, self.database_service.forecast_ids))
             checker_pipline = create_checker_forecast()
             checker_pipline.execute(request)
 
