@@ -70,7 +70,10 @@ class CityUser(HttpUser):
                 catch_response=True,
                 name=self.add_city.__name__
         ) as request:
-            self.database_service.add_city_id(str(request.json()['id']))
+            try:
+                self.database_service.add_city_id(str(request.json()['id']))
+            except:
+                pass
             checker_pipline = create_checker_cities()
             checker_pipline.execute(request)
 

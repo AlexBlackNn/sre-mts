@@ -73,7 +73,10 @@ class ForecastUser(HttpUser):
                 catch_response=True,
                 name=self.add_forecast.__name__
         ) as request:
-            self.database_service.add_forecast_id(request.json()['id'])
+            try:
+                self.database_service.add_forecast_id(request.json()['id'])
+            except:
+                pass
             checker_pipline = create_checker_forecast()
             checker_pipline.execute(request)
 
