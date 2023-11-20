@@ -124,8 +124,6 @@ class ForecastUser(HttpUser):
                 catch_response=True,
                 name=self.get_one_forecast.__name__
         ) as request:
-            if request.status_code != 200:
-                raise ValueError((request.status_code, self.database_service.forecast_ids))
             checker_pipline = create_checker_forecast()
             checker_pipline.execute(request)
 
