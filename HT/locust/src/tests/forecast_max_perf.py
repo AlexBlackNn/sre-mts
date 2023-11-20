@@ -33,7 +33,6 @@ def create_checker_forecast():
 
 
 class ForecastUser(HttpUser):
-
     weight = 1
     wait_time = constant_pacing(cfg.test_pacing_sec)
     host = cfg.test_api_host
@@ -49,7 +48,6 @@ class ForecastUser(HttpUser):
     def on_stop(self):
         # delete fake data in database
         self.database_service.delete_test_data()
-
 
     @task(1)
     @tsdb_client.proceed_request
@@ -75,7 +73,6 @@ class ForecastUser(HttpUser):
                 catch_response=True,
                 name=self.add_forecast.__name__
         ) as request:
-
             self.database_service.add_forecast_id(request.json()['id'])
             checker_pipline = create_checker_forecast()
             checker_pipline.execute(request)
@@ -92,13 +89,12 @@ class ForecastUser(HttpUser):
         forecast_id = random.choice(self.database_service.forecast_ids)
         city_id = random.choice(self.database_service.city_ids)
         body = {
-          "id": forecast_id,
-          "cityId": city_id,
-          "dateTime": 0,
-          "temperature": 0,
-          "summary": "NewSummaryString"
+            "id": forecast_id,
+            "cityId": city_id,
+            "dateTime": 0,
+            "temperature": 0,
+            "summary": "NewSummaryString"
         }
-
 
         with self.client.put(
                 f"/Forecast/{forecast_id}",
