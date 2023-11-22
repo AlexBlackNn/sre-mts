@@ -1,3 +1,5 @@
+import psycopg2
+
 from HT.locust.src.database.postgres import PostgresConnectoion
 from HT.locust.src.models.models import Table
 from HT.locust.src.repository.abstaract_repo import AbstractDatabase
@@ -6,27 +8,27 @@ from HT.locust.src.repository.abstaract_repo import AbstractDatabase
 class PostgresRepo(AbstractDatabase):
     def __init__(self, dsn):
         self.dsn = dsn
+        self.postgres_connection = psycopg2.connect(**dsn)
+        self.cursor = self.postgres_connection.cursor()
 
     @staticmethod
     def __create_param_template(number):
         return '(' + ('%s,' * number)[:-1] + ")"
 
     def write(self, models: list) -> list[str]:
-        with PostgresConnectoion(
-                self.dsn
-        ) as postgresql_connection, postgresql_connection.cursor() as cursor:
+
             data = [model.create_tuple() for model in models]
             number_params = self.__create_param_template(len(data[0]))
             args = ','.join(
-                cursor.mogrify(number_params, item).decode() for item in data
+                self.cursor.mogrify(number_params, item).decode() for item in data
             )
-            cursor.execute(
+            self.cursor.execute(
                 f"""
                 INSERT INTO {models[0].create_schema()} VALUES
                 {args} RETURNING id; 
                  """
             )
-            return [str(city_id[0]) for city_id in cursor.fetchall()]
+            return [str(city_id[0]) for city_id in self.cursor.fetchall()]
 
     def init_from_file(self, model: Table):
         """

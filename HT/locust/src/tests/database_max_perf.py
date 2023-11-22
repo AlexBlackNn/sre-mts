@@ -35,7 +35,7 @@ def create_checker_database():
 
 class DataBaseUser(HttpUser):
 
-    wait_time = constant_pacing(0.01)
+    wait_time = constant_pacing(0.001)
     host = cfg.test_api_host
     postgres_repo = PostgresRepo(config.DSN)
     database_service = DatabaseService(postgres_repo)
