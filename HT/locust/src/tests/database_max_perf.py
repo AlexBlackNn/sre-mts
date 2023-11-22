@@ -35,7 +35,7 @@ def create_checker_database():
 
 class DataBaseUser(HttpUser):
 
-    wait_time = constant_pacing(cfg.test_pacing_sec)
+    wait_time = constant_pacing(0.01)
     host = cfg.test_api_host
     postgres_repo = PostgresRepo(config.DSN)
     database_service = DatabaseService(postgres_repo)
@@ -51,7 +51,7 @@ class DataBaseUser(HttpUser):
         self.database_service.delete_test_data()
 
 
-    @task(1)
+    @task
     def add_test_data_database(self) -> None:
         city_data = [
             City(name='TestCity1'),
