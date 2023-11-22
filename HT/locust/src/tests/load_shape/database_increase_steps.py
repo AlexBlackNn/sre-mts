@@ -3,9 +3,9 @@ from locust import LoadTestShape
 
 class DataBaseStagesShape(LoadTestShape):
     stages = [
-        {"duration": 40, "users": 1, "spawn_rate": 1},
-        {"duration": 80, "users": 2, "spawn_rate": 1},
-        {"duration": 120, "users": 3, "spawn_rate": 1},
+        {"duration": 40, "users": 5, "spawn_rate": 1},
+        {"duration": 80, "users": 10, "spawn_rate": 1},
+        {"duration": 120, "users": 15, "spawn_rate": 1},
 
     ]
 
