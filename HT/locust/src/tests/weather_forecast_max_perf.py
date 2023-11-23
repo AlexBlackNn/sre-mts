@@ -31,7 +31,7 @@ def create_checker():
 class WeatherForecastUser(HttpUser):
 
     weight = 1
-    wait_time = constant_pacing(cfg.test_pacing_sec)
+    wait_time = constant_pacing(10 * cfg.test_pacing_sec)
     host = cfg.test_api_host
     postgres_repo = PostgresRepo(config.DSN)
     database_service = DatabaseService(postgres_repo)
