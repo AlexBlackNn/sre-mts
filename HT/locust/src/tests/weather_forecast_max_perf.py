@@ -48,6 +48,7 @@ class WeatherForecastUser(HttpUser):
         self.client.verify = False
 
     def on_stop(self):
+        pass
         # delete fake data in database
         # self.database_service.delete_test_data()
 
