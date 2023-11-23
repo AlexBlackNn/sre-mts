@@ -3,10 +3,10 @@ from locust import LoadTestShape
 
 class StagesShape(LoadTestShape):
     stages = [
-        {"duration": 60, "users": 10, "spawn_rate": 1},
-        {"duration": 120, "users": 20, "spawn_rate": 1},
-        {"duration": 180, "users": 40, "spawn_rate": 1},
-        {"duration": 240, "users": 60, "spawn_rate": 1},
+        {"duration": 60, "users": 5, "spawn_rate": 1},
+        {"duration": 120, "users": 10, "spawn_rate": 1},
+        {"duration": 180, "users": 20, "spawn_rate": 1},
+        {"duration": 240, "users": 30, "spawn_rate": 1},
     ]
 
     def tick(self):
