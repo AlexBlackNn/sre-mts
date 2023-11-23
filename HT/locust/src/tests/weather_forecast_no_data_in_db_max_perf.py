@@ -43,13 +43,14 @@ class WeatherForecastUser(HttpUser):
 
     def on_start(self):
         # create fake data in database
-        self.database_service.init_from_file()
+        # self.database_service.init_from_file()
         # disable ssl check
         self.client.verify = False
 
     def on_stop(self):
+        pass
         # delete fake data in database
-        self.database_service.delete_test_data()
+        # self.database_service.delete_test_data()
 
     @task
     @tsdb_client.proceed_request
