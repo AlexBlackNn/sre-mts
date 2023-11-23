@@ -25,7 +25,7 @@ class AppSettings(BaseSettings):
     db_password: str = 'postgres-pass'
     db_host: str = '77.105.185.143'
     port: int = 5000
-    test_pacing_sec: float = 0.01
+    test_pacing_sec: float = 0.1
     test_api_host: str = 'https://weather-forecast.ddns.net'
 
     class Config:
