@@ -21,3 +21,9 @@ locust -f HT/locust/src/tests/forecast_max_perf.py,HT/locust/src/tests/weather_f
 
  locust -f HT/locust/src/tests/weather_forecast_max_perf.py,HT/locust/src/tests/load_shape/increase_steps.py --master
  locust -f HT/locust/src/tests/weather_forecast_max_perf.py,HT/locust/src/tests/load_shape/increase_steps.py --worker --master-host=localhost
+
+
+
+locust -f HT/locust/src/tests/forecast_max_perf.py,HT/locust/src/tests/city_max_perf.py,HT/locust/src/tests/load_shape/increase_steps_no_data_in_db.py --master
+locust -f HT/locust/src/tests/forecast_max_perf.py,HT/locust/src/tests/city_max_perf.py,HT/locust/src/tests/load_shape/increase_steps_no_data_in_db.py --worker --master-host=localhost
+
