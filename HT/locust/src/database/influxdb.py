@@ -1,4 +1,5 @@
 from influxdb_client import InfluxDBClient
+
 from HT.locust.src.core.config_new import cfg
 
 influx_client = InfluxDBClient(

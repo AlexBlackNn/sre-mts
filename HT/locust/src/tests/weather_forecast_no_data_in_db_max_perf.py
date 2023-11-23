@@ -1,8 +1,7 @@
 import http
-import random
 
 import requests
-from faker import Faker
+from locust import HttpUser, constant_pacing, task
 
 from HT.locust.src.core import config
 from HT.locust.src.core.config_new import cfg
@@ -10,14 +9,9 @@ from HT.locust.src.repository.influxdb import InfluxDbRepo
 from HT.locust.src.repository.postgres import PostgresRepo
 from HT.locust.src.service.influxdb import TSDBDService
 from HT.locust.src.service.postgres import DatabaseService
-from locust import HttpUser, constant_pacing, task
-
-from HT.locust.src.utils.checker import (
-    CheckerPipline,
-    CheckResponseStatus,
-    CheckResponseValue,
-    CheckResponseElapsedTotalSeconds
-)
+from HT.locust.src.utils.checker import (CheckerPipline,
+                                         CheckResponseElapsedTotalSeconds,
+                                         CheckResponseStatus)
 
 requests.packages.urllib3.disable_warnings()
 
@@ -42,15 +36,7 @@ class WeatherForecastUser(HttpUser):
     database_service = DatabaseService(postgres_repo)
 
     def on_start(self):
-        # create fake data in database
-        # self.database_service.init_from_file()
-        # disable ssl check
         self.client.verify = False
-
-    def on_stop(self):
-        pass
-        # delete fake data in database
-        # self.database_service.delete_test_data()
 
     @task
     @tsdb_client.proceed_request
@@ -67,4 +53,3 @@ class WeatherForecastUser(HttpUser):
         ) as request:
             checker_pipline = create_checker()
             checker_pipline.execute(request)
-

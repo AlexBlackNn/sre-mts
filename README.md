@@ -32,6 +32,7 @@
 - [ ] Рефакторинг
 - [ ] Документация
 - [ ] Сбор логов (??? Postgresql log CSV -> Python Beaver -> Logstash -> Elastic -> Kibana ???)
+- [Х] Провести нагрузочное тестирование
 
 - **Бэкапы** 
 - [ ] ??? BarMan ???
@@ -51,9 +52,6 @@
 https://lindevs.com/install-vegeta-on-ubuntu for load tesing 
 
 
-echo "GET http://weather-forecast.ddns.net/Cities" | vegeta attack -duration=10m -rate=10/s 
-echo "GET https://weather-forecast.ddns.net/Cities/1" | vegeta attack -duration=10m -rate=2/s 
-echo "GET https://weather-forecast.ddns.net/Cities/122" | vegeta attack -duration=10m -rate=2/s 
 
 
 Checking Kubernetes pod CPU and memory utilization

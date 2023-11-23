@@ -31,9 +31,3 @@ class TSDBDService:
                 "fields": {"response_time": processing_time},
             }]
         )
-
-
-if __name__ == '__main__':
-    p = Process(target=f, args=('bob',))
-    p.start()
-    p.join()

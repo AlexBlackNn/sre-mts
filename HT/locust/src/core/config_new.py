@@ -1,5 +1,6 @@
 import os
-from pydantic import BaseSettings, PostgresDsn
+
+from pydantic import BaseSettings
 
 # Корень проекта
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))

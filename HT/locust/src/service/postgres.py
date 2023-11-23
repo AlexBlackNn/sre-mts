@@ -18,7 +18,6 @@ class DatabaseService:
     def add_forecast_id(self, _id: str):
         self.forecast_ids.append(_id)
 
-
     def write_test_data(self, cities: list[City]):
         ids = self.db_repo.write(cities)
         self.city_ids += ids

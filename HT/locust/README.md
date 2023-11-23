@@ -1,29 +1,49 @@
-[ ] 1. Разработать профиль нагрузки для системы
-[ ] 2. Реализовать профиль на любом инструменте НТ (разработать скрипт)
+## План работы
+[X] 1. Разработать профиль нагрузки для системы
+
+[X] 2. Реализовать профиль на любом инструменте НТ (разработать скрипт)
+
 [X] 3. Задать нефункциональные требования по производительности к системе (SLO/SLA)
-[ ] 4. Найти максимальную производительность системы
-[ ] 5. Написать краткий вывод: где достигнута максимальная производительность, где узкое место в системе, для подтверждения привести графики.
 
-1.Установить Docker
-2. Установить Python 
-3. Через командную строку открыть папку "./docker" из данного репозитория и выполнить команды:
+[X] 4. Найти максимальную производительность системы
 
-     - docker-compose up -d
+[X] 5. Написать краткий вывод: где достигнута максимальная производительность, где узкое место в системе, для подтверждения привести графики.
 
-Запуск
- locust -f HT/locust/src/tests/forecast_max_perf.py,HT/locust/src/tests/weather_forecast_max_perf.py,HT/locust/src/tests/city_max_perf.py,HT/locust/src/tests/load_shape/increase_steps.py 
+## TODO: 
+[ ] 1. Сделать запись в influxdb метрик рассчитываемых (сделал, но время записи большое, стоит разобраться с чем связано.) 
 
-locust -f HT/locust/src/tests/forecast_max_perf.py,HT/locust/src/tests/weather_forecast_max_perf.py,HT/locust/src/tests/city_max_perf.py,HT/locust/src/tests/load_shape/stape_load_shape.py 
+## Установка 
+1. Установить Python 
+2. Установить зависимости из src/requirements.txt 
 
- locust -f HT/locust/src/tests/database_max_perf.py,HT/locust/src/tests/load_shape/increase_steps.py 
+## Примеры 
+**Для запуска нужно находиться в корневой папке проекта -> mts-sre.** 
 
-
-
- locust -f HT/locust/src/tests/weather_forecast_max_perf.py,HT/locust/src/tests/load_shape/increase_steps.py --master
- locust -f HT/locust/src/tests/weather_forecast_max_perf.py,HT/locust/src/tests/load_shape/increase_steps.py --worker --master-host=localhost
-
-
-
+Пример запуска на 1 пк в 1 процесс
+```bash
+locust -f HT/locust/src/tests/forecast_max_perf.py,HT/locust/src/tests/weather_forecast_max_perf.py,HT/locust/src/tests/city_max_perf.py,HT/locust/src/tests/load_shape/increase_steps.py 
+```
+Пример запуска на 1 пк в несколько процессов
+В первом терминале 
+```bash
 locust -f HT/locust/src/tests/forecast_max_perf.py,HT/locust/src/tests/city_max_perf.py,HT/locust/src/tests/load_shape/increase_steps_no_data_in_db.py --master
+```
+Во втором терминале 
+```bash
 locust -f HT/locust/src/tests/forecast_max_perf.py,HT/locust/src/tests/city_max_perf.py,HT/locust/src/tests/load_shape/increase_steps_no_data_in_db.py --worker --master-host=localhost
+```
+
+
+
+## Другие инструменты НТ 
+Просто полезные команды, для быстрых тестов, используя [vegeta](https://github.com/tsenart/vegeta)
+```bash
+echo "GET http://weather-forecast.ddns.net/Cities" | vegeta attack -duration=10m -rate=10/s 
+```
+```bash
+echo "GET https://weather-forecast.ddns.net/Cities/1" | vegeta attack -duration=10m -rate=2/s 
+```
+```bash
+echo "GET https://weather-forecast.ddns.net/Cities/122" | vegeta attack -duration=10m -rate=2/s 
+```
 

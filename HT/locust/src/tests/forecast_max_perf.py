@@ -2,7 +2,7 @@ import http
 import random
 
 import requests
-from faker import Faker
+from locust import HttpUser, constant_pacing, task
 
 from HT.locust.src.core import config
 from HT.locust.src.core.config_new import cfg
@@ -10,14 +10,10 @@ from HT.locust.src.repository.influxdb import InfluxDbRepo
 from HT.locust.src.repository.postgres import PostgresRepo
 from HT.locust.src.service.influxdb import TSDBDService
 from HT.locust.src.service.postgres import DatabaseService
-from locust import HttpUser, constant_pacing, task
-
-from HT.locust.src.utils.checker import (
-    CheckerPipline,
-    CheckResponseStatus,
-    CheckResponseValue,
-    CheckResponseElapsedTotalSeconds
-)
+from HT.locust.src.utils.checker import (CheckerPipline,
+                                         CheckResponseElapsedTotalSeconds,
+                                         CheckResponseStatus,
+                                         )
 
 requests.packages.urllib3.disable_warnings()
 
@@ -133,9 +129,8 @@ class ForecastUser(HttpUser):
             "accept-encoding": "gzip, deflate, br",
             "accept-language": "ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7",
         }
-        _id = random.choice(self.database_service.city_ids)
         with self.client.get(
-                f"/Forecast",
+                "/Forecast",
                 headers=headers,
                 catch_response=True,
                 name=self.get_forecast.__name__

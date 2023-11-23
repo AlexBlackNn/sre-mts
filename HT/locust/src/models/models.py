@@ -25,13 +25,14 @@ class Table(ABC):
         columns = ','.join(names)
         return '(' + columns + ')'
 
+    @property
     def create_tuple(self):
         """Create data for postgres sql load expression."""
         return tuple([value for key, value in self.__dict__.items() if (
                 key != 'id' and
                 key != 'postgres_name_table' and
-                key != 'init_file') ]
-        )
+                key != 'init_file')]
+                     )
 
     def create_schema(self) -> str:
         return self.postgres_name_table + ' ' + self.create_template()
@@ -78,6 +79,7 @@ class City(Table):
                FROM temp_cities
                RETURNING id;
                """
+
 
 @dataclass()
 class Forecast(Table):
@@ -128,6 +130,6 @@ class Forecast(Table):
 if __name__ == '__main__':
     city = City(name='Moscow')
     print(city.create_schema())
-    print(city.create_tuple())
+    print(city.create_tuple)
     forecast = Forecast()
     print(forecast.create_schema())

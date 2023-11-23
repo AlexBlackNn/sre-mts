@@ -55,4 +55,3 @@ class CheckResponseElapsedTotalSeconds(Checker):
                 f"failed with too long request -> "
                 f"{response.elapsed.total_seconds()}"
             )
-

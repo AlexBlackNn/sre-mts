@@ -29,4 +29,4 @@ class StepLoadShape(LoadTestShape):
             return None
 
         current_step = math.floor(run_time / self.step_time) + 1
-        return (current_step * self.step_load, self.spawn_rate)
+        return current_step * self.step_load, self.spawn_rate

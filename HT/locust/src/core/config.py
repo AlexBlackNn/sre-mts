@@ -1,8 +1,6 @@
-import logging
 import os
 
 from dotenv import load_dotenv
-
 
 load_dotenv()
 DSN = {
@@ -12,4 +10,3 @@ DSN = {
     'host': os.getenv('DB_HOST'),
     'port': os.getenv('DB_PORT'),
 }
-

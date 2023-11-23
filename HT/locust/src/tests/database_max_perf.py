@@ -1,9 +1,7 @@
-import http
-import random
 import time
 
 import requests
-from faker import Faker
+from locust import HttpUser, constant_pacing, events, task
 
 from HT.locust.src.core import config
 from HT.locust.src.core.config_new import cfg
@@ -12,14 +10,8 @@ from HT.locust.src.repository.influxdb import InfluxDbRepo
 from HT.locust.src.repository.postgres import PostgresRepo
 from HT.locust.src.service.influxdb import TSDBDService
 from HT.locust.src.service.postgres import DatabaseService
-from locust import HttpUser, constant_pacing, task, events
-
-from HT.locust.src.utils.checker import (
-    CheckerPipline,
-    CheckResponseStatus,
-    CheckResponseValue,
-    CheckResponseElapsedTotalSeconds
-)
+from HT.locust.src.utils.checker import (CheckerPipline,
+                                         CheckResponseElapsedTotalSeconds)
 
 requests.packages.urllib3.disable_warnings()
 
@@ -34,7 +26,6 @@ def create_checker_database():
 
 
 class DataBaseUser(HttpUser):
-
     wait_time = constant_pacing(0.001)
     host = cfg.test_api_host
     postgres_repo = PostgresRepo(config.DSN)
@@ -49,7 +40,6 @@ class DataBaseUser(HttpUser):
     def on_stop(self):
         # delete fake data in database
         self.database_service.delete_test_data()
-
 
     @task
     def add_test_data_database(self) -> None:
@@ -67,4 +57,3 @@ class DataBaseUser(HttpUser):
             context=None,
             exception=None,
         )
-
