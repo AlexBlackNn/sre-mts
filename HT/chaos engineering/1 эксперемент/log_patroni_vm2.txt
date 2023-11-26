@@ -1,0 +1,10 @@
+Nov 26 06:40:09 pgnode02 patroni[16525]: 2023-11-26 06:40:09,423 INFO: no action. I am (pgnode02), a secondary, and following a leader (pgnode01)
+Nov 26 06:40:19 pgnode02 patroni[16525]: 2023-11-26 06:40:19,419 INFO: no action. I am (pgnode02), a secondary, and following a leader (pgnode01)
+Nov 26 06:40:26 pgnode02 patroni[16525]: 2023-11-26 06:40:26,565 WARNING: Request failed to pgnode01: GET http://10.0.10.5:8008/patroni (HTTPConnectionPool(host='10.0.10.5', port=8008): Max retries exceeded with url: /patroni (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x7f539c4dcb20>, 'Connection to 10.0.10.5 timed out. (connect timeout=2)')))
+Nov 26 06:40:26 pgnode02 patroni[16525]: 2023-11-26 06:40:26,622 INFO: Software Watchdog activated with 25 second timeout, timing slack 15 seconds
+Nov 26 06:40:26 pgnode02 patroni[16525]: 2023-11-26 06:40:26,626 INFO: promoted self to leader by acquiring session lock
+Nov 26 06:40:26 pgnode02 patroni[16525]: 2023-11-26 06:40:26,627 INFO: Lock owner: pgnode02; I am pgnode02
+Nov 26 06:40:26 pgnode02 patroni[16525]: 2023-11-26 06:40:26,631 INFO: updated leader lock during promote
+Nov 26 06:40:26 pgnode02 patroni[3481568]: server promoting
+Nov 26 06:40:27 pgnode02 patroni[16525]: 2023-11-26 06:40:27,699 INFO: no action. I am (pgnode02), the leader with the lock
+
