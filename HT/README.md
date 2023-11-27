@@ -53,3 +53,8 @@ echo "GET https://weather-forecast.ddns.net/Cities/1" | vegeta attack -duration=
 echo "GET https://weather-forecast.ddns.net/Cities/122" | vegeta attack -duration=10m -rate=2/s 
 ```
 
+
+
+sudo ./chaosblade-1.7.2/blade create disk burn -d --read 10024 --timeout 30
+
+https://askubuntu.com/a/741217

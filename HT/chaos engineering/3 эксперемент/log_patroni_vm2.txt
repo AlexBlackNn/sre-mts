@@ -1,0 +1,335 @@
+Nov 27 09:01:08 pgnode02 patroni[883]: 2023-11-27 09:01:08,585 INFO: no action. I am (pgnode02), the leader with the lock
+Nov 27 09:01:18 pgnode02 patroni[883]: INFO:patroni.ha:Lock owner: pgnode02; I am pgnode02
+Nov 27 09:01:21 pgnode02 patroni[883]: ERROR:patroni.dcs.etcd:Request to server http://10.0.10.2:2379 failed: ReadTimeoutError("HTTPConnectionPool(host='10.0.10.2', port=2379): Read timed out. (read timeout=3.333220580335668)")
+Nov 27 09:01:21 pgnode02 patroni[883]: INFO:patroni.dcs.etcd:Reconnection allowed, looking for another server.
+Nov 27 09:01:21 pgnode02 patroni[883]: INFO:patroni.dcs.etcd:Retrying on http://10.0.10.3:2379
+Nov 27 09:01:21 pgnode02 patroni[883]: 2023-11-27 09:01:18,580 INFO: Lock owner: pgnode02; I am pgnode02
+Nov 27 09:01:21 pgnode02 patroni[883]: 2023-11-27 09:01:21,918 ERROR: Request to server http://10.0.10.2:2379 failed: ReadTimeoutError("HTTPConnectionPool(host='10.0.10.2', port=2379): Read timed out. (read timeout=3.333220580335668)")
+Nov 27 09:01:21 pgnode02 patroni[883]: 2023-11-27 09:01:21,919 INFO: Reconnection allowed, looking for another server.
+Nov 27 09:01:21 pgnode02 patroni[883]: 2023-11-27 09:01:21,919 INFO: Retrying on http://10.0.10.3:2379
+Nov 27 09:01:23 pgnode02 patroni[883]: ERROR:patroni.dcs.etcd:Request to server http://10.0.10.3:2379 failed: MaxRetryError("HTTPConnectionPool(host='10.0.10.3', port=2379): Max retries exceeded with url: /v3/lease/keepalive (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x7f95c0c0ebc0>, 'Connection to 10.0.10.3 timed out. (connect timeout=1.6666666666666667)'))")
+Nov 27 09:01:23 pgnode02 patroni[883]: INFO:patroni.dcs.etcd:Reconnection allowed, looking for another server.
+Nov 27 09:01:23 pgnode02 patroni[883]: INFO:patroni.dcs.etcd:Retrying on http://10.0.10.4:2379
+Nov 27 09:01:23 pgnode02 patroni[883]: 2023-11-27 09:01:23,589 ERROR: Request to server http://10.0.10.3:2379 failed: MaxRetryError("HTTPConnectionPool(host='10.0.10.3', port=2379): Max retries exceeded with url: /v3/lease/keepalive (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x7f95c0c0ebc0>, 'Connection to 10.0.10.3 timed out. (connect timeout=1.6666666666666667)'))")
+Nov 27 09:01:23 pgnode02 patroni[883]: 2023-11-27 09:01:23,589 INFO: Reconnection allowed, looking for another server.
+Nov 27 09:01:23 pgnode02 patroni[883]: 2023-11-27 09:01:23,589 INFO: Retrying on http://10.0.10.4:2379
+Nov 27 09:01:25 pgnode02 patroni[883]: ERROR:patroni.dcs.etcd:Request to server http://10.0.10.4:2379 failed: MaxRetryError("HTTPConnectionPool(host='10.0.10.4', port=2379): Max retries exceeded with url: /v3/lease/keepalive (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x7f95c0ce6680>, 'Connection to 10.0.10.4 timed out. (connect timeout=1.6666666666666667)'))")
+Nov 27 09:01:25 pgnode02 patroni[883]: INFO:patroni.dcs.etcd:Reconnection allowed, looking for another server.
+Nov 27 09:01:25 pgnode02 patroni[883]: 2023-11-27 09:01:25,258 ERROR: Request to server http://10.0.10.4:2379 failed: MaxRetryError("HTTPConnectionPool(host='10.0.10.4', port=2379): Max retries exceeded with url: /v3/lease/keepalive (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x7f95c0ce6680>, 'Connection to 10.0.10.4 timed out. (connect timeout=1.6666666666666667)'))")
+Nov 27 09:01:25 pgnode02 patroni[883]: 2023-11-27 09:01:25,259 INFO: Reconnection allowed, looking for another server.
+Nov 27 09:01:26 pgnode02 patroni[883]: ERROR:patroni.dcs.etcd:Failed to get list of machines from http://10.0.10.4:2379/v3: MaxRetryError("HTTPConnectionPool(host='10.0.10.4', port=2379): Max retries exceeded with url: /v3/cluster/member/list (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x7f95c0ce45e0>, 'Connection to 10.0.10.4 timed out. (connect timeout=1.6666666666666667)'))")
+Nov 27 09:01:26 pgnode02 patroni[883]: 2023-11-27 09:01:26,928 ERROR: Failed to get list of machines from http://10.0.10.4:2379/v3: MaxRetryError("HTTPConnectionPool(host='10.0.10.4', port=2379): Max retries exceeded with url: /v3/cluster/member/list (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x7f95c0ce45e0>, 'Connection to 10.0.10.4 timed out. (connect timeout=1.6666666666666667)'))")
+Nov 27 09:01:28 pgnode02 patroni[883]: ERROR:patroni.dcs.etcd:Failed to get list of machines from http://10.0.10.2:2379/v3: MaxRetryError("HTTPConnectionPool(host='10.0.10.2', port=2379): Max retries exceeded with url: /v3/cluster/member/list (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x7f95c0ce6470>, 'Connection to 10.0.10.2 timed out. (connect timeout=1.6666666666666667)'))")
+Nov 27 09:01:28 pgnode02 patroni[883]: 2023-11-27 09:01:28,599 ERROR: Failed to get list of machines from http://10.0.10.2:2379/v3: MaxRetryError("HTTPConnectionPool(host='10.0.10.2', port=2379): Max retries exceeded with url: /v3/cluster/member/list (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x7f95c0ce6470>, 'Connection to 10.0.10.2 timed out. (connect timeout=1.6666666666666667)'))")
+Nov 27 09:01:28 pgnode02 patroni[883]: ERROR:patroni.dcs.etcd3:watchprefix failed: ReadTimeoutError("HTTPConnectionPool(host='10.0.10.2', port=2379): Read timed out.")
+Nov 27 09:01:28 pgnode02 patroni[883]: 2023-11-27 09:01:28,745 ERROR: watchprefix failed: ReadTimeoutError("HTTPConnectionPool(host='10.0.10.2', port=2379): Read timed out.")
+Nov 27 09:01:30 pgnode02 patroni[883]: ERROR:patroni.dcs.etcd:Failed to get list of machines from http://10.0.10.3:2379/v3: MaxRetryError("HTTPConnectionPool(host='10.0.10.3', port=2379): Max retries exceeded with url: /v3/cluster/member/list (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x7f95c0ce64a0>, 'Connection to 10.0.10.3 timed out. (connect timeout=1.6666666666666667)'))")
+Nov 27 09:01:30 pgnode02 patroni[883]: ERROR:patroni.ha:Error communicating with DCS
+Nov 27 09:01:30 pgnode02 patroni[883]: 2023-11-27 09:01:30,268 ERROR: Failed to get list of machines from http://10.0.10.3:2379/v3: MaxRetryError("HTTPConnectionPool(host='10.0.10.3', port=2379): Max retries exceeded with url: /v3/cluster/member/list (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x7f95c0ce64a0>, 'Connection to 10.0.10.3 timed out. (connect timeout=1.6666666666666667)'))")
+Nov 27 09:01:30 pgnode02 patroni[883]: 2023-11-27 09:01:30,269 ERROR: Error communicating with DCS
+Nov 27 09:01:30 pgnode02 patroni[883]: INFO:patroni.__main__:demoting self because DCS is not accessible and I was a leader
+Nov 27 09:01:30 pgnode02 patroni[883]: 2023-11-27 09:01:30,269 INFO: demoting self because DCS is not accessible and I was a leader
+Nov 27 09:01:30 pgnode02 patroni[883]: INFO:patroni.ha:Demoting self (offline)
+Nov 27 09:01:30 pgnode02 patroni[883]: 2023-11-27 09:01:30,270 INFO: Demoting self (offline)
+Nov 27 09:01:30 pgnode02 patroni[883]: WARNING:patroni.__main__:Loop time exceeded, rescheduling immediately.
+Nov 27 09:01:30 pgnode02 patroni[883]: 2023-11-27 09:01:30,271 WARNING: Loop time exceeded, rescheduling immediately.
+Nov 27 09:01:30 pgnode02 patroni[883]: ERROR:patroni.dcs.etcd:Failed to get list of machines from http://10.0.10.4:2379/v3: MaxRetryError("HTTPConnectionPool(host='10.0.10.4', port=2379): Max retries exceeded with url: /v3/cluster/member/list (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x7f95c0ce6200>, 'Connection to 10.0.10.4 timed out. (connect timeout=1.6666666666666667)'))")
+Nov 27 09:01:30 pgnode02 patroni[883]: 2023-11-27 09:01:30,414 ERROR: Failed to get list of machines from http://10.0.10.4:2379/v3: MaxRetryError("HTTPConnectionPool(host='10.0.10.4', port=2379): Max retries exceeded with url: /v3/cluster/member/list (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x7f95c0ce6200>, 'Connection to 10.0.10.4 timed out. (connect timeout=1.6666666666666667)'))")
+Nov 27 09:01:32 pgnode02 patroni[883]: ERROR:patroni.dcs.etcd:Failed to get list of machines from http://10.0.10.2:2379/v3: MaxRetryError("HTTPConnectionPool(host='10.0.10.2', port=2379): Max retries exceeded with url: /v3/cluster/member/list (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x7f95c0ce6950>, 'Connection to 10.0.10.2 timed out. (connect timeout=1.6666666666666667)'))")
+Nov 27 09:01:32 pgnode02 patroni[883]: 2023-11-27 09:01:32,084 ERROR: Failed to get list of machines from http://10.0.10.2:2379/v3: MaxRetryError("HTTPConnectionPool(host='10.0.10.2', port=2379): Max retries exceeded with url: /v3/cluster/member/list (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x7f95c0ce6950>, 'Connection to 10.0.10.2 timed out. (connect timeout=1.6666666666666667)'))")
+Nov 27 09:01:33 pgnode02 patroni[883]: ERROR:patroni.dcs.etcd:Failed to get list of machines from http://10.0.10.3:2379/v3: MaxRetryError("HTTPConnectionPool(host='10.0.10.3', port=2379): Max retries exceeded with url: /v3/cluster/member/list (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x7f95c0ce71c0>, 'Connection to 10.0.10.3 timed out. (connect timeout=1.6666666666666667)'))")
+Nov 27 09:01:33 pgnode02 patroni[883]: ERROR:patroni.dcs.etcd3:KVCache.run EtcdException('Could not get the list of servers, maybe you provided the wrong host(s) to connect to?')
+Nov 27 09:01:33 pgnode02 patroni[883]: 2023-11-27 09:01:33,753 ERROR: Failed to get list of machines from http://10.0.10.3:2379/v3: MaxRetryError("HTTPConnectionPool(host='10.0.10.3', port=2379): Max retries exceeded with url: /v3/cluster/member/list (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x7f95c0ce71c0>, 'Connection to 10.0.10.3 timed out. (connect timeout=1.6666666666666667)'))")
+Nov 27 09:01:33 pgnode02 patroni[883]: 2023-11-27 09:01:33,753 ERROR: KVCache.run EtcdException('Could not get the list of servers, maybe you provided the wrong host(s) to connect to?')
+Nov 27 09:01:36 pgnode02 patroni[883]: ERROR:patroni.dcs.etcd:Failed to get list of machines from http://10.0.10.4:2379/v3: MaxRetryError("HTTPConnectionPool(host='10.0.10.4', port=2379): Max retries exceeded with url: /v3/cluster/member/list (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x7f95c0ce7490>, 'Connection to 10.0.10.4 timed out. (connect timeout=1.6666666666666667)'))")
+Nov 27 09:01:36 pgnode02 patroni[883]: 2023-11-27 09:01:36,423 ERROR: Failed to get list of machines from http://10.0.10.4:2379/v3: MaxRetryError("HTTPConnectionPool(host='10.0.10.4', port=2379): Max retries exceeded with url: /v3/cluster/member/list (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x7f95c0ce7490>, 'Connection to 10.0.10.4 timed out. (connect timeout=1.6666666666666667)'))")
+Nov 27 09:01:38 pgnode02 patroni[883]: ERROR:patroni.dcs.etcd:Failed to get list of machines from http://10.0.10.2:2379/v3: MaxRetryError("HTTPConnectionPool(host='10.0.10.2', port=2379): Max retries exceeded with url: /v3/cluster/member/list (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x7f95c0ce78b0>, 'Connection to 10.0.10.2 timed out. (connect timeout=1.6666666666666667)'))")
+Nov 27 09:01:38 pgnode02 patroni[883]: 2023-11-27 09:01:38,093 ERROR: Failed to get list of machines from http://10.0.10.2:2379/v3: MaxRetryError("HTTPConnectionPool(host='10.0.10.2', port=2379): Max retries exceeded with url: /v3/cluster/member/list (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x7f95c0ce78b0>, 'Connection to 10.0.10.2 timed out. (connect timeout=1.6666666666666667)'))")
+Nov 27 09:01:39 pgnode02 patroni[883]: ERROR:patroni.dcs.etcd:Failed to get list of machines from http://10.0.10.3:2379/v3: MaxRetryError("HTTPConnectionPool(host='10.0.10.3', port=2379): Max retries exceeded with url: /v3/cluster/member/list (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x7f95c0ce79a0>, 'Connection to 10.0.10.3 timed out. (connect timeout=1.6666666666666667)'))")
+Nov 27 09:01:39 pgnode02 patroni[883]: ERROR:patroni.dcs.etcd3:KVCache.run EtcdException('Could not get the list of servers, maybe you provided the wrong host(s) to connect to?')
+Nov 27 09:01:39 pgnode02 patroni[883]: 2023-11-27 09:01:39,761 ERROR: Failed to get list of machines from http://10.0.10.3:2379/v3: MaxRetryError("HTTPConnectionPool(host='10.0.10.3', port=2379): Max retries exceeded with url: /v3/cluster/member/list (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x7f95c0ce79a0>, 'Connection to 10.0.10.3 timed out. (connect timeout=1.6666666666666667)'))")
+Nov 27 09:01:39 pgnode02 patroni[883]: 2023-11-27 09:01:39,761 ERROR: KVCache.run EtcdException('Could not get the list of servers, maybe you provided the wrong host(s) to connect to?')
+Nov 27 09:01:40 pgnode02 patroni[883]: ERROR:patroni.dcs.etcd:get_cluster
+Nov 27 09:01:40 pgnode02 patroni[883]: Traceback (most recent call last):
+Nov 27 09:01:40 pgnode02 patroni[883]:   File "/usr/local/lib/python3.10/dist-packages/patroni/dcs/etcd3.py", line 795, in _load_cluster
+Nov 27 09:01:40 pgnode02 patroni[883]:     cluster = loader(path)
+Nov 27 09:01:40 pgnode02 patroni[883]:   File "/usr/local/lib/python3.10/dist-packages/patroni/dcs/etcd3.py", line 777, in _cluster_loader
+Nov 27 09:01:40 pgnode02 patroni[883]:     for node in self._client.get_cluster(path)
+Nov 27 09:01:40 pgnode02 patroni[883]:   File "/usr/local/lib/python3.10/dist-packages/patroni/dcs/etcd3.py", line 594, in get_cluster
+Nov 27 09:01:40 pgnode02 patroni[883]:     self._wait_cache(self.read_timeout)
+Nov 27 09:01:40 pgnode02 patroni[883]:   File "/usr/local/lib/python3.10/dist-packages/patroni/dcs/etcd3.py", line 588, in _wait_cache
+Nov 27 09:01:40 pgnode02 patroni[883]:     raise RetryFailedError('Exceeded retry deadline')
+Nov 27 09:01:40 pgnode02 patroni[883]: patroni.utils.RetryFailedError: Exceeded retry deadline
+Nov 27 09:01:40 pgnode02 patroni[883]: ERROR:patroni.ha:Error communicating with DCS
+Nov 27 09:01:40 pgnode02 patroni[883]: INFO:patroni.postgresql.connection:establishing a new patroni connection to the postgres cluster
+Nov 27 09:01:40 pgnode02 patroni[883]: 2023-11-27 09:01:40,271 ERROR: get_cluster
+Nov 27 09:01:40 pgnode02 patroni[883]: Traceback (most recent call last):
+Nov 27 09:01:40 pgnode02 patroni[883]:   File "/usr/local/lib/python3.10/dist-packages/patroni/dcs/etcd3.py", line 795, in _load_cluster
+Nov 27 09:01:40 pgnode02 patroni[883]:     cluster = loader(path)
+Nov 27 09:01:40 pgnode02 patroni[883]:   File "/usr/local/lib/python3.10/dist-packages/patroni/dcs/etcd3.py", line 777, in _cluster_loader
+Nov 27 09:01:40 pgnode02 patroni[883]:     for node in self._client.get_cluster(path)
+Nov 27 09:01:40 pgnode02 patroni[883]:   File "/usr/local/lib/python3.10/dist-packages/patroni/dcs/etcd3.py", line 594, in get_cluster
+Nov 27 09:01:40 pgnode02 patroni[883]:     self._wait_cache(self.read_timeout)
+Nov 27 09:01:40 pgnode02 patroni[883]:   File "/usr/local/lib/python3.10/dist-packages/patroni/dcs/etcd3.py", line 588, in _wait_cache
+Nov 27 09:01:40 pgnode02 patroni[883]:     raise RetryFailedError('Exceeded retry deadline')
+Nov 27 09:01:40 pgnode02 patroni[883]: patroni.utils.RetryFailedError: Exceeded retry deadline
+Nov 27 09:01:40 pgnode02 patroni[883]: 2023-11-27 09:01:40,274 ERROR: Error communicating with DCS
+Nov 27 09:01:40 pgnode02 patroni[883]: 2023-11-27 09:01:40,274 INFO: establishing a new patroni connection to the postgres cluster
+Nov 27 09:01:40 pgnode02 patroni[883]: INFO:patroni.postgresql.connection:establishing a new patroni connection to the postgres cluster
+Nov 27 09:01:40 pgnode02 patroni[883]: 2023-11-27 09:01:40,487 INFO: establishing a new patroni connection to the postgres cluster
+Nov 27 09:01:40 pgnode02 patroni[883]: WARNING:patroni.utils:Retry got exception: connection problems
+Nov 27 09:01:40 pgnode02 patroni[883]: 2023-11-27 09:01:40,489 WARNING: Retry got exception: connection problems
+Nov 27 09:01:40 pgnode02 patroni[647244]: /var/run/postgresql:5432 - rejecting connections
+Nov 27 09:01:40 pgnode02 patroni[883]: WARNING:patroni.postgresql:Failed to determine PostgreSQL state from the connection, falling back to cached role
+Nov 27 09:01:40 pgnode02 patroni[883]: WARNING:patroni.ha:AsyncExecutor is busy, demoting from the main thread
+Nov 27 09:01:40 pgnode02 patroni[883]: INFO:patroni.ha:Demoting self (offline)
+Nov 27 09:01:40 pgnode02 patroni[883]: 2023-11-27 09:01:40,494 WARNING: Failed to determine PostgreSQL state from the connection, falling back to cached role
+Nov 27 09:01:40 pgnode02 patroni[883]: 2023-11-27 09:01:40,495 WARNING: AsyncExecutor is busy, demoting from the main thread
+Nov 27 09:01:40 pgnode02 patroni[883]: 2023-11-27 09:01:40,495 INFO: Demoting self (offline)
+Nov 27 09:01:42 pgnode02 patroni[883]: ERROR:patroni.dcs.etcd:Failed to get list of machines from http://10.0.10.4:2379/v3: MaxRetryError("HTTPConnectionPool(host='10.0.10.4', port=2379): Max retries exceeded with url: /v3/cluster/member/list (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x7f95c0c0e9e0>, 'Connection to 10.0.10.4 timed out. (connect timeout=1.6666666666666667)'))")
+Nov 27 09:01:42 pgnode02 patroni[883]: 2023-11-27 09:01:42,434 ERROR: Failed to get list of machines from http://10.0.10.4:2379/v3: MaxRetryError("HTTPConnectionPool(host='10.0.10.4', port=2379): Max retries exceeded with url: /v3/cluster/member/list (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x7f95c0c0e9e0>, 'Connection to 10.0.10.4 timed out. (connect timeout=1.6666666666666667)'))")
+Nov 27 09:01:42 pgnode02 patroni[883]: INFO:patroni.postgresql.postmaster:postmaster pid=647432
+Nov 27 09:01:42 pgnode02 patroni[883]: 2023-11-27 09:01:42,783 INFO: postmaster pid=647432
+Nov 27 09:01:42 pgnode02 patroni[647433]: /var/run/postgresql:5432 - no response
+Nov 27 09:01:42 pgnode02 patroni[647432]: 2023-11-27 09:01:42 UTC [647432-1]  LOG:  redirecting log output to logging collector process
+Nov 27 09:01:42 pgnode02 patroni[647432]: 2023-11-27 09:01:42 UTC [647432-2]  HINT:  Future log output will appear in directory "/var/log/postgresql".
+Nov 27 09:01:42 pgnode02 patroni[647434]: 2023-11-27 09:01:42 UTC [647434-1]  FATAL:  lock file "postmaster.pid" already exists
+Nov 27 09:01:42 pgnode02 patroni[647434]: 2023-11-27 09:01:42 UTC [647434-2]  HINT:  Is another postmaster (PID 647432) running in data directory "/var/lib/postgresql/15/main"?
+Nov 27 09:01:42 pgnode02 patroni[883]: INFO:patroni.postgresql.postmaster:postmaster pid=647434
+Nov 27 09:01:42 pgnode02 patroni[883]: INFO:patroni.__main__:demoted self because DCS is not accessible and I was a leader
+Nov 27 09:01:42 pgnode02 patroni[883]: 2023-11-27 09:01:42,963 INFO: postmaster pid=647434
+Nov 27 09:01:42 pgnode02 patroni[883]: 2023-11-27 09:01:42,964 INFO: demoted self because DCS is not accessible and I was a leader
+Nov 27 09:01:42 pgnode02 patroni[883]: WARNING:patroni.__main__:Loop time exceeded, rescheduling immediately.
+Nov 27 09:01:42 pgnode02 patroni[883]: 2023-11-27 09:01:42,966 WARNING: Loop time exceeded, rescheduling immediately.
+Nov 27 09:01:43 pgnode02 patroni[883]: WARNING:  database "postgres" has a collation version mismatch
+Nov 27 09:01:43 pgnode02 patroni[883]: DETAIL:  The database was created using collation version 2.31, but the operating system provides version 2.35.
+Nov 27 09:01:43 pgnode02 patroni[883]: HINT:  Rebuild all objects in this database that use the default collation and run ALTER DATABASE postgres REFRESH COLLATION VERSION, or build PostgreSQL with the right library version.
+Nov 27 09:01:43 pgnode02 patroni[647448]: WARNING:  database "postgres" has a collation version mismatch
+Nov 27 09:01:43 pgnode02 patroni[647448]: DETAIL:  The database was created using collation version 2.31, but the operating system provides version 2.35.
+Nov 27 09:01:43 pgnode02 patroni[647448]: HINT:  Rebuild all objects in this database that use the default collation and run ALTER DATABASE postgres REFRESH COLLATION VERSION, or build PostgreSQL with the right library version.
+Nov 27 09:01:43 pgnode02 patroni[647448]: /var/run/postgresql:5432 - accepting connections
+Nov 27 09:01:43 pgnode02 patroni[647450]: WARNING:  database "postgres" has a collation version mismatch
+Nov 27 09:01:43 pgnode02 patroni[647450]: DETAIL:  The database was created using collation version 2.31, but the operating system provides version 2.35.
+Nov 27 09:01:43 pgnode02 patroni[647450]: HINT:  Rebuild all objects in this database that use the default collation and run ALTER DATABASE postgres REFRESH COLLATION VERSION, or build PostgreSQL with the right library version.
+Nov 27 09:01:43 pgnode02 patroni[647450]: /var/run/postgresql:5432 - accepting connections
+Nov 27 09:01:44 pgnode02 patroni[883]: ERROR:patroni.dcs.etcd:Failed to get list of machines from http://10.0.10.2:2379/v3: MaxRetryError("HTTPConnectionPool(host='10.0.10.2', port=2379): Max retries exceeded with url: /v3/cluster/member/list (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x7f95c0ce7010>, 'Connection to 10.0.10.2 timed out. (connect timeout=1.6666666666666667)'))")
+Nov 27 09:01:44 pgnode02 patroni[883]: 2023-11-27 09:01:44,103 ERROR: Failed to get list of machines from http://10.0.10.2:2379/v3: MaxRetryError("HTTPConnectionPool(host='10.0.10.2', port=2379): Max retries exceeded with url: /v3/cluster/member/list (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x7f95c0ce7010>, 'Connection to 10.0.10.2 timed out. (connect timeout=1.6666666666666667)'))")
+Nov 27 09:01:45 pgnode02 patroni[883]: ERROR:patroni.dcs.etcd:Failed to get list of machines from http://10.0.10.3:2379/v3: MaxRetryError("HTTPConnectionPool(host='10.0.10.3', port=2379): Max retries exceeded with url: /v3/cluster/member/list (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x7f95c0c0f220>, 'Connection to 10.0.10.3 timed out. (connect timeout=1.6666666666666667)'))")
+Nov 27 09:01:45 pgnode02 patroni[883]: ERROR:patroni.dcs.etcd3:KVCache.run EtcdException('Could not get the list of servers, maybe you provided the wrong host(s) to connect to?')
+Nov 27 09:01:45 pgnode02 patroni[883]: 2023-11-27 09:01:45,773 ERROR: Failed to get list of machines from http://10.0.10.3:2379/v3: MaxRetryError("HTTPConnectionPool(host='10.0.10.3', port=2379): Max retries exceeded with url: /v3/cluster/member/list (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x7f95c0c0f220>, 'Connection to 10.0.10.3 timed out. (connect timeout=1.6666666666666667)'))")
+Nov 27 09:01:45 pgnode02 patroni[883]: 2023-11-27 09:01:45,773 ERROR: KVCache.run EtcdException('Could not get the list of servers, maybe you provided the wrong host(s) to connect to?')
+Nov 27 09:01:48 pgnode02 patroni[883]: ERROR:patroni.dcs.etcd:Failed to get list of machines from http://10.0.10.4:2379/v3: MaxRetryError("HTTPConnectionPool(host='10.0.10.4', port=2379): Max retries exceeded with url: /v3/cluster/member/list (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x7f95c0ce7190>, 'Connection to 10.0.10.4 timed out. (connect timeout=1.6666666666666667)'))")
+Nov 27 09:01:48 pgnode02 patroni[883]: 2023-11-27 09:01:48,444 ERROR: Failed to get list of machines from http://10.0.10.4:2379/v3: MaxRetryError("HTTPConnectionPool(host='10.0.10.4', port=2379): Max retries exceeded with url: /v3/cluster/member/list (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x7f95c0ce7190>, 'Connection to 10.0.10.4 timed out. (connect timeout=1.6666666666666667)'))")
+Nov 27 09:01:50 pgnode02 patroni[883]: ERROR:patroni.dcs.etcd:Failed to get list of machines from http://10.0.10.2:2379/v3: MaxRetryError("HTTPConnectionPool(host='10.0.10.2', port=2379): Max retries exceeded with url: /v3/cluster/member/list (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x7f95c0ce7a90>, 'Connection to 10.0.10.2 timed out. (connect timeout=1.6666666666666667)'))")
+Nov 27 09:01:50 pgnode02 patroni[883]: 2023-11-27 09:01:50,113 ERROR: Failed to get list of machines from http://10.0.10.2:2379/v3: MaxRetryError("HTTPConnectionPool(host='10.0.10.2', port=2379): Max retries exceeded with url: /v3/cluster/member/list (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x7f95c0ce7a90>, 'Connection to 10.0.10.2 timed out. (connect timeout=1.6666666666666667)'))")
+Nov 27 09:01:51 pgnode02 patroni[883]: ERROR:patroni.dcs.etcd:Failed to get list of machines from http://10.0.10.3:2379/v3: MaxRetryError("HTTPConnectionPool(host='10.0.10.3', port=2379): Max retries exceeded with url: /v3/cluster/member/list (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x7f95c0ce66b0>, 'Connection to 10.0.10.3 timed out. (connect timeout=1.6666666666666667)'))")
+Nov 27 09:01:51 pgnode02 patroni[883]: ERROR:patroni.dcs.etcd3:KVCache.run EtcdException('Could not get the list of servers, maybe you provided the wrong host(s) to connect to?')
+Nov 27 09:01:51 pgnode02 patroni[883]: 2023-11-27 09:01:51,782 ERROR: Failed to get list of machines from http://10.0.10.3:2379/v3: MaxRetryError("HTTPConnectionPool(host='10.0.10.3', port=2379): Max retries exceeded with url: /v3/cluster/member/list (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x7f95c0ce66b0>, 'Connection to 10.0.10.3 timed out. (connect timeout=1.6666666666666667)'))")
+Nov 27 09:01:51 pgnode02 patroni[883]: 2023-11-27 09:01:51,782 ERROR: KVCache.run EtcdException('Could not get the list of servers, maybe you provided the wrong host(s) to connect to?')
+Nov 27 09:01:52 pgnode02 patroni[883]: ERROR:patroni.dcs.etcd:Failed to get list of machines from http://10.0.10.4:2379/v3: MaxRetryError("HTTPConnectionPool(host='10.0.10.4', port=2379): Max retries exceeded with url: /v3/cluster/member/list (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f95c0ce6d40>: Failed to establish a new connection: [Errno 113] No route to host'))")
+Nov 27 09:01:52 pgnode02 patroni[883]: 2023-11-27 09:01:52,901 ERROR: Failed to get list of machines from http://10.0.10.4:2379/v3: MaxRetryError("HTTPConnectionPool(host='10.0.10.4', port=2379): Max retries exceeded with url: /v3/cluster/member/list (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f95c0ce6d40>: Failed to establish a new connection: [Errno 113] No route to host'))")
+Nov 27 09:01:52 pgnode02 patroni[883]: ERROR:patroni.dcs.etcd:Exceeded retry deadline
+Nov 27 09:01:52 pgnode02 patroni[883]: ERROR:patroni.ha:Error communicating with DCS
+Nov 27 09:01:52 pgnode02 patroni[883]: INFO:patroni.postgresql.connection:establishing a new patroni connection to the postgres cluster
+Nov 27 09:01:52 pgnode02 patroni[883]: 2023-11-27 09:01:52,967 ERROR: Exceeded retry deadline
+Nov 27 09:01:52 pgnode02 patroni[883]: 2023-11-27 09:01:52,967 ERROR: Error communicating with DCS
+Nov 27 09:01:52 pgnode02 patroni[883]: 2023-11-27 09:01:52,967 INFO: establishing a new patroni connection to the postgres cluster
+Nov 27 09:01:52 pgnode02 patroni[883]: INFO:patroni.__main__:DCS is not accessible
+Nov 27 09:01:52 pgnode02 patroni[883]: 2023-11-27 09:01:52,968 INFO: DCS is not accessible
+Nov 27 09:01:52 pgnode02 patroni[883]: WARNING:patroni.__main__:Loop time exceeded, rescheduling immediately.
+Nov 27 09:01:52 pgnode02 patroni[883]: 2023-11-27 09:01:52,969 WARNING: Loop time exceeded, rescheduling immediately.
+Nov 27 09:01:54 pgnode02 patroni[883]: ERROR:patroni.dcs.etcd:Failed to get list of machines from http://10.0.10.2:2379/v3: MaxRetryError("HTTPConnectionPool(host='10.0.10.2', port=2379): Max retries exceeded with url: /v3/cluster/member/list (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f95c0ce6560>: Failed to establish a new connection: [Errno 113] No route to host'))")
+Nov 27 09:01:54 pgnode02 patroni[883]: 2023-11-27 09:01:54,053 ERROR: Failed to get list of machines from http://10.0.10.2:2379/v3: MaxRetryError("HTTPConnectionPool(host='10.0.10.2', port=2379): Max retries exceeded with url: /v3/cluster/member/list (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f95c0ce6560>: Failed to establish a new connection: [Errno 113] No route to host'))")
+Nov 27 09:01:55 pgnode02 patroni[883]: ERROR:patroni.dcs.etcd:Failed to get list of machines from http://10.0.10.3:2379/v3: MaxRetryError("HTTPConnectionPool(host='10.0.10.3', port=2379): Max retries exceeded with url: /v3/cluster/member/list (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x7f95c0ce6c80>, 'Connection to 10.0.10.3 timed out. (connect timeout=1.6666666666666667)'))")
+Nov 27 09:01:55 pgnode02 patroni[883]: ERROR:patroni.dcs.etcd3:KVCache.run EtcdException('Could not get the list of servers, maybe you provided the wrong host(s) to connect to?')
+Nov 27 09:01:55 pgnode02 patroni[883]: 2023-11-27 09:01:55,721 ERROR: Failed to get list of machines from http://10.0.10.3:2379/v3: MaxRetryError("HTTPConnectionPool(host='10.0.10.3', port=2379): Max retries exceeded with url: /v3/cluster/member/list (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x7f95c0ce6c80>, 'Connection to 10.0.10.3 timed out. (connect timeout=1.6666666666666667)'))")
+Nov 27 09:01:55 pgnode02 patroni[883]: 2023-11-27 09:01:55,721 ERROR: KVCache.run EtcdException('Could not get the list of servers, maybe you provided the wrong host(s) to connect to?')
+Nov 27 09:01:58 pgnode02 patroni[883]: ERROR:patroni.dcs.etcd:Failed to get list of machines from http://10.0.10.4:2379/v3: MaxRetryError("HTTPConnectionPool(host='10.0.10.4', port=2379): Max retries exceeded with url: /v3/cluster/member/list (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x7f95c0ce6d10>, 'Connection to 10.0.10.4 timed out. (connect timeout=1.6666666666666667)'))")
+Nov 27 09:01:58 pgnode02 patroni[883]: 2023-11-27 09:01:58,392 ERROR: Failed to get list of machines from http://10.0.10.4:2379/v3: MaxRetryError("HTTPConnectionPool(host='10.0.10.4', port=2379): Max retries exceeded with url: /v3/cluster/member/list (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x7f95c0ce6d10>, 'Connection to 10.0.10.4 timed out. (connect timeout=1.6666666666666667)'))")
+Nov 27 09:02:00 pgnode02 patroni[883]: ERROR:patroni.dcs.etcd:Failed to get list of machines from http://10.0.10.2:2379/v3: MaxRetryError("HTTPConnectionPool(host='10.0.10.2', port=2379): Max retries exceeded with url: /v3/cluster/member/list (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x7f95c0ce70d0>, 'Connection to 10.0.10.2 timed out. (connect timeout=1.6666666666666667)'))")
+Nov 27 09:02:00 pgnode02 patroni[883]: 2023-11-27 09:02:00,063 ERROR: Failed to get list of machines from http://10.0.10.2:2379/v3: MaxRetryError("HTTPConnectionPool(host='10.0.10.2', port=2379): Max retries exceeded with url: /v3/cluster/member/list (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x7f95c0ce70d0>, 'Connection to 10.0.10.2 timed out. (connect timeout=1.6666666666666667)'))")
+Nov 27 09:02:01 pgnode02 patroni[883]: ERROR:patroni.dcs.etcd:Failed to get list of machines from http://10.0.10.3:2379/v3: MaxRetryError("HTTPConnectionPool(host='10.0.10.3', port=2379): Max retries exceeded with url: /v3/cluster/member/list (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x7f95c0ce7d90>, 'Connection to 10.0.10.3 timed out. (connect timeout=1.6666666666666667)'))")
+Nov 27 09:02:01 pgnode02 patroni[883]: ERROR:patroni.dcs.etcd3:KVCache.run EtcdException('Could not get the list of servers, maybe you provided the wrong host(s) to connect to?')
+Nov 27 09:02:01 pgnode02 patroni[883]: 2023-11-27 09:02:01,733 ERROR: Failed to get list of machines from http://10.0.10.3:2379/v3: MaxRetryError("HTTPConnectionPool(host='10.0.10.3', port=2379): Max retries exceeded with url: /v3/cluster/member/list (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x7f95c0ce7d90>, 'Connection to 10.0.10.3 timed out. (connect timeout=1.6666666666666667)'))")
+Nov 27 09:02:01 pgnode02 patroni[883]: 2023-11-27 09:02:01,733 ERROR: KVCache.run EtcdException('Could not get the list of servers, maybe you provided the wrong host(s) to connect to?')
+Nov 27 09:02:02 pgnode02 patroni[883]: ERROR:patroni.dcs.etcd:Exceeded retry deadline
+Nov 27 09:02:02 pgnode02 patroni[883]: ERROR:patroni.ha:Error communicating with DCS
+Nov 27 09:02:02 pgnode02 patroni[883]: 2023-11-27 09:02:02,969 ERROR: Exceeded retry deadline
+Nov 27 09:02:02 pgnode02 patroni[883]: 2023-11-27 09:02:02,969 ERROR: Error communicating with DCS
+Nov 27 09:02:02 pgnode02 patroni[883]: INFO:patroni.__main__:DCS is not accessible
+Nov 27 09:02:02 pgnode02 patroni[883]: 2023-11-27 09:02:02,971 INFO: DCS is not accessible
+Nov 27 09:02:02 pgnode02 patroni[883]: WARNING:patroni.__main__:Loop time exceeded, rescheduling immediately.
+Nov 27 09:02:02 pgnode02 patroni[883]: 2023-11-27 09:02:02,972 WARNING: Loop time exceeded, rescheduling immediately.
+Nov 27 09:02:04 pgnode02 patroni[883]: ERROR:patroni.dcs.etcd:Failed to get list of machines from http://10.0.10.4:2379/v3: MaxRetryError("HTTPConnectionPool(host='10.0.10.4', port=2379): Max retries exceeded with url: /v3/cluster/member/list (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x7f95c0ce6170>, 'Connection to 10.0.10.4 timed out. (connect timeout=1.6666666666666667)'))")
+Nov 27 09:02:04 pgnode02 patroni[883]: 2023-11-27 09:02:04,404 ERROR: Failed to get list of machines from http://10.0.10.4:2379/v3: MaxRetryError("HTTPConnectionPool(host='10.0.10.4', port=2379): Max retries exceeded with url: /v3/cluster/member/list (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x7f95c0ce6170>, 'Connection to 10.0.10.4 timed out. (connect timeout=1.6666666666666667)'))")
+Nov 27 09:02:06 pgnode02 patroni[883]: ERROR:patroni.dcs.etcd:Failed to get list of machines from http://10.0.10.2:2379/v3: MaxRetryError("HTTPConnectionPool(host='10.0.10.2', port=2379): Max retries exceeded with url: /v3/cluster/member/list (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x7f95c0ce45e0>, 'Connection to 10.0.10.2 timed out. (connect timeout=1.6666666666666667)'))")
+Nov 27 09:02:06 pgnode02 patroni[883]: 2023-11-27 09:02:06,073 ERROR: Failed to get list of machines from http://10.0.10.2:2379/v3: MaxRetryError("HTTPConnectionPool(host='10.0.10.2', port=2379): Max retries exceeded with url: /v3/cluster/member/list (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x7f95c0ce45e0>, 'Connection to 10.0.10.2 timed out. (connect timeout=1.6666666666666667)'))")
+Nov 27 09:02:07 pgnode02 patroni[883]: ERROR:patroni.dcs.etcd:Failed to get list of machines from http://10.0.10.3:2379/v3: MaxRetryError("HTTPConnectionPool(host='10.0.10.3', port=2379): Max retries exceeded with url: /v3/cluster/member/list (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x7f95c0ce66e0>, 'Connection to 10.0.10.3 timed out. (connect timeout=1.6666666666666667)'))")
+Nov 27 09:02:07 pgnode02 patroni[883]: ERROR:patroni.dcs.etcd3:KVCache.run EtcdException('Could not get the list of servers, maybe you provided the wrong host(s) to connect to?')
+Nov 27 09:02:07 pgnode02 patroni[883]: 2023-11-27 09:02:07,741 ERROR: Failed to get list of machines from http://10.0.10.3:2379/v3: MaxRetryError("HTTPConnectionPool(host='10.0.10.3', port=2379): Max retries exceeded with url: /v3/cluster/member/list (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x7f95c0ce66e0>, 'Connection to 10.0.10.3 timed out. (connect timeout=1.6666666666666667)'))")
+Nov 27 09:02:07 pgnode02 patroni[883]: 2023-11-27 09:02:07,741 ERROR: KVCache.run EtcdException('Could not get the list of servers, maybe you provided the wrong host(s) to connect to?')
+Nov 27 09:02:10 pgnode02 patroni[883]: ERROR:patroni.dcs.etcd:Failed to get list of machines from http://10.0.10.4:2379/v3: MaxRetryError("HTTPConnectionPool(host='10.0.10.4', port=2379): Max retries exceeded with url: /v3/cluster/member/list (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x7f95c0ce7e80>, 'Connection to 10.0.10.4 timed out. (connect timeout=1.6666666666666667)'))")
+Nov 27 09:02:10 pgnode02 patroni[883]: 2023-11-27 09:02:10,412 ERROR: Failed to get list of machines from http://10.0.10.4:2379/v3: MaxRetryError("HTTPConnectionPool(host='10.0.10.4', port=2379): Max retries exceeded with url: /v3/cluster/member/list (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x7f95c0ce7e80>, 'Connection to 10.0.10.4 timed out. (connect timeout=1.6666666666666667)'))")
+Nov 27 09:02:12 pgnode02 patroni[883]: ERROR:patroni.dcs.etcd:Failed to get list of machines from http://10.0.10.2:2379/v3: MaxRetryError("HTTPConnectionPool(host='10.0.10.2', port=2379): Max retries exceeded with url: /v3/cluster/member/list (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x7f95c0ce5ff0>, 'Connection to 10.0.10.2 timed out. (connect timeout=1.6666666666666667)'))")
+Nov 27 09:02:12 pgnode02 patroni[883]: 2023-11-27 09:02:12,081 ERROR: Failed to get list of machines from http://10.0.10.2:2379/v3: MaxRetryError("HTTPConnectionPool(host='10.0.10.2', port=2379): Max retries exceeded with url: /v3/cluster/member/list (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x7f95c0ce5ff0>, 'Connection to 10.0.10.2 timed out. (connect timeout=1.6666666666666667)'))")
+Nov 27 09:02:12 pgnode02 patroni[883]: INFO:patroni.ha:Lock owner: pgnode01; I am pgnode02
+Nov 27 09:02:12 pgnode02 patroni[883]: INFO:patroni.postgresql.rewind:Local timeline=7 lsn=0/8E0000A0
+Nov 27 09:02:12 pgnode02 patroni[883]: 2023-11-27 09:02:12,640 INFO: Lock owner: pgnode01; I am pgnode02
+Nov 27 09:02:12 pgnode02 patroni[883]: 2023-11-27 09:02:12,655 INFO: Local timeline=7 lsn=0/8E0000A0
+Nov 27 09:02:12 pgnode02 patroni[883]: INFO:patroni.postgresql.rewind:primary_timeline=8
+Nov 27 09:02:12 pgnode02 patroni[883]: 2023-11-27 09:02:12,734 INFO: primary_timeline=8
+Nov 27 09:02:12 pgnode02 patroni[883]: INFO:patroni.postgresql.rewind:primary: history=4        0/880001B8        no recovery target specified
+Nov 27 09:02:12 pgnode02 patroni[883]: 5        0/8A0000A0        no recovery target specified
+Nov 27 09:02:12 pgnode02 patroni[883]: 6        0/8D0000A0        no recovery target specified
+Nov 27 09:02:12 pgnode02 patroni[883]: 7        0/8E000000        no recovery target specified
+Nov 27 09:02:12 pgnode02 patroni[883]: 2023-11-27 09:02:12,735 INFO: primary: history=4        0/880001B8        no recovery target specified
+Nov 27 09:02:12 pgnode02 patroni[883]: 5        0/8A0000A0        no recovery target specified
+Nov 27 09:02:12 pgnode02 patroni[883]: 6        0/8D0000A0        no recovery target specified
+Nov 27 09:02:12 pgnode02 patroni[883]: 7        0/8E000000        no recovery target specified
+Nov 27 09:02:12 pgnode02 patroni[883]: INFO:patroni.__main__:running pg_rewind from pgnode01
+Nov 27 09:02:12 pgnode02 patroni[883]: 2023-11-27 09:02:12,752 INFO: running pg_rewind from pgnode01
+Nov 27 09:02:12 pgnode02 patroni[883]: INFO:patroni.postgresql.rewind:running pg_rewind from dbname=postgres user=postgres host=10.0.10.5 port=5432 target_session_attrs=read-write
+Nov 27 09:02:12 pgnode02 patroni[883]: 2023-11-27 09:02:12,835 INFO: running pg_rewind from dbname=postgres user=postgres host=10.0.10.5 port=5432 target_session_attrs=read-write
+Nov 27 09:02:12 pgnode02 patroni[883]: INFO:patroni.ha:Lock owner: pgnode01; I am pgnode02
+Nov 27 09:02:12 pgnode02 patroni[883]: INFO:patroni.__main__:running pg_rewind from pgnode01 in progress
+Nov 27 09:02:12 pgnode02 patroni[883]: 2023-11-27 09:02:12,973 INFO: Lock owner: pgnode01; I am pgnode02
+Nov 27 09:02:12 pgnode02 patroni[883]: 2023-11-27 09:02:12,981 INFO: running pg_rewind from pgnode01 in progress
+Nov 27 09:02:23 pgnode02 patroni[883]: INFO:patroni.ha:Lock owner: pgnode01; I am pgnode02
+Nov 27 09:02:23 pgnode02 patroni[883]: INFO:patroni.__main__:running pg_rewind from pgnode01 in progress
+Nov 27 09:02:23 pgnode02 patroni[883]: 2023-11-27 09:02:22,972 INFO: Lock owner: pgnode01; I am pgnode02
+Nov 27 09:02:23 pgnode02 patroni[883]: 2023-11-27 09:02:23,019 INFO: running pg_rewind from pgnode01 in progress
+Nov 27 09:02:32 pgnode02 patroni[883]: INFO:patroni.ha:Lock owner: pgnode01; I am pgnode02
+Nov 27 09:02:32 pgnode02 patroni[883]: INFO:patroni.__main__:running pg_rewind from pgnode01 in progress
+Nov 27 09:02:32 pgnode02 patroni[883]: 2023-11-27 09:02:32,971 INFO: Lock owner: pgnode01; I am pgnode02
+Nov 27 09:02:32 pgnode02 patroni[883]: 2023-11-27 09:02:32,971 INFO: running pg_rewind from pgnode01 in progress
+Nov 27 09:02:43 pgnode02 patroni[883]: INFO:patroni.ha:Lock owner: pgnode01; I am pgnode02
+Nov 27 09:02:43 pgnode02 patroni[883]: INFO:patroni.__main__:running pg_rewind from pgnode01 in progress
+Nov 27 09:02:43 pgnode02 patroni[883]: 2023-11-27 09:02:42,971 INFO: Lock owner: pgnode01; I am pgnode02
+Nov 27 09:02:43 pgnode02 patroni[883]: 2023-11-27 09:02:42,974 INFO: running pg_rewind from pgnode01 in progress
+Nov 27 09:02:52 pgnode02 patroni[883]: INFO:patroni.ha:Lock owner: pgnode01; I am pgnode02
+Nov 27 09:02:52 pgnode02 patroni[883]: INFO:patroni.__main__:running pg_rewind from pgnode01 in progress
+Nov 27 09:02:52 pgnode02 patroni[883]: 2023-11-27 09:02:52,971 INFO: Lock owner: pgnode01; I am pgnode02
+Nov 27 09:02:52 pgnode02 patroni[883]: 2023-11-27 09:02:52,972 INFO: running pg_rewind from pgnode01 in progress
+Nov 27 09:02:59 pgnode02 patroni[883]: INFO:patroni.postgresql.rewind:pg_rewind exit code=0
+Nov 27 09:02:59 pgnode02 patroni[883]: INFO:patroni.postgresql.rewind: stdout=
+Nov 27 09:02:59 pgnode02 patroni[883]: INFO:patroni.postgresql.rewind: stderr=pg_rewind: servers diverged at WAL location 0/8E000000 on timeline 7
+Nov 27 09:02:59 pgnode02 patroni[883]: pg_rewind: rewinding from last common checkpoint at 0/8D0030C8 on timeline 7
+Nov 27 09:02:59 pgnode02 patroni[883]: pg_rewind: Done!
+Nov 27 09:02:59 pgnode02 patroni[883]: WARNING:patroni.postgresql:Postgresql is not running.
+Nov 27 09:02:59 pgnode02 patroni[883]: INFO:patroni.ha:Lock owner: pgnode01; I am pgnode02
+Nov 27 09:02:59 pgnode02 patroni[883]: 2023-11-27 09:02:59,580 INFO: pg_rewind exit code=0
+Nov 27 09:02:59 pgnode02 patroni[883]: 2023-11-27 09:02:59,581 INFO:  stdout=
+Nov 27 09:02:59 pgnode02 patroni[883]: 2023-11-27 09:02:59,581 INFO:  stderr=pg_rewind: servers diverged at WAL location 0/8E000000 on timeline 7
+Nov 27 09:02:59 pgnode02 patroni[883]: pg_rewind: rewinding from last common checkpoint at 0/8D0030C8 on timeline 7
+Nov 27 09:02:59 pgnode02 patroni[883]: pg_rewind: Done!
+Nov 27 09:02:59 pgnode02 patroni[883]: 2023-11-27 09:02:59,582 WARNING: Postgresql is not running.
+Nov 27 09:02:59 pgnode02 patroni[883]: INFO:patroni.ha:pg_controldata:
+Nov 27 09:02:59 pgnode02 patroni[883]:   pg_control version number: 1300
+Nov 27 09:02:59 pgnode02 patroni[883]:   Catalog version number: 202209061
+Nov 27 09:02:59 pgnode02 patroni[883]:   Database system identifier: 7289481019752377798
+Nov 27 09:02:59 pgnode02 patroni[883]:   Database cluster state: in archive recovery
+Nov 27 09:02:59 pgnode02 patroni[883]:   pg_control last modified: Mon Nov 27 09:02:51 2023
+Nov 27 09:02:59 pgnode02 patroni[883]:   Latest checkpoint location: 0/8E000090
+Nov 27 09:02:59 pgnode02 patroni[883]:   Latest checkpoint's REDO location: 0/8E000058
+Nov 27 09:02:59 pgnode02 patroni[883]:   Latest checkpoint's REDO WAL file: 00000008000000000000008E
+Nov 27 09:02:59 pgnode02 patroni[883]:   Latest checkpoint's TimeLineID: 8
+Nov 27 09:02:59 pgnode02 patroni[883]:   Latest checkpoint's PrevTimeLineID: 8
+Nov 27 09:02:59 pgnode02 patroni[883]:   Latest checkpoint's full_page_writes: on
+Nov 27 09:02:59 pgnode02 patroni[883]:   Latest checkpoint's NextXID: 0:319354
+Nov 27 09:02:59 pgnode02 patroni[883]:   Latest checkpoint's NextOID: 65758
+Nov 27 09:02:59 pgnode02 patroni[883]:   Latest checkpoint's NextMultiXactId: 178
+Nov 27 09:02:59 pgnode02 patroni[883]:   Latest checkpoint's NextMultiOffset: 429
+Nov 27 09:02:59 pgnode02 patroni[883]:   Latest checkpoint's oldestXID: 717
+Nov 27 09:02:59 pgnode02 patroni[883]:   Latest checkpoint's oldestXID's DB: 1
+Nov 27 09:02:59 pgnode02 patroni[883]:   Latest checkpoint's oldestActiveXID: 319354
+Nov 27 09:02:59 pgnode02 patroni[883]:   Latest checkpoint's oldestMultiXid: 1
+Nov 27 09:02:59 pgnode02 patroni[883]:   Latest checkpoint's oldestMulti's DB: 1
+Nov 27 09:02:59 pgnode02 patroni[883]:   Latest checkpoint's oldestCommitTsXid: 0
+Nov 27 09:02:59 pgnode02 patroni[883]:   Latest checkpoint's newestCommitTsXid: 0
+Nov 27 09:02:59 pgnode02 patroni[883]:   Time of latest checkpoint: Mon Nov 27 09:01:40 2023
+Nov 27 09:02:59 pgnode02 patroni[883]:   Fake LSN counter for unlogged rels: 0/3E8
+Nov 27 09:02:59 pgnode02 patroni[883]:   Minimum recovery ending location: 0/8E001A00
+Nov 27 09:02:59 pgnode02 patroni[883]:   Min recovery ending loc's timeline: 8
+Nov 27 09:02:59 pgnode02 patroni[883]:   Backup start location: 0/0
+Nov 27 09:02:59 pgnode02 patroni[883]:   Backup end location: 0/0
+Nov 27 09:02:59 pgnode02 patroni[883]:   End-of-backup record required: no
+Nov 27 09:02:59 pgnode02 patroni[883]:   wal_level setting: replica
+Nov 27 09:02:59 pgnode02 patroni[883]:   wal_log_hints setting: on
+Nov 27 09:02:59 pgnode02 patroni[883]:   max_connections setting: 500
+Nov 27 09:02:59 pgnode02 patroni[883]:   max_worker_processes setting: 24
+Nov 27 09:02:59 pgnode02 patroni[883]:   max_wal_senders setting: 10
+Nov 27 09:02:59 pgnode02 patroni[883]:   max_prepared_xacts setting: 0
+Nov 27 09:02:59 pgnode02 patroni[883]:   max_locks_per_xact setting: 512
+Nov 27 09:02:59 pgnode02 patroni[883]:   track_commit_timestamp setting: off
+Nov 27 09:02:59 pgnode02 patroni[883]:   Maximum data alignment: 8
+Nov 27 09:02:59 pgnode02 patroni[883]:   Database block size: 8192
+Nov 27 09:02:59 pgnode02 patroni[883]:   Blocks per segment of large relation: 131072
+Nov 27 09:02:59 pgnode02 patroni[883]:   WAL block size: 8192
+Nov 27 09:02:59 pgnode02 patroni[883]:   Bytes per WAL segment: 16777216
+Nov 27 09:02:59 pgnode02 patroni[883]:   Maximum length of identifiers: 64
+Nov 27 09:02:59 pgnode02 patroni[883]:   Maximum columns in an index: 32
+Nov 27 09:02:59 pgnode02 patroni[883]:   Maximum size of a TOAST chunk: 1996
+Nov 27 09:02:59 pgnode02 patroni[883]:   Size of a large-object chunk: 2048
+Nov 27 09:02:59 pgnode02 patroni[883]:   Date/time type storage: 64-bit integers
+Nov 27 09:02:59 pgnode02 patroni[883]:   Float8 argument passing: by value
+Nov 27 09:02:59 pgnode02 patroni[883]:   Data page checksum version: 1
+Nov 27 09:02:59 pgnode02 patroni[883]:   Mock authentication nonce: af3eaf84b13511e5ca0ec27c873478a774f30ecb323eee719501cf32b3b9289c
+Nov 27 09:02:59 pgnode02 patroni[883]: INFO:patroni.ha:Lock owner: pgnode01; I am pgnode02
+Nov 27 09:02:59 pgnode02 patroni[883]: INFO:patroni.ha:Lock owner: pgnode01; I am pgnode02
+Nov 27 09:02:59 pgnode02 patroni[883]: 2023-11-27 09:02:59,582 INFO: Lock owner: pgnode01; I am pgnode02
+Nov 27 09:02:59 pgnode02 patroni[883]: 2023-11-27 09:02:59,584 INFO: pg_controldata:
+Nov 27 09:02:59 pgnode02 patroni[883]:   pg_control version number: 1300
+Nov 27 09:02:59 pgnode02 patroni[883]:   Catalog version number: 202209061
+Nov 27 09:02:59 pgnode02 patroni[883]:   Database system identifier: 7289481019752377798
+Nov 27 09:02:59 pgnode02 patroni[883]:   Database cluster state: in archive recovery
+Nov 27 09:02:59 pgnode02 patroni[883]:   pg_control last modified: Mon Nov 27 09:02:51 2023
+Nov 27 09:02:59 pgnode02 patroni[883]:   Latest checkpoint location: 0/8E000090
+Nov 27 09:02:59 pgnode02 patroni[883]:   Latest checkpoint's REDO location: 0/8E000058
+Nov 27 09:02:59 pgnode02 patroni[883]:   Latest checkpoint's REDO WAL file: 00000008000000000000008E
+Nov 27 09:02:59 pgnode02 patroni[883]:   Latest checkpoint's TimeLineID: 8
+Nov 27 09:02:59 pgnode02 patroni[883]:   Latest checkpoint's PrevTimeLineID: 8
+Nov 27 09:02:59 pgnode02 patroni[883]:   Latest checkpoint's full_page_writes: on
+Nov 27 09:02:59 pgnode02 patroni[883]:   Latest checkpoint's NextXID: 0:319354
+Nov 27 09:02:59 pgnode02 patroni[883]:   Latest checkpoint's NextOID: 65758
+Nov 27 09:02:59 pgnode02 patroni[883]:   Latest checkpoint's NextMultiXactId: 178
+Nov 27 09:02:59 pgnode02 patroni[883]:   Latest checkpoint's NextMultiOffset: 429
+Nov 27 09:02:59 pgnode02 patroni[883]:   Latest checkpoint's oldestXID: 717
+Nov 27 09:02:59 pgnode02 patroni[883]:   Latest checkpoint's oldestXID's DB: 1
+Nov 27 09:02:59 pgnode02 patroni[883]:   Latest checkpoint's oldestActiveXID: 319354
+Nov 27 09:02:59 pgnode02 patroni[883]:   Latest checkpoint's oldestMultiXid: 1
+Nov 27 09:02:59 pgnode02 patroni[883]:   Latest checkpoint's oldestMulti's DB: 1
+Nov 27 09:02:59 pgnode02 patroni[883]:   Latest checkpoint's oldestCommitTsXid: 0
+Nov 27 09:02:59 pgnode02 patroni[883]:   Latest checkpoint's newestCommitTsXid: 0
+Nov 27 09:02:59 pgnode02 patroni[883]:   Time of latest checkpoint: Mon Nov 27 09:01:40 2023
+Nov 27 09:02:59 pgnode02 patroni[883]:   Fake LSN counter for unlogged rels: 0/3E8
+Nov 27 09:02:59 pgnode02 patroni[883]:   Minimum recovery ending location: 0/8E001A00
+Nov 27 09:02:59 pgnode02 patroni[883]:   Min recovery ending loc's timeline: 8
+Nov 27 09:02:59 pgnode02 patroni[883]:   Backup start location: 0/0
+Nov 27 09:02:59 pgnode02 patroni[883]:   Backup end location: 0/0
+Nov 27 09:02:59 pgnode02 patroni[883]:   End-of-backup record required: no
+Nov 27 09:02:59 pgnode02 patroni[883]:   wal_level setting: replica
+Nov 27 09:02:59 pgnode02 patroni[883]:   wal_log_hints setting: on
+Nov 27 09:02:59 pgnode02 patroni[883]:   max_connections setting: 500
+Nov 27 09:02:59 pgnode02 patroni[883]:   max_worker_processes setting: 24
+Nov 27 09:02:59 pgnode02 patroni[883]:   max_wal_senders setting: 10
+Nov 27 09:02:59 pgnode02 patroni[883]:   max_prepared_xacts setting: 0
+Nov 27 09:02:59 pgnode02 patroni[883]:   max_locks_per_xact setting: 512
+Nov 27 09:02:59 pgnode02 patroni[883]:   track_commit_timestamp setting: off
+Nov 27 09:02:59 pgnode02 patroni[883]:   Maximum data alignment: 8
+Nov 27 09:02:59 pgnode02 patroni[883]:   Database block size: 8192
+Nov 27 09:02:59 pgnode02 patroni[883]:   Blocks per segment of large relation: 131072
+Nov 27 09:02:59 pgnode02 patroni[883]:   WAL block size: 8192
+Nov 27 09:02:59 pgnode02 patroni[883]:   Bytes per WAL segment: 16777216
+Nov 27 09:02:59 pgnode02 patroni[883]:   Maximum length of identifiers: 64
+Nov 27 09:02:59 pgnode02 patroni[883]:   Maximum columns in an index: 32
+Nov 27 09:02:59 pgnode02 patroni[883]:   Maximum size of a TOAST chunk: 1996
+Nov 27 09:02:59 pgnode02 patroni[883]:   Size of a large-object chunk: 2048
+Nov 27 09:02:59 pgnode02 patroni[883]:   Date/time type storage: 64-bit integers
+Nov 27 09:02:59 pgnode02 patroni[883]:   Float8 argument passing: by value
+Nov 27 09:02:59 pgnode02 patroni[883]:   Data page checksum version: 1
+Nov 27 09:02:59 pgnode02 patroni[883]:   Mock authentication nonce: af3eaf84b13511e5ca0ec27c873478a774f30ecb323eee719501cf32b3b9289c
+Nov 27 09:02:59 pgnode02 patroni[883]: INFO:patroni.__main__:starting as a secondary
+Nov 27 09:02:59 pgnode02 patroni[883]: 2023-11-27 09:02:59,589 INFO: Lock owner: pgnode01; I am pgnode02
+Nov 27 09:02:59 pgnode02 patroni[883]: 2023-11-27 09:02:59,599 INFO: starting as a secondary
+Nov 27 09:02:59 pgnode02 patroni[883]: INFO:patroni.postgresql.connection:closed patroni connection to the postgresql cluster
+Nov 27 09:02:59 pgnode02 patroni[883]: 2023-11-27 09:02:59,600 INFO: closed patroni connection to the postgresql cluster
