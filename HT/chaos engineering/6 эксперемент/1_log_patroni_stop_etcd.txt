@@ -1,0 +1,153 @@
+
+**************************
+Когда 1 etcd не доступен
+**************************
+Nov 29 09:18:39 pgnode01 patroni[64927]: 2023-11-29 09:18:39,154 INFO: no action. I am (pgnode01), the leader with the lock
+Nov 29 09:18:39 pgnode01 patroni[64927]: 2023-11-29 09:18:39,604 INFO: received switchover request with leader=pgnode01 candidate=pgnode02 scheduled_at=None
+Nov 29 09:18:39 pgnode01 patroni[64927]: 2023-11-29 09:18:39,609 INFO: Got response from pgnode02 http://10.0.10.6:8008/patroni: {"state": "running", "postmaster_start_time": "2023-11-29 08:51:51.130565+00:00", "role": "replica", "server_version": 150004, "xlog": {"received_location": 3114614784, "replayed_location": 3114614784, "replayed_timestamp": "2023-11-29 09:18:39.407233+00:00", "paused": false}, "timeline": 10, "replication_state": "streaming", "dcs_last_seen": 1701249519, "database_system_identifier": "7289481019752377798", "patroni": {"version": "3.1.0", "scope": "postgres-cluster"}}
+Nov 29 09:18:39 pgnode01 patroni[64927]: 2023-11-29 09:18:39,624 INFO: Got response from pgnode02 http://10.0.10.6:8008/patroni: {"state": "running", "postmaster_start_time": "2023-11-29 08:51:51.130565+00:00", "role": "replica", "server_version": 150004, "xlog": {"received_location": 3114614784, "replayed_location": 3114614784, "replayed_timestamp": "2023-11-29 09:18:39.407233+00:00", "paused": false}, "timeline": 10, "replication_state": "streaming", "dcs_last_seen": 1701249519, "database_system_identifier": "7289481019752377798", "patroni": {"version": "3.1.0", "scope": "postgres-cluster"}}
+Nov 29 09:18:39 pgnode01 patroni[64927]: 2023-11-29 09:18:39,614 INFO: Lock owner: pgnode01; I am pgnode01
+Nov 29 09:18:39 pgnode01 patroni[64927]: 2023-11-29 09:18:39,673 INFO: manual failover: demoting myself
+Nov 29 09:18:39 pgnode01 patroni[64927]: 2023-11-29 09:18:39,674 INFO: Demoting self (graceful)
+Nov 29 09:18:41 pgnode01 patroni[64927]: 2023-11-29 09:18:41,478 INFO: Leader key released
+Nov 29 09:18:41 pgnode01 patroni[64927]: 2023-11-29 09:18:41,480 INFO: Lock owner: None; I am pgnode01
+Nov 29 09:18:41 pgnode01 patroni[64927]: 2023-11-29 09:18:41,480 INFO: not healthy enough for leader race
+Nov 29 09:18:41 pgnode01 patroni[64927]: 2023-11-29 09:18:41,480 INFO: manual failover: demote in progress
+Nov 29 09:18:41 pgnode01 patroni[64927]: 2023-11-29 09:18:41,498 INFO: Lock owner: pgnode02; I am pgnode01
+Nov 29 09:18:41 pgnode01 patroni[64927]: 2023-11-29 09:18:41,498 INFO: manual failover: demote in progress
+Nov 29 09:18:42 pgnode01 patroni[64927]: 2023-11-29 09:18:42,561 INFO: Lock owner: pgnode02; I am pgnode01
+Nov 29 09:18:42 pgnode01 patroni[64927]: 2023-11-29 09:18:42,561 INFO: manual failover: demote in progress
+Nov 29 09:18:42 pgnode01 patroni[64927]: 2023-11-29 09:18:42,734 INFO: Lock owner: pgnode02; I am pgnode01
+Nov 29 09:18:42 pgnode01 patroni[64927]: 2023-11-29 09:18:42,734 INFO: manual failover: demote in progress
+Nov 29 09:18:43 pgnode01 patroni[64927]: 2023-11-29 09:18:43,485 INFO: Local timeline=10 lsn=0/BA000028
+Nov 29 09:18:43 pgnode01 patroni[64927]: WARNING:  database "postgres" has a collation version mismatch
+Nov 29 09:18:43 pgnode01 patroni[64927]: DETAIL:  The database was created using collation version 2.31, but the operating system provides version 2.35.
+Nov 29 09:18:43 pgnode01 patroni[64927]: HINT:  Rebuild all objects in this database that use the default collation and run ALTER DATABASE postgres REFRESH COLLATION VERSION, or build PostgreSQL with the right library version.
+Nov 29 09:18:43 pgnode01 patroni[64927]: 2023-11-29 09:18:43,533 INFO: primary_timeline=11
+Nov 29 09:18:43 pgnode01 patroni[64927]: 2023-11-29 09:18:43,538 INFO: primary: history=7        0/8E000000        no recovery target specified
+Nov 29 09:18:43 pgnode01 patroni[64927]: 8        0/B50000A0        no recovery target specified
+Nov 29 09:18:43 pgnode01 patroni[64927]: 9        0/B60000A0        no recovery target specified
+Nov 29 09:18:43 pgnode01 patroni[64927]: 10        0/BA0000A0        no recovery target specified
+Nov 29 09:18:43 pgnode01 patroni[64927]: 2023-11-29 09:18:43,539 INFO: closed patroni connection to the postgresql cluster
+Nov 29 09:18:45 pgnode01 patroni[64927]: 2023-11-29 09:18:45,186 INFO: postmaster pid=1228217
+Nov 29 09:18:45 pgnode01 patroni[1228218]: /var/run/postgresql:5432 - no response
+Nov 29 09:18:45 pgnode01 patroni[1228217]: 2023-11-29 09:18:45 UTC [1228217-1]  LOG:  redirecting log output to logging collector process
+Nov 29 09:18:45 pgnode01 patroni[1228217]: 2023-11-29 09:18:45 UTC [1228217-2]  HINT:  Future log output will appear in directory "/var/log/postgresql".
+Nov 29 09:18:46 pgnode01 patroni[1228235]: /var/run/postgresql:5432 - accepting connections
+Nov 29 09:18:46 pgnode01 patroni[1228237]: /var/run/postgresql:5432 - accepting connections
+Nov 29 09:18:52 pgnode01 patroni[64927]: 2023-11-29 09:18:52,736 INFO: Lock owner: pgnode02; I am pgnode01
+Nov 29 09:18:52 pgnode01 patroni[64927]: 2023-11-29 09:18:52,737 INFO: establishing a new patroni connection to the postgres cluster
+Nov 29 09:18:52 pgnode01 patroni[64927]: 2023-11-29 09:18:52,747 INFO: Dropped unknown replication slot 'pgnode02'
+Nov 29 09:18:52 pgnode01 patroni[64927]: 2023-11-29 09:18:52,796 INFO: no action. I am (pgnode01), a secondary, and following a leader (pgnode02)
+
+
+**************************
+Далее в логах просто переключение когда все etcd доступны
+**************************
+Nov 29 09:46:32 pgnode01 patroni[64927]: 2023-11-29 09:46:32,318 INFO: no action. I am (pgnode01), a secondary, and following a leader (pgnode02)
+Nov 29 09:46:32 pgnode01 patroni[64927]: 2023-11-29 09:46:32,325 INFO: Cleaning up failover key after acquiring leader lock...
+Nov 29 09:46:32 pgnode01 patroni[64927]: 2023-11-29 09:46:32,328 INFO: Software Watchdog activated with 25 second timeout, timing slack 15 seconds
+Nov 29 09:46:32 pgnode01 patroni[64927]: 2023-11-29 09:46:32,375 INFO: promoted self to leader by acquiring session lock
+Nov 29 09:46:32 pgnode01 patroni[64927]: 2023-11-29 09:46:32,376 INFO: Lock owner: pgnode01; I am pgnode01
+Nov 29 09:46:32 pgnode01 patroni[64927]: 2023-11-29 09:46:32,382 INFO: updated leader lock during promote
+Nov 29 09:46:32 pgnode01 patroni[1239791]: server promoting
+Nov 29 09:46:33 pgnode01 patroni[64927]: 2023-11-29 09:46:33,475 INFO: no action. I am (pgnode01), the leader with the lock
+Nov 29 09:46:33 pgnode01 patroni[64927]: 2023-11-29 09:46:33,546 INFO: no action. I am (pgnode01), the leader with the lock
+Nov 29 09:46:43 pgnode01 patroni[64927]: 2023-11-29 09:46:43,506 INFO: no action. I am (pgnode01), the leader with the lock
+
+
+
+
+
+
+**************************
+Когда 2 etcd не доступно
+**************************
+
+Nov 29 10:06:57 pgnode01 patroni[64927]: 2023-11-29 10:06:57,597 INFO: no action. I am (pgnode01), the leader with the lock
+Nov 29 10:07:10 pgnode01 patroni[64927]: 2023-11-29 10:07:07,594 INFO: Lock owner: pgnode01; I am pgnode01
+Nov 29 10:07:10 pgnode01 patroni[64927]: 2023-11-29 10:07:10,934 ERROR: Request to server http://10.0.10.2:2379 failed: ReadTimeoutError("HTTPConnectionPool(host='10.0.10.2', port=2379): Read timed out. (read timeout=3.3330043012586734)")
+Nov 29 10:07:10 pgnode01 patroni[64927]: 2023-11-29 10:07:10,934 INFO: Reconnection allowed, looking for another server.
+Nov 29 10:07:10 pgnode01 patroni[64927]: 2023-11-29 10:07:10,934 INFO: Retrying on http://10.0.10.3:2379
+Nov 29 10:07:12 pgnode01 patroni[64927]: 2023-11-29 10:07:12,604 ERROR: Request to server http://10.0.10.3:2379 failed: MaxRetryError("HTTPConnectionPool(host='10.0.10.3', port=2379): Max retries exceeded with url: /v3/lease/keepalive (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x7f75518b88b0>, 'Connection to 10.0.10.3 timed out. (connect timeout=1.6666666666666667)'))")
+Nov 29 10:07:12 pgnode01 patroni[64927]: 2023-11-29 10:07:12,604 INFO: Reconnection allowed, looking for another server.
+Nov 29 10:07:12 pgnode01 patroni[64927]: 2023-11-29 10:07:12,604 INFO: Retrying on http://10.0.10.4:2379
+Nov 29 10:07:12 pgnode01 patroni[64927]: 2023-11-29 10:07:12,607 INFO: Selected new etcd server http://10.0.10.4:2379
+Nov 29 10:07:12 pgnode01 patroni[64927]: 2023-11-29 10:07:12,608 ERROR: watchprefix failed: ProtocolError("Connection broken: InvalidChunkLength(got length b'', 0 bytes read)", InvalidChunkLength(got length b'', 0 bytes read))
+Nov 29 10:07:12 pgnode01 patroni[64927]: 2023-11-29 10:07:12,611 INFO: no action. I am (pgnode01), the leader with the lock
+Nov 29 10:07:20 pgnode01 patroni[64927]: 2023-11-29 10:07:17,594 INFO: Lock owner: pgnode01; I am pgnode01
+Nov 29 10:07:20 pgnode01 patroni[64927]: 2023-11-29 10:07:20,933 ERROR: Request to server http://10.0.10.4:2379 failed: ReadTimeoutError("HTTPConnectionPool(host='10.0.10.4', port=2379): Read timed out. (read timeout=3.3331993229997656)")
+Nov 29 10:07:20 pgnode01 patroni[64927]: 2023-11-29 10:07:20,933 INFO: Reconnection allowed, looking for another server.
+Nov 29 10:07:20 pgnode01 patroni[64927]: 2023-11-29 10:07:20,933 INFO: Retrying on http://10.0.10.3:2379
+Nov 29 10:07:22 pgnode01 patroni[64927]: 2023-11-29 10:07:22,603 ERROR: Request to server http://10.0.10.3:2379 failed: MaxRetryError("HTTPConnectionPool(host='10.0.10.3', port=2379): Max retries exceeded with url: /v3/lease/keepalive (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x7f7551069a00>, 'Connection to 10.0.10.3 timed out. (connect timeout=1.6666666666666667)'))")
+Nov 29 10:07:22 pgnode01 patroni[64927]: 2023-11-29 10:07:22,603 INFO: Reconnection allowed, looking for another server.
+Nov 29 10:07:22 pgnode01 patroni[64927]: 2023-11-29 10:07:22,603 INFO: Retrying on http://10.0.10.2:2379
+Nov 29 10:07:24 pgnode01 patroni[64927]: 2023-11-29 10:07:24,272 ERROR: Request to server http://10.0.10.2:2379 failed: MaxRetryError("HTTPConnectionPool(host='10.0.10.2', port=2379): Max retries exceeded with url: /v3/lease/keepalive (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x7f7551069c10>, 'Connection to 10.0.10.2 timed out. (connect timeout=1.6666666666666667)'))")
+Nov 29 10:07:24 pgnode01 patroni[64927]: 2023-11-29 10:07:24,272 INFO: Reconnection allowed, looking for another server.
+Nov 29 10:07:25 pgnode01 patroni[64927]: 2023-11-29 10:07:25,942 ERROR: Failed to get list of machines from http://10.0.10.3:2379/v3: MaxRetryError("HTTPConnectionPool(host='10.0.10.3', port=2379): Max retries exceeded with url: /v3/cluster/member/list (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x7f7551069580>, 'Connection to 10.0.10.3 timed out. (connect timeout=1.6666666666666667)'))")
+Nov 29 10:07:27 pgnode01 patroni[64927]: 2023-11-29 10:07:27,612 ERROR: Failed to get list of machines from http://10.0.10.2:2379/v3: MaxRetryError("HTTPConnectionPool(host='10.0.10.2', port=2379): Max retries exceeded with url: /v3/cluster/member/list (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x7f7551069ca0>, 'Connection to 10.0.10.2 timed out. (connect timeout=1.6666666666666667)'))")
+Nov 29 10:07:27 pgnode01 patroni[64927]: 2023-11-29 10:07:27,618 ERROR: watchprefix failed: ProtocolError("Connection broken: InvalidChunkLength(got length b'', 0 bytes read)", InvalidChunkLength(got length b'', 0 bytes read))
+Nov 29 10:07:27 pgnode01 patroni[64927]: 2023-11-29 10:07:27,619 ERROR: Error communicating with DCS
+Nov 29 10:07:27 pgnode01 patroni[64927]: 2023-11-29 10:07:27,620 INFO: demoting self because DCS is not accessible and I was a leader
+Nov 29 10:07:27 pgnode01 patroni[64927]: 2023-11-29 10:07:27,620 INFO: Demoting self (offline)
+Nov 29 10:07:27 pgnode01 patroni[64927]: 2023-11-29 10:07:27,622 WARNING: Loop time exceeded, rescheduling immediately.
+Nov 29 10:07:28 pgnode01 patroni[64927]: 2023-11-29 10:07:28,637 INFO: closed patroni connection to the postgresql cluster
+Nov 29 10:07:29 pgnode01 patroni[64927]: 2023-11-29 10:07:29,290 ERROR: Failed to get list of machines from http://10.0.10.3:2379/v3: MaxRetryError("HTTPConnectionPool(host='10.0.10.3', port=2379): Max retries exceeded with url: /v3/cluster/member/list (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x7f7551069760>, 'Connection to 10.0.10.3 timed out. (connect timeout=1.6666666666666667)'))")
+Nov 29 10:07:30 pgnode01 patroni[64927]: 2023-11-29 10:07:30,281 INFO: postmaster pid=1249160
+Nov 29 10:07:30 pgnode01 patroni[1249161]: /var/run/postgresql:5432 - no response
+Nov 29 10:07:30 pgnode01 patroni[1249160]: 2023-11-29 10:07:30 UTC [1249160-1]  LOG:  redirecting log output to logging collector process
+Nov 29 10:07:30 pgnode01 patroni[1249160]: 2023-11-29 10:07:30 UTC [1249160-2]  HINT:  Future log output will appear in directory "/var/log/postgresql".
+Nov 29 10:07:30 pgnode01 patroni[64927]: 2023-11-29 10:07:30,961 ERROR: Failed to get list of machines from http://10.0.10.2:2379/v3: MaxRetryError("HTTPConnectionPool(host='10.0.10.2', port=2379): Max retries exceeded with url: /v3/cluster/member/list (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x7f75518b83d0>, 'Connection to 10.0.10.2 timed out. (connect timeout=1.6666666666666667)'))")
+Nov 29 10:07:31 pgnode01 patroni[1249171]: /var/run/postgresql:5432 - accepting connections
+Nov 29 10:07:31 pgnode01 patroni[1249173]: /var/run/postgresql:5432 - accepting connections
+Nov 29 10:07:34 pgnode01 patroni[64927]: 2023-11-29 10:07:30,968 INFO: Lock owner: pgnode01; I am pgnode01
+Nov 29 10:07:34 pgnode01 patroni[64927]: 2023-11-29 10:07:34,306 ERROR: Request to server http://10.0.10.4:2379 failed: ReadTimeoutError("HTTPConnectionPool(host='10.0.10.4', port=2379): Read timed out. (read timeout=3.3326736919892332)")
+Nov 29 10:07:34 pgnode01 patroni[64927]: 2023-11-29 10:07:34,307 INFO: Reconnection allowed, looking for another server.
+Nov 29 10:07:34 pgnode01 patroni[64927]: 2023-11-29 10:07:34,307 INFO: Retrying on http://10.0.10.2:2379
+Nov 29 10:07:35 pgnode01 patroni[64927]: 2023-11-29 10:07:35,978 ERROR: Request to server http://10.0.10.2:2379 failed: MaxRetryError("HTTPConnectionPool(host='10.0.10.2', port=2379): Max retries exceeded with url: /v3/lease/keepalive (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x7f75510601f0>, 'Connection to 10.0.10.2 timed out. (connect timeout=1.6666666666666667)'))")
+Nov 29 10:07:35 pgnode01 patroni[64927]: 2023-11-29 10:07:35,978 INFO: Reconnection allowed, looking for another server.
+Nov 29 10:07:35 pgnode01 patroni[64927]: 2023-11-29 10:07:35,978 INFO: Retrying on http://10.0.10.3:2379
+Nov 29 10:07:37 pgnode01 patroni[64927]: 2023-11-29 10:07:37,648 ERROR: Request to server http://10.0.10.3:2379 failed: MaxRetryError("HTTPConnectionPool(host='10.0.10.3', port=2379): Max retries exceeded with url: /v3/lease/keepalive (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x7f7551060040>, 'Connection to 10.0.10.3 timed out. (connect timeout=1.6666666666666667)'))")
+Nov 29 10:07:37 pgnode01 patroni[64927]: 2023-11-29 10:07:37,648 INFO: Reconnection allowed, looking for another server.
+Nov 29 10:07:39 pgnode01 patroni[64927]: 2023-11-29 10:07:39,318 ERROR: Failed to get list of machines from http://10.0.10.3:2379/v3: MaxRetryError("HTTPConnectionPool(host='10.0.10.3', port=2379): Max retries exceeded with url: /v3/cluster/member/list (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x7f7551060d90>, 'Connection to 10.0.10.3 timed out. (connect timeout=1.6666666666666667)'))")
+Nov 29 10:07:40 pgnode01 patroni[64927]: 2023-11-29 10:07:40,988 ERROR: Failed to get list of machines from http://10.0.10.2:2379/v3: MaxRetryError("HTTPConnectionPool(host='10.0.10.2', port=2379): Max retries exceeded with url: /v3/cluster/member/list (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x7f75518afee0>, 'Connection to 10.0.10.2 timed out. (connect timeout=1.6666666666666667)'))")
+Nov 29 10:07:40 pgnode01 patroni[64927]: 2023-11-29 10:07:40,991 ERROR: Error communicating with DCS
+Nov 29 10:07:40 pgnode01 patroni[64927]: 2023-11-29 10:07:40,992 ERROR: watchprefix failed: ProtocolError("Connection broken: InvalidChunkLength(got length b'', 0 bytes read)", InvalidChunkLength(got length b'', 0 bytes read))
+Nov 29 10:07:40 pgnode01 patroni[64927]: 2023-11-29 10:07:40,993 INFO: establishing a new patroni connection to the postgres cluster
+Nov 29 10:07:40 pgnode01 patroni[64927]: 2023-11-29 10:07:40,994 INFO: DCS is not accessible
+Nov 29 10:07:40 pgnode01 patroni[64927]: 2023-11-29 10:07:40,996 WARNING: Loop time exceeded, rescheduling immediately.
+Nov 29 10:07:42 pgnode01 patroni[64927]: 2023-11-29 10:07:42,662 ERROR: Failed to get list of machines from http://10.0.10.3:2379/v3: MaxRetryError("HTTPConnectionPool(host='10.0.10.3', port=2379): Max retries exceeded with url: /v3/cluster/member/list (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x7f7551885d00>, 'Connection to 10.0.10.3 timed out. (connect timeout=1.6666666666666667)'))")
+Nov 29 10:07:44 pgnode01 patroni[64927]: 2023-11-29 10:07:44,332 ERROR: Failed to get list of machines from http://10.0.10.2:2379/v3: MaxRetryError("HTTPConnectionPool(host='10.0.10.2', port=2379): Max retries exceeded with url: /v3/cluster/member/list (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x7f7551069790>, 'Connection to 10.0.10.2 timed out. (connect timeout=1.6666666666666667)'))")
+Nov 29 10:07:47 pgnode01 patroni[64927]: 2023-11-29 10:07:44,337 INFO: Lock owner: pgnode01; I am pgnode01
+Nov 29 10:07:47 pgnode01 patroni[64927]: 2023-11-29 10:07:47,675 ERROR: Request to server http://10.0.10.4:2379 failed: ReadTimeoutError("HTTPConnectionPool(host='10.0.10.4', port=2379): Read timed out. (read timeout=3.332980828670164)")
+Nov 29 10:07:47 pgnode01 patroni[64927]: 2023-11-29 10:07:47,675 INFO: Reconnection allowed, looking for another server.
+Nov 29 10:07:47 pgnode01 patroni[64927]: 2023-11-29 10:07:47,675 INFO: Retrying on http://10.0.10.2:2379
+Nov 29 10:07:49 pgnode01 patroni[64927]: 2023-11-29 10:07:49,345 ERROR: Request to server http://10.0.10.2:2379 failed: MaxRetryError("HTTPConnectionPool(host='10.0.10.2', port=2379): Max retries exceeded with url: /v3/lease/keepalive (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x7f7551885f10>, 'Connection to 10.0.10.2 timed out. (connect timeout=1.6666666666666667)'))")
+....Повторные запросы связанные с DCS is not accessible .... 
+
+Nov 29 10:09:44 pgnode01 patroni[64927]: 2023-11-29 10:09:44,642 INFO: DCS is not accessible
+Nov 29 10:09:44 pgnode01 patroni[64927]: 2023-11-29 10:09:44,643 WARNING: Loop time exceeded, rescheduling immediately.
+Nov 29 10:09:47 pgnode01 patroni[64927]: 2023-11-29 10:09:44,646 INFO: Lock owner: pgnode01; I am pgnode01
+Nov 29 10:09:47 pgnode01 patroni[64927]: 2023-11-29 10:09:47,985 ERROR: Request to server http://10.0.10.4:2379 failed: ReadTimeoutError("HTTPConnectionPool(host='10.0.10.4', port=2379): Read timed out. (read timeout=3.332905410633733)")
+Nov 29 10:09:47 pgnode01 patroni[64927]: 2023-11-29 10:09:47,985 INFO: Reconnection allowed, looking for another server.
+Nov 29 10:09:47 pgnode01 patroni[64927]: 2023-11-29 10:09:47,985 INFO: Retrying on http://10.0.10.3:2379
+Nov 29 10:09:51 pgnode01 patroni[64927]: 2023-11-29 10:09:51,323 ERROR: Request to server http://10.0.10.3:2379 failed: ReadTimeoutError("HTTPConnectionPool(host='10.0.10.3', port=2379): Read timed out. (read timeout=3.332322017134478)")
+Nov 29 10:09:51 pgnode01 patroni[64927]: 2023-11-29 10:09:51,323 INFO: Reconnection allowed, looking for another server.
+Nov 29 10:09:51 pgnode01 patroni[64927]: 2023-11-29 10:09:51,323 INFO: Retrying on http://10.0.10.2:2379
+Nov 29 10:09:51 pgnode01 patroni[64927]: 2023-11-29 10:09:51,326 INFO: Selected new etcd server http://10.0.10.2:2379
+Nov 29 10:09:51 pgnode01 patroni[64927]: 2023-11-29 10:09:51,327 ERROR: watchprefix failed: ProtocolError("Connection broken: InvalidChunkLength(got length b'', 0 bytes read)", InvalidChunkLength(got length b'', 0 bytes read))
+
+
+**************************
+В сети появляются etcd 
+**************************
+
+Nov 29 10:09:51 pgnode01 patroni[64927]: 2023-11-29 10:09:51,335 INFO: Software Watchdog activated with 25 second timeout, timing slack 15 seconds
+Nov 29 10:09:51 pgnode01 patroni[64927]: 2023-11-29 10:09:51,341 INFO: promoted self to leader because I had the session lock
+Nov 29 10:09:51 pgnode01 patroni[1249644]: server promoting
+Nov 29 10:09:52 pgnode01 patroni[64927]: 2023-11-29 10:09:52,423 INFO: no action. I am (pgnode01), the leader with the lock
+Nov 29 10:10:02 pgnode01 patroni[64927]: 2023-11-29 10:10:02,363 INFO: no action. I am (pgnode01), the leader with the lock
+Nov 29 10:10:12 pgnode01 patroni[64927]: 2023-11-29 10:10:12,414 INFO: no action. I am (pgnode01), the leader with the lock
+Nov 29 10:10:22 pgnode01 patroni[64927]: 2023-11-29 10:10:22,363 INFO: no action. I am (pgnode01), the leader with the lock
+Nov 29 10:10:32 pgnode01 patroni[64927]: 2023-11-29 10:10:32,406 INFO: no action. I am (pgnode01), the leader with the lock
+Nov 29 10:10:42 pgnode01 patroni[64927]: 2023-11-29 10:10:42,363 INFO: no action. I am (pgnode01), the leader with the lock
