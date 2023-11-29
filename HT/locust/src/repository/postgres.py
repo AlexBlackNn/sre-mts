@@ -29,6 +29,7 @@ class PostgresRepo(AbstractDatabase):
                 {args} RETURNING id; 
                  """
         )
+        self.postgres_connection.commit()
         return [str(city_id[0]) for city_id in self.cursor.fetchall()]
 
     def init_from_file(self, model: Table):
