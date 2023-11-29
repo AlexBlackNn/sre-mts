@@ -1,0 +1,24 @@
+
+Nov 29 10:53:10 pgnode01 patroni[64927]: 2023-11-29 10:53:10,661 INFO: no action. I am (pgnode01), a secondary, and following a leader (pgnode02)
+Nov 29 10:53:10 pgnode01 patroni[64927]: 2023-11-29 10:53:10,664 INFO: no action. I am (pgnode01), a secondary, and following a leader (pgnode02)
+Nov 29 10:53:21 pgnode01 patroni[64927]: 2023-11-29 10:53:21,166 INFO: no action. I am (pgnode01), a secondary, and following a leader (pgnode02)
+Nov 29 10:53:30 pgnode01 patroni[64927]: 2023-11-29 10:53:30,562 INFO: no action. I am (pgnode01), a secondary, and following a leader (pgnode02)
+Nov 29 10:53:41 pgnode01 patroni[64927]: 2023-11-29 10:53:41,103 INFO: no action. I am (pgnode01), a secondary, and following a leader (pgnode02)
+Nov 29 10:53:51 pgnode01 patroni[64927]: 2023-11-29 10:53:51,059 INFO: no action. I am (pgnode01), a secondary, and following a leader (pgnode02)
+Nov 29 10:54:00 pgnode01 patroni[64927]: 2023-11-29 10:54:00,854 ERROR: watchprefix failed: ProtocolError("Connection broken: TimeoutError(110, 'Connection timed out')", TimeoutError(110, 'Connection timed out'))
+Nov 29 10:54:02 pgnode01 patroni[64927]: 2023-11-29 10:54:02,524 ERROR: Request to server http://10.0.10.2:2379 failed: MaxRetryError("HTTPConnectionPool(host='10.0.10.2', port=2379): Max retries exceeded with url: /v3/kv/range (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x7f7551885490>, 'Connection to 10.0.10.2 timed out. (connect timeout=1.6666666666666667)'))")
+Nov 29 10:54:02 pgnode01 patroni[64927]: 2023-11-29 10:54:02,524 INFO: Reconnection allowed, looking for another server.
+Nov 29 10:54:02 pgnode01 patroni[64927]: 2023-11-29 10:54:02,524 INFO: Retrying on http://10.0.10.3:2379
+Nov 29 10:54:02 pgnode01 patroni[64927]: 2023-11-29 10:54:02,528 INFO: Selected new etcd server http://10.0.10.3:2379
+Nov 29 10:54:02 pgnode01 patroni[64927]: 2023-11-29 10:54:02,536 INFO: no action. I am (pgnode01), a secondary, and following a leader (pgnode02)
+Nov 29 10:54:11 pgnode01 patroni[64927]: 2023-11-29 10:54:11,058 INFO: no action. I am (pgnode01), a secondary, and following a leader (pgnode02)
+Nov 29 10:54:22 pgnode01 patroni[64927]: 2023-11-29 10:54:22,740 WARNING: Request failed to pgnode02: GET http://10.0.10.6:8008/patroni (HTTPConnectionPool(host='10.0.10.6', port=8008): Max retries exceeded with url: /patroni (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x7f7551069ee0>, 'Connection to 10.0.10.6 timed out. (connect timeout=2)')))
+Nov 29 10:54:22 pgnode01 patroni[64927]: 2023-11-29 10:54:22,748 INFO: Software Watchdog activated with 25 second timeout, timing slack 15 seconds
+Nov 29 10:54:22 pgnode01 patroni[64927]: 2023-11-29 10:54:22,751 INFO: promoted self to leader by acquiring session lock
+Nov 29 10:54:22 pgnode01 patroni[64927]: 2023-11-29 10:54:22,758 INFO: Lock owner: pgnode01; I am pgnode01
+Nov 29 10:54:22 pgnode01 patroni[64927]: 2023-11-29 10:54:22,762 INFO: updated leader lock during promote
+Nov 29 10:54:22 pgnode01 patroni[1270591]: server promoting
+Nov 29 10:54:23 pgnode01 patroni[64927]: 2023-11-29 10:54:23,853 INFO: no action. I am (pgnode01), the leader with the lock
+Nov 29 10:54:33 pgnode01 patroni[64927]: 2023-11-29 10:54:33,829 INFO: no action. I am (pgnode01), the leader with the lock
+Nov 29 10:54:43 pgnode01 patroni[64927]: 2023-11-29 10:54:43,832 INFO: no action. I am (pgnode01), the leader with the lock
+Nov 29 10:54:53 pgnode01 patroni[64927]: 2023-11-29 10:54:53,785 INFO: no action. I am (pgnode01), the leader with the lock
