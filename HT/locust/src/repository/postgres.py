@@ -16,24 +16,21 @@ class PostgresRepo(AbstractDatabase):
         return '(' + ('%s,' * number)[:-1] + ")"
 
     def write(self, models: list) -> list[str]:
-        with PostgresConnectoion(
-                self.dsn
-        ) as postgresql_connection, postgresql_connection.cursor() as cursor:
-            data = [model.create_tuple for model in models]
-            number_params = self.__create_param_template(len(data[0]))
-            args = ','.join(
-                cursor.mogrify(
-                    number_params, item
-                ).decode() for item in data
-            )
-            cursor.execute(
-                f"""
-                    INSERT INTO {models[0].create_schema()} VALUES
-                    {args} RETURNING id; 
-                     """
-            )
-            self.postgres_connection.commit()
-            return [str(city_id[0]) for city_id in cursor.fetchall()]
+        data = [model.create_tuple for model in models]
+        number_params = self.__create_param_template(len(data[0]))
+        args = ','.join(
+            self.cursor.mogrify(
+                number_params, item
+            ).decode() for item in data
+        )
+        self.cursor.execute(
+            f"""
+                INSERT INTO {models[0].create_schema()} VALUES
+                {args} RETURNING id; 
+                 """
+        )
+        self.postgres_connection.commit()
+        return [str(city_id[0]) for city_id in self.cursor.fetchall()]
 
     def init_from_file(self, model: Table):
         """
